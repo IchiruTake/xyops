@@ -9,6 +9,14 @@ div.header, div.main {
 	padding-right: 90px;
 }
 
+div.header {
+	position: sticky;
+	top: 0;
+	background-color: var(--background-color);
+	box-shadow: 0px 0px 8px 8px var(--background-color);
+	z-index: 2;
+}
+
 div.header > div.header_title {
 	color: var(--theme-color);
 }
@@ -240,12 +248,12 @@ body.dark div.dash_unit_box {
 }
 .dash_donut_overlay {
 	position: absolute;
-	width: 60%;
-	height: 60%;
+	width: 63%;
+	height: 63%;
 	left: 50%;
 	top: 50%;
-	margin-left: -30%;
-	margin-top: -30%;
+	margin-left: -31.5%;
+	margin-top: -31.5%;
 	z-index: 1;
 	border-radius: 50%;
 	background-color: var(--box-background-color);
@@ -257,7 +265,7 @@ body.dark div.dash_unit_box {
 	z-index: 2;
 	
 	top: 50%;
-	margin-top: -13px;
+	margin-top: -20px;
 	
 	font-size: 26px;
 	font-weight: bold;
@@ -271,13 +279,28 @@ body.dark div.dash_unit_box {
 	text-overflow: ellipsis;
 }
 .dash_donut_label {
+	position: absolute;
+	width: 100%;
+	height: 26px;
+	z-index: 2;
+	top: 50%;
+	margin-top: 9px;
+	
+	font-size: 13px;
+	text-transform: uppercase;
+	color: var(--label-color);
+	text-align: center;
+	font-weight: bold;
+}
+
+/* .dash_donut_label {
 	margin-top: 10px;
 	font-size: 12px;
 	text-transform: uppercase;
 	color: var(--label-color);
 	text-align: center;
 	font-weight: bold;
-}
+} */
 
 /* Stats Page */
 
@@ -968,8 +991,18 @@ div.data_grid > ul.grid_row_header > div.st_col_header.active {
 		grid-template-columns: repeat(4, 1fr);
 	}
 	
+	.dash_donut_overlay {
+		width: 66%;
+		height: 66%;
+		margin-left: -33%;
+		margin-top: -33%;
+	}
+	
 	.dash_donut_value {
-		font-size: 23px;
+		font-size: 21px;
+	}
+	.dash_donut_label {
+		font-size: 11px;
 	}
 	
 	.data_grid.event_grid { grid-template-columns: auto auto auto 0px auto auto auto auto !important; }
@@ -1000,6 +1033,23 @@ div.data_grid > ul.grid_row_header > div.st_col_header.active {
 	
 	.dash_donut_grid {
 		grid-template-columns: repeat(3, 1fr);
+	}
+	
+	.dash_donut_overlay {
+		width: 60%;
+		height: 60%;
+		margin-left: -30%;
+		margin-top: -30%;
+	}
+	.dash_donut_value {
+		font-size: 23px;
+	}
+	.dash_donut_label {
+		font-size: 12px;
+	}
+	
+	.chart_grid_horiz {
+		grid-template-columns: 1fr;
 	}
 	
 	.data_grid.event_grid { grid-template-columns: auto auto 0px 0px auto auto auto auto !important; }
@@ -1176,6 +1226,10 @@ div.data_grid > ul.grid_row_header > div.st_col_header.active {
 	
 	.dash_donut_grid {
 		grid-template-columns: repeat(3, 1fr);
+	}
+	
+	.chart_grid_horiz {
+		grid-template-columns: 1fr;
 	}
 	
 	.summary_grid {
