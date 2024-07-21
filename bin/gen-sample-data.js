@@ -1,4 +1,6 @@
 // Generate Sample Data
+// Usage: node bin/gen-sample-data.js > conf/sample-data.json
+// Then: node bin/storage-cli.js run conf/sample-data.json
 
 var Tools = require('pixl-tools');
 var Request = require('pixl-request');
