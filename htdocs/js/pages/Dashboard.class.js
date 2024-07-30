@@ -600,7 +600,7 @@ Page.Dashboard = class Dashboard extends Page.Base {
 		});
 		
 		// request all data from server
-		app.api.get( 'app/get_quickmon_data', {}, function(resp) {
+		app.api.post( 'app/get_quickmon_data', {}, function(resp) {
 			if (!self.active) return; // sanity
 			
 			// now iterate over all quick monitors
@@ -628,15 +628,6 @@ Page.Dashboard = class Dashboard extends Page.Base {
 			// hide if no servers
 			if (!num_keys(resp.servers)) self.div.find('#d_dash_monitors').hide();
 		}); // api.get
-	}
-	
-	getQuickMonChartData(rows, id) {
-		// format data to be compat with pixl-chart
-		var data = [];
-		rows.forEach( function(row) {
-			data.push({ x: row.date, y: row[id] });
-		} );
-		return data;
 	}
 	
 	appendSampleToChart(data) {
