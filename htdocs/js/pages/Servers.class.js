@@ -678,6 +678,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		// special hook for intercepting pagination clicks
 		// FUTURE: history.replaceState to update the URI with new offset
 		this.args.offset = offset;
+		this.div.find('#d_search_results .box_content').addClass('loading');
 		this.doSearch();
 	}
 	
@@ -722,16 +723,12 @@ Page.Servers = class Servers extends Page.ServerUtils {
 			{ type: 'badge', color: online ? 'green' : 'gray', icon: badge_icon, title: online ? 'Online' : 'Offline' }
 		]);
 		
-		// var icon = '<i class="mdi mdi-' + (online ? 'router-network' : 'close-network-outline') + '">&nbsp;</i>';
-		// var nav_spacer = '<i class="mdi mdi-chevron-right" style="padding-left:5px; padding-right:5px;"></i>';
-		
-		// app.setHeaderTitle( '<a href="#Servers?sub=list" style="text-decoration:none;"><i class="mdi mdi-server">&nbsp;</i>Servers</a>' + nav_spacer + icon + snapshot.hostname );
-		app.setWindowTitle( "Viewing Server: " + snapshot.hostname + "" );
+		app.setWindowTitle( "Viewing Server: " + (server.title || server.hostname) + "" );
 		
 		html += '<div class="box" style="border:none;">';
 			html += '<div class="box_title">';
 				html += '<div class="box_title_left">' + (online ? 'Live &mdash; Real-Time View' : 'Offline &mdash; Last Known State') + '</div>';
-				html += '<div class="box_title_left"><div class="button secondary"><i class="mdi mdi-calendar-cursor">&nbsp;</i>Change...</div></div>';
+				html += '<div class="box_title_left"><div class="button secondary" onClick="$P().chooseHistoricalView()"><i class="mdi mdi-calendar-cursor">&nbsp;</i>Change...</div></div>';
 				
 				if (online) {
 					html += '<div class="box_title_right"><div class="button primary" onClick="$P().createSnapshot()"><i class="mdi mdi-monitor-screenshot">&nbsp;</i>Snapshot</div></div>';
@@ -848,6 +845,8 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		html += '<div class="box" id="d_vs_alerts" style="display:none">';
 			html += '<div class="box_title">';
 				html += 'Server Alerts';
+				html += '<div class="button right secondary" onMouseUp="$P().goAlertHistory()"><i class="mdi mdi-magnify">&nbsp;</i>Alert History...</div>';
+				html += '<div class="clear"></div>';
 			html += '</div>';
 			html += '<div class="box_content table">';
 				html += '<div class="loading_container"><div class="loading"></div></div>';
@@ -869,6 +868,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		// quickmon charts
 		html += '<div class="box" id="d_vs_quickmon" style="display:none">';
 			html += '<div class="box_title">';
+				html += '<div class="box_title_widget" style="overflow:visible; margin-left:0;"><i class="mdi mdi-magnify" onMouseUp="$(this).next().focus()">&nbsp;</i><input type="text" placeholder="Filter" value="" onInput="$P().applyQuickMonitorFilter(this)"></div>';
 				html += 'Quick Look &mdash; Last Minute';
 			html += '</div>';
 			html += '<div class="box_content table">';
@@ -904,6 +904,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		// monitors
 		html += '<div class="box" id="d_vs_monitors">';
 			html += '<div class="box_title">';
+				html += '<div class="box_title_widget" style="overflow:visible; margin-left:0;"><i class="mdi mdi-magnify" onMouseUp="$(this).next().focus()">&nbsp;</i><input type="text" placeholder="Filter" value="" onInput="$P().applyMonitorFilter(this)"></div>';
 				html += 'Server Monitors &mdash; ' + (online ? 'Last Hour' : 'Last Known State');
 			html += '</div>';
 			html += '<div class="box_content table">';
@@ -976,6 +977,11 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		}
 		
 		// SingleSelect.init( this.div.find('#fe_vs_mode, #fe_vs_year') );
+	}
+	
+	goAlertHistory() {
+		// nav to alert history for this server
+		Nav.go('Alerts?server=' + this.server.id);
 	}
 	
 	goJobHistory() {
@@ -1059,7 +1065,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 			];
 		} );
 		
-		this.div.find('#d_vs_jobs > .box_content').html(html);
+		this.div.find('#d_vs_jobs > .box_content').removeClass('loading').html(html);
 	}
 	
 	doAbortJob(id) {
@@ -1079,6 +1085,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 	jobActiveNav(offset) {
 		// user clicked on active job pagination nav
 		this.activeOffset = offset;
+		this.div.find('#d_vs_jobs > .box_content').addClass('loading');
 		this.renderActiveJobs();
 	}
 	
@@ -1124,13 +1131,14 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		};
 		
 		config.quick_monitors.forEach( function(def, idx) {
-			var chart = new Chart({
+			var chart = self.createChart({
 				"canvas": '#c_vs_' + def.id,
 				"title": def.title,
 				"dataType": def.type,
 				"dataSuffix": def.suffix,
 				"minVertScale": def.minVertScale || 0,
-				"legend": false // single layer, no legend needed
+				"legend": false, // single layer, no legend needed
+				"_quick": true
 			});
 			chart.on('mouseover', function(event) { render_chart_overlay(def.id); });
 			self.charts[ def.id ] = chart;
@@ -1153,6 +1161,13 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				});
 			}); // foreach mon
 		}); // api.get
+		
+		// prepopulate filter if saved
+		if (this.quickMonitorFilter) {
+			var $elem = this.div.find('#d_vs_quickmon .box_title_widget input[type="text"]');
+			$elem.val( this.quickMonitorFilter );
+			this.applyQuickMonitorFilter( $elem.get(0) );
+		}
 	}
 	
 	appendSampleToQuickChart(data) {
@@ -1171,6 +1186,21 @@ Page.Servers = class Servers extends Page.ServerUtils {
 			
 			chart.dirty = true;
 		}); // foreach monitor
+	}
+	
+	applyQuickMonitorFilter(elem) {
+		// hide or show specific quick monitors based on substring match on title
+		var filter = this.quickMonitorFilter = $(elem).val();
+		var re = new RegExp( escape_regexp(filter), 'i' );
+		
+		for (var key in this.charts) {
+			var chart = this.charts[key];
+			if (chart._quick) {
+				var $cont = $(chart.canvas).parent();
+				if (chart.title.match(re)) $cont.show();
+				else $cont.hide();
+			}
+		}
 	}
 	
 	setupMonitors() {
@@ -1208,7 +1238,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		};
 		
 		monitors.forEach( function(def, idx) {
-			var chart = new Chart({
+			var chart = self.createChart({
 				"canvas": '#c_vs_' + def.id,
 				"title": def.title,
 				"dataType": def.data_type,
@@ -1236,6 +1266,13 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				});
 			}); // foreach mon
 		}); // api.get
+		
+		// prepopulate filter if saved
+		if (this.monitorFilter) {
+			var $elem = this.div.find('#d_vs_monitors .box_title_widget input[type="text"]');
+			$elem.val( this.monitorFilter );
+			this.applyMonitorFilter( $elem.get(0) );
+		}
 	}
 	
 	appendSampleToChart() {
@@ -1248,13 +1285,13 @@ Page.Servers = class Servers extends Page.ServerUtils {
 			var chart = self.charts[def.id];
 			var layer = chart.layers[0]; // single layer charts
 			
-			// normalize x to the minute
+			// normalize x to the minute (for showDataGaps to work correctly)
 			var x = Math.floor( snapshot.date / 60 ) * 60;
 			
 			// grab delta if applicable, or abs value for std monitors
 			var y = def.delta ? snapshot.data.deltas[def.id] : snapshot.data.monitors[def.id];
 			
-			layer.data.push({ x: x, y: y || 0 });
+			layer.data.push({ x: x, y: y || 0 }); // TODO: alert flag overlay?  beware of WHICH alert def tho!  some only go on some graphs I think?
 			if (layer.data.length > 60) layer.data.shift();
 			
 			chart.dirty = true;
