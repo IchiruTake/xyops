@@ -782,7 +782,7 @@ Page.Events = class Events extends Page.Base {
 			// fast update without redrawing entire table
 			var jobs = Object.values(app.activeJobs).filter( function(job) { return job.event == self.event.id } );
 			
-			// TODO: ideally sort this, then crop based on offset / limit, so we aren't bashing the DOM for off-page jobs
+			// FUTURE: ideally sort this, then crop based on offset / limit, so we aren't bashing the DOM for off-page jobs
 			
 			jobs.forEach( function(job) {
 				div.find('#d_ve_jt_state_' + job.id).html( self.getNiceJobState(job) );
@@ -829,7 +829,7 @@ Page.Events = class Events extends Page.Base {
 		
 		// { query, offset, limit, sort_by, sort_dir }
 		args.query = 'event:' + this.event.id;
-		args.limit = 25; // TODO: this should be configurable
+		args.limit = config.alt_items_per_page || 25;
 		
 		// apply filters if any
 		if (args.filter) {
@@ -1238,8 +1238,6 @@ Page.Events = class Events extends Page.Base {
 				self.renderUpcomingJobs();
 			} ); // api.post
 		} ); // confirm
-		
-		// TODO: maybe we need a maint job to delete expired ranges, nightly?
 	}
 	
 	autoExpireUpcomingJobs() {
@@ -1558,8 +1556,6 @@ Page.Events = class Events extends Page.Base {
 		// check for jobs first
 		var event_jobs = find_objects( app.activeJobs, { event: this.event.id } );
 		if (event_jobs.length) return app.doError("Sorry, you cannot delete a event that has active jobs running.");
-		
-		// TODO: check for event inside workflows
 		
 		Dialog.confirmDanger( 'Delete Event', "Are you sure you want to <b>permanently delete</b> the event &ldquo;" + this.event.title + "&rdquo;?  There is no way to undo this action.", 'Delete', function(result) {
 			if (result) {
