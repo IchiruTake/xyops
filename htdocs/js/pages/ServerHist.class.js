@@ -476,6 +476,9 @@ Page.ServerHist = class ServerHist extends Page.ServerUtils {
 				case 'z_critical': args.query += ' code:critical'; break;
 				case 'z_abort': args.query += ' code:abort'; break;
 				
+				case 'z_retried': args.query += ' tags:_retried'; break;
+				case 'z_last': args.query += ' tags:_last'; break;
+				
 				default:
 					if (args.filter.match(/^t_(.+)$/)) args.query += ' tags:' + RegExp.$1;
 				break;
