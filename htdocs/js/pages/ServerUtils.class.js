@@ -387,9 +387,9 @@ Page.ServerUtils = class ServerUtils extends Page.Base {
 		html += this.getBasicGrid( grid_args, function(item, idx) {
 			return [
 				'<b>' + self.getNiceAlertID(item, true) + '</b>',
-				self.getNiceAlert(item.alert, false),
+				self.getNiceAlert(item.alert, true),
 				item.message,
-				self.getNiceServer(item.server, false),
+				self.getNiceServer(item.server, true),
 				self.getNiceAlertStatus(item),
 				self.getNiceDateTime(item.date),
 				self.getNiceAlertElapsedTime(item, true, true)
