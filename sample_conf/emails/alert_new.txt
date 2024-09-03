@@ -1,0 +1,36 @@
+To: [email_to]
+From: [config/email_from]
+Subject: Orchestra Alert: [nice_server]: [def/title]
+
+The following Orchestra alert has been triggered: [def/title]
+
+Message: [alert/message]
+Hostname: [params/hostname]
+IP Address: [params/ip]
+Group: [nice_group]
+Date/Time: [date_time]
+Expression: [def/expression]
+Evaluation: [alert/exp]
+
+Alert Detail View:
+[alert_url]
+
+Live Server View:
+[server_url]
+
+Alert Notes:
+[nice_notes]
+
+Server Information:
+CPU Load Average: [nice_load_avg]
+CPU Cores: [params/data/cpu/cores]
+Virtualization: [nice_virt]
+Total Memory: [nice_mem_total]
+Available Memory: [nice_mem_avail]
+Disk Usage (Root): [params/data/mounts/root/use]%
+CPU: [nice_cpu]
+Operating System: [nice_os]
+Uptime: [nice_uptime]
+
+Regards,
+The Orchestra Team

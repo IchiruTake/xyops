@@ -1,0 +1,21 @@
+To: [email_to]
+From: [config/email_from]
+Subject: Orchestra Alert Cleared: [nice_server]: [def/title]
+
+The following Orchestra alert has been cleared: [def/title]
+
+Hostname: [params/hostname]
+IP Address: [params/ip]
+Group: [nice_group]
+Date/Time: [date_time]
+Expression: [def/expression]
+Elapsed: [elapsed_nice]
+
+Alert Detail View:
+[alert_url]
+
+Live Server View:
+[server_url]
+
+Regards,
+The Orchestra Team
