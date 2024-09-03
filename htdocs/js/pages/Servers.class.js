@@ -745,7 +745,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				
 				if (online) {
 					html += '<div class="box_title_right"><div class="button primary" onClick="$P().createSnapshot()"><i class="mdi mdi-monitor-screenshot">&nbsp;</i>Snapshot</div></div>';
-					html += '<div class="box_title_right"><div class="button secondary"><i class="mdi mdi-eye-outline">&nbsp;</i>Watch...</div></div>';
+					html += '<div class="box_title_right"><div class="button secondary"><i class="mdi mdi-binoculars">&nbsp;</i>Watch...</div></div>';
 				}
 				
 				html += '<div class="box_title_right"><div class="button secondary"><i class="mdi mdi-file-edit-outline">&nbsp;</i>Edit Server...</div></div>';
