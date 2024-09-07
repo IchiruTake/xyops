@@ -575,12 +575,12 @@ Page.Base = class Base extends Page {
 		});
 	}
 	
-	getShortDateTime(epoch) {
+	getShortDateTime(epoch, secs) {
 		// format date according to user's prefs, add icon
-		return '<i class="mdi mdi-calendar-clock">&nbsp;</i>' + this.getShortDateTimeText(epoch);
+		return '<i class="mdi mdi-calendar-clock">&nbsp;</i>' + this.getShortDateTimeText(epoch, secs);
 	}
 	
-	getShortDateTimeText(epoch) {
+	getShortDateTimeText(epoch, secs) {
 		// format date according to user's prefs, plain text
 		return this.formatDate(epoch, { 
 			year: 'numeric',
@@ -588,22 +588,23 @@ Page.Base = class Base extends Page {
 			day: 'numeric',
 			// weekday: 'long',
 			hour: 'numeric',
-			minute: '2-digit'
+			minute: '2-digit',
+			second: secs ? '2-digit' : false
 		});
 	}
 	
-	getRelativeDateTime(epoch) {
+	getRelativeDateTime(epoch, secs) {
 		var dargs = get_date_args(epoch);
 		var nargs = get_date_args( time_now() );
 		var result = '<i class="mdi mdi-calendar-clock">&nbsp;</i>';
 		
 		if (nargs.yyyy_mm_dd == dargs.yyyy_mm_dd) {
 			// today
-			result += 'Today at ' + this.getNiceTimeText(epoch);
+			result += 'Today at ' + this.getNiceTimeText(epoch, secs);
 		}
 		else {
 			// some other day
-			result += this.getShortDateTimeText(epoch);
+			result += this.getShortDateTimeText(epoch, secs);
 			// result += '<span title="' + this.getNiceDateTimeText(epoch) + '">' + this.getNiceDateText(epoch) + '</span>';
 		}
 		
