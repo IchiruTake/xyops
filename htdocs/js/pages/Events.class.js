@@ -541,6 +541,15 @@ Page.Events = class Events extends Page.Base {
 					html += '</div>';
 					
 				html += '</div>'; // summary grid
+				
+				if (event.notes) {
+					html += '<div class="summary_grid" style="grid-template-columns: 1fr; margin-top:30px;">';
+					html += '<div>';
+					html += '<div class="info_label">Event Notes</div>';
+					html += '<div class="info_value overflow" style="font-weight:normal; line-height:16px;">' + event.notes.replace(/\n/g, '<br>') + '</div>';
+					html += '</div>';
+					html += '</div>'; // summary grid
+				}
 			html += '</div>'; // box content
 		html += '</div>'; // box
 		
