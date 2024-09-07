@@ -527,7 +527,7 @@ Page.Job = class Job extends Page.Base {
 				}
 				return [
 					self.getNiceUser(comment.username, app.isAdmin()),
-					comment.msg,
+					'<div style="line-height:16px;">' + comment.msg.replace(/\n/g, '<br>') + '</div>',
 					'<span style="white-space:nowrap;">' + self.getRelativeDateTime(comment.date) + (comment.edited ? ' (Edited)' : '') + '</span>',
 					'<span class="nowrap">' + actions.join(' | ') + '</span>'
 				];
