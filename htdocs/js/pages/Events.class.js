@@ -972,7 +972,7 @@ Page.Events = class Events extends Page.Base {
 				var job = resp.rows[0];
 				var result = this.getJobResultArgs(job);
 				this.div.find('#d_ve_last_result').html( '<i class="mdi mdi-' + result.ocon + '">&nbsp;</i>' + result.text );
-				this.div.find('#d_ve_last_run').html( this.getNiceDateTime( job.started ) );
+				this.div.find('#d_ve_last_run').html( this.getRelativeDateTime( job.started ) );
 			}
 		}
 		else {
@@ -1201,7 +1201,7 @@ Page.Events = class Events extends Page.Base {
 			
 			// show next run in summary
 			if (this.upcomingJobs[0]) {
-				this.div.find('#d_ve_next_run').html( this.getNiceDateTime( this.upcomingJobs[0].epoch ) );
+				this.div.find('#d_ve_next_run').html( this.getRelativeDateTime( this.upcomingJobs[0].epoch ) );
 			}
 			else {
 				this.div.find('#d_ve_next_run').html('n/a');
@@ -2106,36 +2106,6 @@ Page.Events = class Events extends Page.Base {
 				tmode = timing.type;
 			break;
 		} // switch timing.type
-		
-		// html += this.getFormRow({
-		// 	id: 'd_et_type',
-		// 	label: 'Rule Type:',
-		// 	content: this.getFormMenu({
-		// 		id: 'fe_et_type',
-		// 		options: [ 
-		// 			{ label: 'Timing', items: [
-		// 				['custom', "Custom"],
-		// 				['yearly', "Yearly"],
-		// 				['monthly', "Monthly"],
-		// 				['weekly', "Weekly"],
-		// 				['daily', "Daily"],
-		// 				['hourly', "Hourly"],
-		// 				['crontab', "Crontab"],
-		// 				['continuous', "Continuous"],
-		// 				['single', "Single Shot"]
-		// 			] },
-		// 			{ label: 'Options', items: [
-		// 				['catchup', "Catch-Up"],
-		// 				['destruct', "Self-Destruct"],
-		// 				['range', "Range"],
-		// 				['blackout', "Blackout"],
-		// 				['delay', "Delay"]
-		// 			] }
-		// 		],
-		// 		value: tmode
-		// 	}),
-		// 	caption: 'Select the desired type for the timing rule.'
-		// });
 		
 		html += this.getFormRow({
 			id: 'd_et_type',

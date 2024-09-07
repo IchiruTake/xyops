@@ -281,7 +281,7 @@ Page.Alerts = class Alerts extends Page.Base {
 				item.message,
 				self.getNiceServer(item.server, false),
 				self.getNiceAlertStatus(item),
-				self.getNiceDateTime(item.date),
+				self.getRelativeDateTime(item.date),
 				self.getNiceAlertElapsedTime(item, true, true)
 			];
 		} );
@@ -372,7 +372,7 @@ Page.Alerts = class Alerts extends Page.Base {
 					
 					html += '<div>';
 						html += '<div class="info_label">Date/Time</div>';
-						html += '<div class="info_value">' + this.getNiceDateTime( alert.date ) + '</div>';
+						html += '<div class="info_value">' + this.getRelativeDateTime( alert.date ) + '</div>';
 					html += '</div>';
 					
 					// row 2
@@ -491,7 +491,7 @@ Page.Alerts = class Alerts extends Page.Base {
 				get_text_from_seconds(item.data.uptime_sec || 0, true, true),
 				item.data.load.join(', '),
 				get_text_from_bytes(item.data.memory.available || 0),
-				self.getNiceDateTime(item.date)
+				self.getRelativeDateTime(item.date)
 			];
 		}); // grid
 		
@@ -591,7 +591,7 @@ Page.Alerts = class Alerts extends Page.Base {
 				item.message,
 				self.getNiceServer(item.server, true),
 				self.getNiceAlertStatus(item),
-				self.getNiceDateTime(item.date),
+				self.getRelativeDateTime(item.date),
 				self.getNiceAlertElapsedTime(item, true, true)
 			];
 		}); // grid

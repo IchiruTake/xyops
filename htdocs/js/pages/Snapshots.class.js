@@ -286,7 +286,7 @@ Page.Snapshots = class Snapshots extends Page.ServerUtils {
 				get_text_from_seconds(item.data.uptime_sec || 0, true, true),
 				item.data.load.map( function(avg) { return short_float(avg); } ).join(', '),
 				get_text_from_bytes(item.data.memory.available || 0),
-				self.getNiceDateTime(item.date)
+				self.getRelativeDateTime(item.date)
 			];
 		} );
 		
@@ -376,7 +376,7 @@ Page.Snapshots = class Snapshots extends Page.ServerUtils {
 					
 					html += '<div>';
 						html += '<div class="info_label">Date/Time</div>';
-						html += '<div class="info_value">' + this.getNiceDateTime(snapshot.date) + '</div>';
+						html += '<div class="info_value">' + this.getRelativeDateTime(snapshot.date) + '</div>';
 					html += '</div>';
 					
 					// row 2

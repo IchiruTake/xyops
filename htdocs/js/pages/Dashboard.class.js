@@ -239,7 +239,7 @@ Page.Dashboard = class Dashboard extends Page.Base {
 				item.message,
 				self.getNiceServer(item.server, false),
 				self.getNiceAlertStatus(item),
-				self.getNiceDateTime(item.date),
+				self.getRelativeDateTime(item.date),
 				self.getNiceAlertElapsedTime(item, true, true)
 			];
 		}); // grid

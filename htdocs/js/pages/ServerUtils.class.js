@@ -391,7 +391,7 @@ Page.ServerUtils = class ServerUtils extends Page.Base {
 				item.message,
 				self.getNiceServer(item.server, true),
 				self.getNiceAlertStatus(item),
-				self.getNiceDateTime(item.date),
+				self.getRelativeDateTime(item.date),
 				self.getNiceAlertElapsedTime(item, true, true)
 			];
 		}); // grid
