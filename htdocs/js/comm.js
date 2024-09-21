@@ -166,6 +166,11 @@ app.comm = {
 				this.handleActivity(data);
 			break;
 			
+			case 'notify':
+				// custom notification for user
+				app.showMessage( data.type, data.message, data.lifetime || 0, data.loc || '' );
+			break;
+			
 			// TODO: more commands here
 			
 		} // switch cmd
@@ -179,10 +184,11 @@ app.comm = {
 		}
 		
 		// bust cache if jobs changed
-		if (data.jobsChanged) app.cacheBust = hires_time_now();
+		if (data.jobsChanged || data.internalJobsChanged) app.cacheBust = hires_time_now();
 		
 		// delete jobsChanged flag from app
 		delete app.jobsChanged;
+		delete app.internalJobsChanged;
 		
 		// prune jobs that user doesn't need to see
 		if (data.activeJobs) app.pruneActiveJobs();
