@@ -529,6 +529,23 @@ Page.Base = class Base extends Page {
 		return '<i class="mdi mdi-battery-clock-outline">&nbsp;</i>' + get_text_from_seconds(secs, false, true);
 	}
 	
+	getNiceInternalJobType(type) {
+		// get nice icon + string for internal job type
+		var html = '<span class="nowrap">';
+		
+		switch (type) {
+			case 'storage': html += '<i class="mdi mdi-harddisk"></i><span>Storage</span>'; break;
+			case 'timeline': html += '<i class="mdi mdi-chart-areaspline"></i><span>Timeline</span>'; break;
+			case 'logs': html += '<i class="mdi mdi-script-text-outline"></i><span>Logs</span>'; break;
+			case 'db': html += '<i class="mdi mdi-database"></i><span>Database</span>'; break;
+			case 'maint': html += '<i class="mdi mdi-hammer-wrench"></i><span>Maintenance</span>'; break;
+			case 'user': html += '<i class="mdi mdi-account"></i><span>User</span>'; break;
+		}
+		
+		html += '</span>';
+		return html;
+	}
+	
 	getNiceDate(epoch) {
 		// format date according to user's prefs, add icon
 		return '<i class="mdi mdi-calendar-today">&nbsp;</i>' + this.getNiceDateText(epoch);
