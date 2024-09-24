@@ -50,6 +50,16 @@ Page.Dashboard = class Dashboard extends Page.Base {
 			html += '</div>'; // box_content
 		html += '</div>'; // box
 		
+		// internal jobs
+		html += '<div class="box" id="d_dash_internal" style="display:none">';
+			html += '<div class="box_title">';
+				html += 'Internal Jobs';
+			html += '</div>';
+			html += '<div class="box_content table">';
+				// html += '<div class="loading_container"><div class="loading"></div></div>';
+			html += '</div>'; // box_content
+		html += '</div>'; // box
+		
 		// upcoming jobs
 		html += '<div class="box" id="d_dash_upcoming">';
 			html += '<div class="box_title">';
@@ -79,6 +89,7 @@ Page.Dashboard = class Dashboard extends Page.Base {
 		this.getUpcomingJobs();
 		this.setupQuickMonitors();
 		this.renderActiveAlerts();
+		this.renderInternalJobs();
 		
 		return true;
 	}
@@ -308,6 +319,85 @@ Page.Dashboard = class Dashboard extends Page.Base {
 		} ); // confirm
 	}
 	
+	renderInternalJobs() {
+		// render relevant active internal jobs for user (heavy)
+		// - Std Props: id, title, type, started, progress, username?
+		var self = this;
+		var html = '';
+		var cols = ['Job ID', 'Title', 'Type', 'Username', 'Progress', 'Elapsed', 'Remaining' ];
+		
+		var rows = Object.values(app.internalJobs).sort( function(a, b) {
+			return (a.started < b.started) ? 1 : -1;
+		} );
+		
+		if (!app.isAdmin()) {
+			// for non-admins, only show relevant internal jobs
+			rows = rows.filter( function(job) { return job.username && (job.username == app.username); } );
+		}
+		
+		if (!rows.length) {
+			this.div.find('#d_dash_internal').hide();
+			return;
+		}
+		
+		var opts = {
+			rows: rows,
+			cols: cols,
+			data_type: 'job',
+			attribs: {
+				class: 'data_grid sys_job_grid'
+			}
+		};
+		
+		html += this.getBasicGrid( opts, function(job, idx) {
+			return [
+				'<span class="monospace">' + job.id + '</span>',
+				'<b>' + job.title + '</b>',
+				
+				self.getNiceInternalJobType(job.type),
+				self.getNiceUser(job.username),
+				
+				'<div id="d_sys_job_progress_' + job.id + '">' + self.getNiceJobProgressBar(job) + '</div>',
+				'<div id="d_sys_job_elapsed_' + job.id + '">' + self.getNiceJobElapsedTime(job, false) + '</div>',
+				'<div id="d_sys_job_remaining_' + job.id + '">' + self.getNiceJobRemainingTime(job, false) + '</div>'
+			];
+		} );
+		
+		this.div.find('#d_dash_internal').show();
+		this.div.find('#d_dash_internal > .box_content').removeClass('loading').html(html);
+	}
+	
+	updateInternalJobs() {
+		// update existing internal jobs (light)
+		var self = this;
+		var div = this.div;
+		var bar_width = this.bar_width || 100;
+		var jobs = Object.values(app.internalJobs);
+		
+		jobs.forEach( function(job) {
+			var $cont = div.find('#d_sys_job_progress_' + job.id + ' > div.progress_bar_container');
+			if (!$cont.length) return; // hidden job for current user
+			
+			div.find('#d_sys_job_elapsed_' + job.id).html( self.getNiceJobElapsedTime(job, false) );
+			div.find('#d_sys_job_remaining_' + job.id).html( self.getNiceJobRemainingTime(job, false) );
+			
+			// update progress bar without redrawing it (so animation doesn't jitter)
+			var counter = job.progress || 1;
+			var cx = Math.floor( counter * bar_width );
+			
+			if ((counter == 1.0) && !$cont.hasClass('indeterminate')) {
+				$cont.addClass('indeterminate').attr('title', "");
+			}
+			else if ((counter < 1.0) && $cont.hasClass('indeterminate')) {
+				$cont.removeClass('indeterminate');
+			}
+			
+			if (counter < 1.0) $cont.attr('title', '' + Math.floor( (counter / 1.0) * 100 ) + '%');
+			
+			$cont.find('> div.progress_bar_inner').css( 'width', '' + cx + 'px' );
+		} ); // foreach job
+	}
+	
 	handleStatusUpdate(data) {
 		// received status update from server, see if major or minor
 		var self = this;
@@ -353,6 +443,10 @@ Page.Dashboard = class Dashboard extends Page.Base {
 				$cont.find('> div.progress_bar_inner').css( 'width', '' + cx + 'px' );
 			} ); // foreach job
 		}
+		
+		// update internal jobs (heavy or light)
+		if (data.internalJobsChanged) this.renderInternalJobs();
+		else this.updateInternalJobs();
 	}
 	
 	jobActiveNav(offset) {
