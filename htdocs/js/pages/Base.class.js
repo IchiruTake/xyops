@@ -2333,15 +2333,15 @@ Page.Base = class Base extends Page {
 			
 			switch (param.type) {
 				case 'text':
-					if (elem_value.length) {
+					if (elem_value.toString().length) {
 						html += '<i class="link mdi mdi-' + elem_icon + '" onClick="$P().copyPluginParamValue(' + idx + ')" title="Copy to Clipboard">&nbsp;</i>';
-						html += elem_value.length ? elem_value : none;
+						html += elem_value.toString().length ? elem_value : none;
 					}
 					else html += none;
 				break;
 				
 				case 'textarea':
-					if (elem_value.length) {
+					if (elem_value.toString().length) {
 						html += '<i class="link mdi mdi-' + elem_icon + '" onClick="$P().copyPluginParamValue(' + idx + ')" title="Copy to Clipboard">&nbsp;</i>';
 						html += '<span class="link" onClick="$P().viewPluginParamValue(' + idx + ')">Click to View...</span>';
 					}
