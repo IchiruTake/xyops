@@ -685,6 +685,11 @@ Page.System = class System extends Page.Base {
 		if (key == 'stats') this.refreshData();
 	}
 	
+	onPageUpdate(pcmd, pdata) {
+		// refresh data if internal job completed
+		if (pcmd == 'internal_job_completed') this.refreshData();
+	}
+	
 	onDeactivate() {
 		// called when page is deactivated
 		delete this.data;
