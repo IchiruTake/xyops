@@ -269,7 +269,7 @@ Page.MyAccount = class MyAccount extends Page.Base {
 		app.api.post( new_password.length ? 'user/update' : 'app/user_settings', updates, function(resp) {
 			// save complete
 			Dialog.hideProgress();
-			app.showMessage('success', "Your account settings were updated successfully.");
+			app.showMessage('success', "Your account profile was updated successfully.");
 			
 			if (!self.active) return; // sanity
 			
