@@ -458,12 +458,12 @@ Page.ActivityLog = class ActivityLog extends Page.Base {
 			}
 			
 			var tds = [
-				'<div class="wrap_mobile">' + self.getRelativeDateTime( item.epoch ) + '</div>',
+				'' + self.getRelativeDateTime( item.epoch ) + '',
 				'<div class="td_big" style="white-space:nowrap; font-weight:normal;"><i class="mdi mdi-' + item_type.icon + '">&nbsp;</i>' + item_type.label + '</div>',
-				'<div class="activity_desc">' + desc + '</div>',
-				'<div style="white-space:nowrap;">' + self.getNiceUser(item.username, true) + '</div>',
+				'' + desc + '',
+				'' + self.getNiceUser(item.username, true) + '',
 				(item.ip || 'n/a'),
-				'<div style="white-space:nowrap;">' + actions.join(' | ') + '</div>'
+				'' + actions.join(' | ') + ''
 			];
 			if (color) tds.className = color;
 			

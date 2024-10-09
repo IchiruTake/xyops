@@ -106,12 +106,12 @@ Page.MySecurity = class MySecurity extends Page.Base {
 			} // switch action
 			
 			var tds = [
-				'<div class="wrap_mobile">' + self.getNiceDateTimeText( item.epoch ) + '</div>',
+				'' + self.getNiceDateTimeText( item.epoch ) + '',
 				'<div class="td_big" style="white-space:nowrap; font-weight:normal;"><i class="mdi mdi-' + item_type.icon + '">&nbsp;</i>' + item_type.label + '</div>',
-				'<div class="activity_desc">' + desc + '</div>',
-				'<div style="">' + (item.useragent || 'n/a') + '</div>',
+				'' + desc + '',
+				'' + (item.useragent || 'n/a') + '',
 				(item.ip || 'n/a').replace(/^\:\:ffff\:(\d+\.\d+\.\d+\.\d+)$/, '$1'),
-				'<div style="white-space:nowrap;">' + (actions.join(' | ') || '-') + '</div>'
+				'' + (actions.join(' | ') || '-') + ''
 			];
 			if (color) tds.className = color;
 			

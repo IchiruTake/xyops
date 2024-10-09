@@ -1327,8 +1327,9 @@ div.box.toggle.expanded > div.box_title > div {
 	.data_grid.snapshot_grid > ul > div:nth-child(4) { visibility: hidden; }
 	
 	/* 'Date/Time', 'Type', 'Description', 'Username', 'IP Address', 'Actions' */
-	.data_grid.activity_grid { grid-template-columns: auto auto auto 0px auto auto !important; }
+	.data_grid.activity_grid { grid-template-columns: auto auto auto 0px 0px auto !important; }
 	.data_grid.activity_grid > ul > div:nth-child(4) { visibility: hidden; }
+	.data_grid.activity_grid > ul > div:nth-child(5) { visibility: hidden; }
 	
 	/* 'Enabled, 'Hook Title', 'Hook ID', 'URL', 'Author', 'Created', 'Actions' */
 	.data_grid.webhook_grid { grid-template-columns: auto auto auto 0px auto auto auto !important; }
