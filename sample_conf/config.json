@@ -13,6 +13,7 @@
 	"log_columns": ["hires_epoch", "date", "hostname", "pid", "component", "category", "code", "msg", "data"],
 	"log_archive_path": "logs/archives/[yyyy]/[mm]/[dd]/[filename]-[yyyy]-[mm]-[dd].log.gz",
 	"log_crashes": true,
+	"temp_dir": "temp",
 	"pid_file": "logs/orchestra.pid",
 	"debug_level": 9,
 	"maintenance": "04:00",

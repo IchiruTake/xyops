@@ -2973,68 +2973,8 @@ Page.Events = class Events extends Page.Base {
 	
 	renderPluginParamEditor() {
 		// render plugin paral editor
-		var html = this.getPluginParamEditor();
+		var html = this.getPluginParamEditor( this.div.find('#fe_ee_plugin').val(), this.event.params );
 		this.div.find('#d_ee_params').html( html );
-	}
-	
-	getPluginParamEditor() {
-		// get HTML for plugin param editor
-		// { "id":"script", "type":"textarea", "title":"Script Source", "value": "#!/bin/sh\n\n# Enter your shell script code here" },
-		var self = this;
-		var html = '';
-		var plugin_id = this.div.find('#fe_ee_plugin').val();
-		var plugin = find_object( app.plugins, { id: plugin_id } );
-		if (!plugin) return "(Could not locate Plugin definition: " + plugin_id + ")";
-		if (!plugin.params.length) return '(The selected Plugin has no configurable parameters defined.)';
-		
-		plugin.params.forEach( function(param) {
-			var elem_id = 'fe_ee_pp_' + param.id;
-			var elem_value = (param.id in self.event.params) ? self.event.params[param.id] : param.value;
-			var elem_dis = (param.locked && !app.isAdmin()) ? 'disabled' : undefined; 
-			if (param.type == 'hidden') return;
-			
-			if (param.type != 'checkbox') html += '<div class="info_label">' + param.title + '</div>';
-			html += '<div class="info_value">';
-			
-			switch (param.type) {
-				case 'text':
-					html += self.getFormText({ id: elem_id, value: elem_value, disabled: elem_dis });
-				break;
-				
-				case 'textarea':
-					html += self.getFormTextarea({ id: elem_id, value: elem_value, rows: 5, disabled: elem_dis });
-				break;
-				
-				case 'checkbox':
-					html += self.getFormCheckbox({ id: elem_id, label: param.title, checked: !!elem_value, disabled: elem_dis });
-				break;
-				
-				case 'select':
-					elem_value = (param.id in self.event.params) ? self.event.params[param.id] : param.value.replace(/\,.*$/, '');
-					html += self.getFormMenu({ id: elem_id, value: elem_value, options: param.value.split(/\,\s*/), disabled: elem_dis });
-				break;
-			} // switch type
-			
-			html += '</div>';
-		} ); // foreach param
-		
-		return html;
-	}
-	
-	getPluginParamValues() {
-		// get all values for params hash
-		var params = {};
-		var plugin_id = this.div.find('#fe_ee_plugin').val();
-		var plugin = find_object( app.plugins, { id: plugin_id } );
-		if (!plugin) return {}; // should never happen
-		
-		plugin.params.forEach( function(param) {
-			if (param.type == 'hidden') params[ param.id ] = param.value;
-			else if (param.type == 'checkbox') params[ param.id ] = !!$('#fe_ee_pp_' + param.id).is(':checked');
-			else params[ param.id ] = $('#fe_ee_pp_' + param.id).val();
-		});
-		
-		return params;
 	}
 	
 	get_event_form_json(force) {
@@ -3050,7 +2990,7 @@ Page.Events = class Events extends Page.Base {
 		event.targets = $('#fe_ee_targets').val();
 		event.algo = $('#fe_ee_algo').val();
 		event.plugin = $('#fe_ee_plugin').val();
-		event.params = this.getPluginParamValues();
+		event.params = this.getPluginParamValues( event.plugin );
 		event.notes = $('#fe_ee_notes').val();
 		
 		if (!force) {

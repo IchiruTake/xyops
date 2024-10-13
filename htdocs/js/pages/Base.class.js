@@ -1604,6 +1604,14 @@ Page.Base = class Base extends Page {
 				disp.icon = 'cancel';
 			break;
 			
+			case 'plugin':
+				disp.type = "Plugin";
+				var plugin = find_object( app.plugins, { id: action.plugin_id, type: 'action' } );
+				disp.text = plugin ? plugin.title : "(Plugin not found)";
+				disp.desc = this.getNicePlugin(plugin, link);
+				disp.icon = 'power-plug';
+			break;
+			
 		} // switch item.type
 		
 		return disp;
@@ -1667,7 +1675,7 @@ Page.Base = class Base extends Page {
 		var title = (idx > -1) ? "Editing Job Action" : "New Job Action";
 		var btn = (idx > -1) ? "Apply Changes" : "Add Action";
 		
-		var html = '<div class="dialog_box_content">';
+		var html = '<div class="dialog_box_content scroll">';
 		
 		html += this.getFormRow({
 			label: 'Status:',
@@ -1712,7 +1720,8 @@ Page.Base = class Base extends Page {
 					{ id: 'run_event', title: "Run Event", icon: 'calendar-clock' },
 					{ id: 'channel', title: "Notify Channel", icon: 'bullhorn-outline' },
 					{ id: 'snapshot', title: "Take Snapshot", icon: 'monitor-screenshot' },
-					{ id: 'disable', title: "Disable Event", icon: 'cancel' }
+					{ id: 'disable', title: "Disable Event", icon: 'cancel' },
+					{ id: 'plugin', title: "Plugin", icon: 'power-plug' }
 				],
 				value: action.type
 			}),
@@ -1776,6 +1785,27 @@ Page.Base = class Base extends Page {
 			caption: 'Select which channel to notify for the action.'
 		});
 		
+		html += this.getFormRow({
+			id: 'd_eja_plugin',
+			label: 'Action Plugin:',
+			content: this.getFormMenuSingle({
+				id: 'fe_eja_plugin',
+				title: 'Select Action Plugin',
+				options: app.plugins.filter( function(plugin) { return plugin.type == 'action'; } ),
+				value: action.plugin_id,
+				default_icon: 'power-plug-outline'
+			}),
+			caption: 'Select which Plugin to use for the action.'
+		});
+		
+		// plugin params
+		html += this.getFormRow({
+			id: 'd_eja_plugin_params',
+			label: 'Parameters:',
+			content: '<div id="d_eja_param_editor" class="plugin_param_editor_cont"></div>',
+			caption: 'Enter values for all the Plugin-defined parameters here.'
+		});
+		
 		html += '</div>';
 		Dialog.confirm( title, html, btn, function(result) {
 			if (!result) return;
@@ -1788,18 +1818,28 @@ Page.Base = class Base extends Page {
 			switch (action.type) {
 				case 'email':
 					action.email = $('#fe_eja_email').val();
+					if (!action.email) return app.badField('#fe_eja_email', "Please enter one or more email addresses for the action.");
 				break;
 				
 				case 'web_hook':
 					action.web_hook = $('#fe_eja_web_hook').val();
+					if (!action.web_hook) return app.badField('#fe_eja_web_hook', "Please select a web hook for the action.");
 				break;
 				
 				case 'run_event':
 					action.event_id = $('#fe_eja_event').val();
+					if (!action.event_id) return app.badField('#fe_eja_event', "Please select an event to run for the action.");
 				break;
 				
 				case 'channel':
 					action.channel_id = $('#fe_eja_channel').val();
+					if (!action.channel_id) return app.badField('#fe_eja_channel', "Please select a notification channel for the action.");
+				break;
+				
+				case 'plugin':
+					action.plugin_id = $('#fe_eja_plugin').val();
+					if (!action.plugin_id) return app.badField('#fe_eja_plugin', "Please select a Plugin for the action.");
+					action.params = self.getPluginParamValues( action.plugin_id );
 				break;
 			} // switch action.type
 			
@@ -1818,47 +1858,37 @@ Page.Base = class Base extends Page {
 		} ); // Dialog.confirm
 		
 		var change_action_type = function(new_type) {
+			$('#d_eja_email, #d_eja_web_hook, #d_eja_run_job, #d_eja_channel, #d_eja_plugin, #d_eja_plugin_params').hide();
+			
 			switch (new_type) {
 				case 'email':
 					$('#d_eja_email').show();
-					$('#d_eja_web_hook').hide();
-					$('#d_eja_run_job').hide();
-					$('#d_eja_channel').hide();
 				break;
 				
 				case 'web_hook':
-					$('#d_eja_email').hide();
 					$('#d_eja_web_hook').show();
-					$('#d_eja_run_job').hide();
-					$('#d_eja_channel').hide();
 				break;
 				
 				case 'run_event':
-					$('#d_eja_email').hide();
-					$('#d_eja_web_hook').hide();
 					$('#d_eja_run_job').show();
-					$('#d_eja_channel').hide();
 				break;
 				
 				case 'channel':
-					$('#d_eja_email').hide();
-					$('#d_eja_web_hook').hide();
-					$('#d_eja_run_job').hide();
 					$('#d_eja_channel').show();
 				break;
 				
 				case 'snapshot':
-					$('#d_eja_email').hide();
-					$('#d_eja_web_hook').hide();
-					$('#d_eja_run_job').hide();
-					$('#d_eja_channel').hide();
+					// hide all
 				break;
 				
 				case 'disable':
-					$('#d_eja_email').hide();
-					$('#d_eja_web_hook').hide();
-					$('#d_eja_run_job').hide();
-					$('#d_eja_channel').hide();
+					// hide all
+				break;
+				
+				case 'plugin':
+					$('#d_eja_plugin').show();
+					$('#d_eja_plugin_params').show();
+					$('#d_eja_param_editor').html( self.getPluginParamEditor( $('#fe_eja_plugin').val(), action.params || {} ) );
 				break;
 			} // switch new_type
 		}; // change_action_type
@@ -1869,7 +1899,11 @@ Page.Base = class Base extends Page {
 			change_action_type( $(this).val() );
 		}); // type change
 		
-		SingleSelect.init( $('#fe_eja_trigger, #fe_eja_type, #fe_eja_event, #fe_eja_channel, #fe_eja_web_hook') );
+		$('#fe_eja_plugin').on('change', function() {
+			$('#d_eja_param_editor').html( self.getPluginParamEditor( $(this).val(), action.params || {} ) );
+		}); // type change
+		
+		SingleSelect.init( $('#fe_eja_trigger, #fe_eja_type, #fe_eja_event, #fe_eja_channel, #fe_eja_web_hook, #fe_eja_plugin') );
 		this.updateAddRemoveMe('#fe_eja_email');
 		
 		Dialog.autoResize();
@@ -1879,6 +1913,68 @@ Page.Base = class Base extends Page {
 		// delete selected limit
 		this.actions.splice( idx, 1 );
 		this.renderJobActionEditor();
+	}
+	
+	// Plugin Params
+	
+	getPluginParamEditor(plugin_id, params) {
+		// get HTML for plugin param editor
+		// { "id":"script", "type":"textarea", "title":"Script Source", "value": "#!/bin/sh\n\n# Enter your shell script code here" },
+		var self = this;
+		var html = '';
+		if (!plugin_id) return '(No Plugin selected.)';
+		
+		var plugin = find_object( app.plugins, { id: plugin_id } );
+		if (!plugin) return "(Could not locate Plugin definition: " + plugin_id + ")";
+		if (!plugin.params.length) return '(The selected Plugin has no configurable parameters defined.)';
+		
+		plugin.params.forEach( function(param) {
+			var elem_id = 'fe_pp_' + param.id;
+			var elem_value = (param.id in params) ? params[param.id] : param.value;
+			var elem_dis = (param.locked && !app.isAdmin()) ? 'disabled' : undefined; 
+			if (param.type == 'hidden') return;
+			
+			if (param.type != 'checkbox') html += '<div class="info_label">' + param.title + '</div>';
+			html += '<div class="info_value">';
+			
+			switch (param.type) {
+				case 'text':
+					html += self.getFormText({ id: elem_id, value: elem_value, disabled: elem_dis });
+				break;
+				
+				case 'textarea':
+					html += self.getFormTextarea({ id: elem_id, value: elem_value, rows: 5, disabled: elem_dis });
+				break;
+				
+				case 'checkbox':
+					html += self.getFormCheckbox({ id: elem_id, label: param.title, checked: !!elem_value, disabled: elem_dis });
+				break;
+				
+				case 'select':
+					elem_value = (param.id in params) ? params[param.id] : param.value.replace(/\,.*$/, '');
+					html += self.getFormMenu({ id: elem_id, value: elem_value, options: param.value.split(/\,\s*/), disabled: elem_dis });
+				break;
+			} // switch type
+			
+			html += '</div>';
+		} ); // foreach param
+		
+		return html;
+	}
+	
+	getPluginParamValues(plugin_id) {
+		// get all values for params hash
+		var params = {};
+		var plugin = find_object( app.plugins, { id: plugin_id } );
+		if (!plugin) return {}; // should never happen
+		
+		plugin.params.forEach( function(param) {
+			if (param.type == 'hidden') params[ param.id ] = param.value;
+			else if (param.type == 'checkbox') params[ param.id ] = !!$('#fe_pp_' + param.id).is(':checked');
+			else params[ param.id ] = $('#fe_pp_' + param.id).val();
+		});
+		
+		return params;
 	}
 	
 	// Box Buttons Floater:
