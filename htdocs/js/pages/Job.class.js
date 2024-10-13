@@ -23,6 +23,7 @@ Page.Job = class Job extends Page.Base {
 		this.liveLogReady = false;
 		this.snapEpoch = null;
 		this.emptyLogMessage = false;
+		this.emptyLogAttempts = 0;
 		this.redraw = "";
 		this.metaRowCount = 0;
 		
@@ -775,34 +776,35 @@ Page.Job = class Job extends Page.Base {
 			var $box = this.div.find('#d_job_user_table');
 			$box.show();
 			
-			$box.find('div.box_title > span').html( job.table.title || 'Job Data Table' );
+			$box.find('div.box_title > span').html( encode_entities(job.table.title || 'Job Data Table') );
 			
 			var html = '';
 			html += this.getBasicTable({
 				attribs: { class: 'data_table' },
 				compact: true,
-				cols: job.table.header,
-				rows: job.table.rows,
+				cols: job.table.header.map( encode_entities ),
+				rows: job.table.rows.map( function(row) {
+					return row.map( encode_entities );
+				} ),
 				data_type: 'item',
 				callback: function(row) { return row; }
 			});
 			
-			if (job.table.caption) html += '<div class="user_caption">' + job.table.caption + '</div>';
+			if (job.table.caption) html += '<div class="user_caption">' + encode_entities(job.table.caption) + '</div>';
 			$box.find('div.box_content').html( html );
 		} // table
 		
 		// custom HTML
-		// TODO: need filtering here?  prevent <script> elements, etc.?
-		// (also in job.description)
-		if (job.html) {
+		// (this was sanitized on the server)
+		if (job.html && job.html.content) {
 			var $html = this.div.find('#d_job_user_html');
 			$html.show();
 			
-			$html.find('div.box_title > span').html( job.html.title || 'Job Custom Data' );
+			$html.find('div.box_title > span').html( encode_entities(job.html.title || 'Job Custom Data') );
 			
 			var html = '';
 			html += job.html.content;
-			if (job.html.caption) html += '<div class="user_caption">' + job.html.caption + '</div>';
+			if (job.html.caption) html += '<div class="user_caption">' + encode_entities(job.html.caption) + '</div>';
 			$html.find('div.box_content').html( html );
 		} // html
 		
@@ -1004,14 +1006,22 @@ Page.Job = class Job extends Page.Base {
 		// this.term.open( document.getElementById('d_live_job_log') );
         // this.term.write( 'Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ' );
 		var self = this;
-		this.emptyLogMessage = true;
+		
+		if (this.emptyLogAttempts >= 3) return;
+		this.emptyLogAttempts++;
 		
 		app.api.get( 'app/tail_live_job_log', { id: this.job.id }, function(resp) {
 			if (!self.active) return; // sanity
 			
 			var text = resp.text;
-			if (text.match(/\S/)) self.appendLiveJobLog(text);
-			else self.div.find('#d_live_job_log').append( '<div class="loading_container"><div class="loading"></div></div>' );
+			
+			if (text.match(/\S/)) {
+				self.appendLiveJobLog(text);
+			}
+			else if (!self.emptyLogMessage) {
+				self.div.find('#d_live_job_log').append( '<div class="loading_container"><div class="loading"></div></div>' );
+				self.emptyLogMessage = true;
+			}
 			
 			// set flag so live log updates can now come through
 			self.liveLogReady = true;
@@ -1970,6 +1980,9 @@ Page.Job = class Job extends Page.Base {
 			this.updateLiveProcessTable();
 			this.updateUserContent();
 			this.updateLiveMetaLog();
+			
+			// race condition with setting up live log and jobs that immediately print something at startup
+			if (this.job.log_file_size && this.emptyLogMessage) this.setupLiveJobLog();
 		}
 		
 		// special behavior for queued jobs, they are NOT in app.activeJobs client-side, so just wait for it to appear
@@ -2032,6 +2045,7 @@ Page.Job = class Job extends Page.Base {
 		delete this.liveLogReady;
 		delete this.snapEpoch;
 		delete this.emptyLogMessage;
+		delete this.emptyLogAttempts;
 		delete this.redraw;
 		delete this.metaRowCount;
 		delete this.live;
