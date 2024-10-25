@@ -27,7 +27,7 @@ Page.WebHooks = class WebHooks extends Page.Base {
 	gosub_list(args) {
 		// show web hook list
 		app.setWindowTitle( "Web Hooks" );
-		app.setHeaderTitle( '<i class="mdi mdi-web">&nbsp;</i>Web Hooks' );
+		app.setHeaderTitle( '<i class="mdi mdi-webhook">&nbsp;</i>Web Hooks' );
 		
 		// use web hooks in app cache
 		this.receive_web_hooks({
@@ -137,7 +137,7 @@ Page.WebHooks = class WebHooks extends Page.Base {
 		app.setWindowTitle( "New Web Hook" );
 		
 		app.setHeaderNav([
-			{ icon: 'web', loc: '#WebHooks?sub=list', title: 'Web Hooks' },
+			{ icon: 'webhook', loc: '#WebHooks?sub=list', title: 'Web Hooks' },
 			{ icon: 'webhook', title: "New Web Hook" }
 		]);
 		
@@ -226,7 +226,7 @@ Page.WebHooks = class WebHooks extends Page.Base {
 		app.setWindowTitle( "Editing Web Hook \"" + (this.web_hook.title) + "\"" );
 		
 		app.setHeaderNav([
-			{ icon: 'web', loc: '#WebHooks?sub=list', title: 'Web Hooks' },
+			{ icon: 'webhook', loc: '#WebHooks?sub=list', title: 'Web Hooks' },
 			{ icon: this.web_hook.icon || 'webhook', title: this.web_hook.title }
 		]);
 		

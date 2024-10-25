@@ -170,7 +170,7 @@ Page.Events = class Events extends Page.Base {
 							options: [
 								['', 'Any Action'], 
 								{ id: 'email', title: "Send Email", icon: 'email-send-outline' },
-								{ id: 'web_hook', title: "Web Hook", icon: 'web' },
+								{ id: 'web_hook', title: "Web Hook", icon: 'webhook' },
 								{ id: 'run_event', title: "Run Event", icon: 'calendar-clock' },
 								{ id: 'channel', title: "Notify Channel", icon: 'bullhorn-outline' },
 								{ id: 'snapshot', title: "Take Snapshot", icon: 'monitor-screenshot' },

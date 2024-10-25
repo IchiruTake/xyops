@@ -1578,7 +1578,7 @@ Page.Base = class Base extends Page {
 				var web_hook = find_object( app.web_hooks, { id: action.web_hook } );
 				disp.text = web_hook ? web_hook.title : "(Web Hook not found)";
 				disp.desc = this.getNiceWebHook(web_hook, link);
-				disp.icon = 'web';
+				disp.icon = 'webhook';
 			break;
 			
 			case 'run_event':
@@ -1727,7 +1727,7 @@ Page.Base = class Base extends Page {
 				title: 'Select Action Type',
 				options: [ 
 					{ id: 'email', title: "Send Email", icon: 'email-send-outline' },
-					{ id: 'web_hook', title: "Web Hook", icon: 'web' },
+					{ id: 'web_hook', title: "Web Hook", icon: 'webhook' },
 					{ id: 'run_event', title: "Run Event", icon: 'calendar-clock' },
 					{ id: 'channel', title: "Notify Channel", icon: 'bullhorn-outline' },
 					{ id: 'snapshot', title: "Take Snapshot", icon: 'monitor-screenshot' },

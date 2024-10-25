@@ -58,7 +58,7 @@
 		{ "id": "plugins", "title": "Plugins", "icon": "power-plug-outline" },
 		{ "id": "tags", "title": "Tags", "icon": "tag-outline" },
 		{ "id": "users", "title": "Users", "icon": "account" },
-		{ "id": "web_hooks", "title": "Web Hooks", "icon": "web" }
+		{ "id": "web_hooks", "title": "Web Hooks", "icon": "webhook" }
 	],
 	
 	"database_list": [
