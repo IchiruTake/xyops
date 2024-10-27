@@ -1167,6 +1167,9 @@ div.box.toggle.expanded > div.box_title > div {
 /* Basic Responsive Overrides */
 
 @media only screen and (min-width: 1451px) and (max-width: 1600px) {
+	.form_row {
+		grid-template-columns: 2fr 6fr 1fr;
+	}
 	
 	.data_grid.event_grid { grid-template-columns: auto auto auto 0px auto auto auto auto !important; }
 	.data_grid.event_grid > ul > div:nth-child(4) { visibility: hidden; }
