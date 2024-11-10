@@ -338,18 +338,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		// resort cpu_cores numerically
 		field_menus.cpu_cores.sort( function(a, b) { return parseInt(a.id) - parseInt(b.id); } );
 		
-		var date_items = [
-			['', 'All Dates'],
-			['now', 'This Hour'],
-			['lasthour', 'Last Hour'],
-			['today', 'Today'],
-			['yesterday', 'Yesterday'],
-			['month', 'This Month'],
-			['lastmonth', 'Last Month'],
-			['year', 'This Year'],
-			['lastyear', 'Last Year'],
-			['older', 'Older']
-		];
+		var date_items = config.ui.date_range_menu_items;
 		
 		var html = '';
 		html += '<div class="box" style="border:none;">';

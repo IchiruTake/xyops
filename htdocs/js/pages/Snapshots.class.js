@@ -92,18 +92,7 @@ Page.Snapshots = class Snapshots extends Page.ServerUtils {
 				
 				// date
 				html += '<div class="form_cell">';
-					var date_items = [
-						['', 'All Dates'],
-						['now', 'This Hour'],
-						['lasthour', 'Last Hour'],
-						['today', 'Today'],
-						['yesterday', 'Yesterday'],
-						['month', 'This Month'],
-						['lastmonth', 'Last Month'],
-						['year', 'This Year'],
-						['lastyear', 'Last Year'],
-						['older', 'Older']
-					];
+					var date_items = config.ui.date_range_menu_items;
 					html += this.getFormRow({
 						label: '<i class="icon mdi mdi-calendar-multiple">&nbsp;</i>Date Range:',
 						content: this.getFormMenuSingle({

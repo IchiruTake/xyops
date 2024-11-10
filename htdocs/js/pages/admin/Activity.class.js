@@ -37,18 +37,7 @@ Page.ActivityLog = class ActivityLog extends Page.Base {
 		]);
 		sort_by( action_items, 'title' );
 		
-		var date_items = [
-			['', 'All Dates'],
-			['now', 'This Hour'],
-			['lasthour', 'Last Hour'],
-			['today', 'Today'],
-			['yesterday', 'Yesterday'],
-			['month', 'This Month'],
-			['lastmonth', 'Last Month'],
-			['year', 'This Year'],
-			['lastyear', 'Last Year'],
-			['older', 'Older']
-		];
+		var date_items = config.ui.date_range_menu_items;
 		
 		var html = '';
 		html += '<div class="box" style="border:none;">';

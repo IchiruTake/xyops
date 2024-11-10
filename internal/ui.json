@@ -227,5 +227,18 @@
 			"a": [ "href", "target" ],
 			"div": [ "class" ]
 		}
-	}
+	},
+	
+	"date_range_menu_items": [
+		["", "All Dates"],
+		["now", "This Hour"],
+		["lasthour", "Last Hour"],
+		["today", "Today"],
+		["yesterday", "Yesterday"],
+		["month", "This Month"],
+		["lastmonth", "Last Month"],
+		["year", "This Year"],
+		["lastyear", "Last Year"],
+		["older", "Older"]
+	]
 }
