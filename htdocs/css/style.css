@@ -1315,6 +1315,12 @@ body.dark span.hljs-number {
 	color: #56b6c2;
 }
 
+/* Icon Overrides */
+
+i.mdi.mdi-moon-waning-crescent:before {
+	transform: rotate(-35deg);
+}
+
 /* Basic Responsive Overrides */
 
 @media only screen and (min-width: 1451px) and (max-width: 1600px) {
