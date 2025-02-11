@@ -254,6 +254,8 @@
 		"http_max_concurrent_requests": 32,
 		"http_log_requests": true,
 		"http_legacy_callback_support": false,
+		"http_startup_message": true,
+		"http_debug_ttl": true,
 		
 		"https": true,
 		"https_port": 5523,
