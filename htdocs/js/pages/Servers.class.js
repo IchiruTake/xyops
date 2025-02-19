@@ -104,7 +104,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		} );
 		
 		// NOTE: Don't change these columns without also changing the responsive css column collapse rules in style.css
-		var cols = ['Hostname', 'IP Address', 'Groups', '# CPUs', 'RAM', 'OS', 'Uptime', '# Jobs', '# Alerts'];
+		var cols = ['Server', 'IP Address', 'Groups', '# CPUs', 'RAM', 'OS', 'Uptime', '# Jobs', '# Alerts'];
 		
 		html += '<div class="box">';
 		html += '<div class="box_title">';
@@ -154,7 +154,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				'<i class="mdi mdi-chip">&nbsp;</i>' + (item.info.cpu.cores || 0),
 				'<i class="mdi mdi-memory">&nbsp;</i>' + get_text_from_bytes(item.info.memory.total || 0),
 				item.info.os.distro + ' ' + item.info.os.release,
-				item.info.booted ? get_text_from_seconds( now - item.info.booted, true, true ) : 'n/a',
+				item.info.booted ? self.getNiceUptime( now - item.info.booted ) : 'n/a',
 				'<div id="d_es_server_jobs_' + item.id + '">' + nice_jobs + '</div>',
 				nice_alerts
 			];
@@ -1331,6 +1331,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				'<div class="chart_toolbar ct_' + key + '">' + 
 					'<div class="chart_icon ci_di" title="Download Image" onClick="$P().chartDownload(\'' + key + '\')"><i class="mdi mdi-cloud-download-outline"></i></div>' + 
 					'<div class="chart_icon ci_cl" title="Copy Image Link" onClick="$P().chartCopyLink(\'' + key + '\',this)"><i class="mdi mdi-clipboard-pulse-outline"></i></div>' + 
+					'<div class="chart_icon ci_cj" style="display:none" title="Copy JSON Data" onClick="$P().chartCopyJSON(\'' + key + '\',this)"><i class="mdi mdi-code-json"></i></div>' + 
 				'</div>' 
 			);
 		};
@@ -1341,7 +1342,9 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				"title": def.title,
 				"dataType": def.type,
 				"dataSuffix": def.suffix,
-				"minVertScale": def.minVertScale || 0,
+				"minVertScale": def.min_vert_scale || 0,
+				"delta": def.delta || false,
+				"divideByDelta": def.divide_by_delta || false,
 				"legend": false, // single layer, no legend needed
 				"_quick": true
 			});
@@ -1382,14 +1385,11 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		
 		config.quick_monitors.forEach( function(def) {
 			var chart = self.charts[def.id];
-			var layer = find_object( chart.layers, { id: data.id } );
+			var layer_idx = find_object_idx( chart.layers, { id: data.id } );
 			
-			if (layer) {
-				layer.data.push({ x: data.row.date, y: data.row[def.id] || 0 });
-				if (layer.data.length > 60) layer.data.shift();
+			if ((layer_idx > -1) && data.row.date && (typeof(data.row[def.id]) == 'number')) {
+				chart.addLayerSample(layer_idx, { x: data.row.date, y: data.row[def.id] || 0 }, 60 );
 			}
-			
-			chart.dirty = true;
 		}); // foreach monitor
 	}
 	
@@ -1448,6 +1448,9 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				"title": def.title,
 				"dataType": def.data_type,
 				"dataSuffix": def.suffix,
+				"delta": def.delta || false,
+				"divideByDelta": def.divide_by_delta || false,
+				"minVertScale": def.min_vert_scale || 0,
 				"showDataGaps": true,
 				"legend": false // single layer, no legend needed
 			});
@@ -1502,17 +1505,15 @@ Page.Servers = class Servers extends Page.ServerUtils {
 			var x = Math.floor( snapshot.date / 60 ) * 60;
 			
 			// grab delta if applicable, or abs value for std monitors
-			var y = def.delta ? snapshot.data.deltas[def.id] : snapshot.data.monitors[def.id];
+			// var y = def.delta ? snapshot.data.deltas[def.id] : snapshot.data.monitors[def.id];
+			var y = snapshot.data.monitors[def.id];
 			
 			var item = { x: x, y: y || 0 };
 			
 			// check for flag (label)
 			if (flagged_monitors[def.id]) item.label = { "text": "Alert", "color": "red", "tooltip": true };
 			
-			layer.data.push(item);
-			if (layer.data.length > 60) layer.data.shift();
-			
-			chart.dirty = true;
+			chart.addLayerSample(0, item, 60);
 		}); // foreach monitor
 	}
 	
