@@ -1552,27 +1552,21 @@ Page.Job = class Job extends Page.Base {
 			html += '<div class="info_value">' + (proc.user || 'n/a') + '</div>';
 		html += '</div>';
 		
+		// group
+		html += '<div>';
+			html += '<div class="info_label">Group</div>';
+			html += '<div class="info_value">' + (proc.group || 'n/a') + '</div>';
+		html += '</div>';
+		
 		// cpu
 		html += '<div>';
-			html += '<div class="info_label">CPU %</div>';
+			html += '<div class="info_label">CPU</div>';
 			html += '<div class="info_value">' + short_float(proc.cpu || 0) + '%</div>';
-		html += '</div>';
-		
-		// cpuu (user)
-		html += '<div>';
-			html += '<div class="info_label">CPU % (User)</div>';
-			html += '<div class="info_value">' + short_float(proc.cpuu || 0) + '%</div>';
-		html += '</div>';
-		
-		// cpus (system)
-		html += '<div>';
-			html += '<div class="info_label">CPU % (System)</div>';
-			html += '<div class="info_value">' + short_float(proc.cpus || 0) + '%</div>';
 		html += '</div>';
 		
 		// mem (%)
 		html += '<div>';
-			html += '<div class="info_label">Memory %</div>';
+			html += '<div class="info_label">Memory</div>';
 			html += '<div class="info_value">' + short_float(proc.mem || 0) + '%</div>';
 		html += '</div>';
 		
@@ -1616,6 +1610,12 @@ Page.Job = class Job extends Page.Base {
 		html += '<div>';
 			html += '<div class="info_label">Nice</div>';
 			html += '<div class="info_value">' + (proc.nice || 'n/a') + '</div>';
+		html += '</div>';
+		
+		// threads
+		html += '<div>';
+			html += '<div class="info_label">Threads</div>';
+			html += '<div class="info_value">' + (proc.threads || 'n/a') + '</div>';
 		html += '</div>';
 		
 		// disk
