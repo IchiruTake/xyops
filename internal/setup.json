@@ -224,7 +224,7 @@
 		[ "listPush", "global/monitors", {
 			"id": "cpu_usage",
 			"title": "CPU Usage %",
-			"source": "100 - [cpu/totals/idle]",
+			"source": "[cpu/currentLoad]",
 			"data_type": "float",
 			"suffix": "%",
 			"groups": [],
