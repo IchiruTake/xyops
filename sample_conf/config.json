@@ -26,6 +26,7 @@
 	"ping_freq_sec": 10,
 	"ping_timeout_sec": 20,
 	
+	"max_jobs_per_min": 100,
 	"child_kill_timeout": 10,
 	"dead_job_timeout": 120,
 	"track_manual_jobs": false,

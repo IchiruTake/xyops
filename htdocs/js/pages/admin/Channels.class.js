@@ -183,6 +183,7 @@ Page.Channels = class Channels extends Page.PageUtils {
 			"run_event": "",
 			"sound": "",
 			"shell_exec": "",
+			"max_per_day": 0,
 			"notes": ""
 		};
 		
@@ -508,6 +509,22 @@ Page.Channels = class Channels extends Page.PageUtils {
 			caption: 'Optionally enter a shell command to execute for this action.  This will always run on the primary server.'
 		});
 		
+		// max per day
+		html += this.getFormRow({
+			label: 'Max Per Day:',
+			content: this.getFormText({
+				id: 'fe_ech_max_per_day',
+				type: 'number',
+				// class: 'monospace',
+				spellcheck: 'false',
+				maxlength: 5,
+				min: 0,
+				max: 9999999,
+				value: channel.max_per_day || 0
+			}),
+			caption: 'Optionally set a maximum number of invocations per day for the channel (antiflood).'
+		});
+		
 		// notes
 		html += this.getFormRow({
 			label: 'Notes:',
@@ -536,6 +553,7 @@ Page.Channels = class Channels extends Page.PageUtils {
 		channel.run_event = $('#fe_ech_run_event').val();
 		channel.sound = $('#fe_ech_sound').val();
 		channel.shell_exec = $('#fe_ech_shell_exec').val();
+		channel.max_per_day = parseInt( $('#fe_ech_max_per_day').val() );
 		channel.notes = $('#fe_ech_notes').val();
 		
 		if (!channel.id.length) {

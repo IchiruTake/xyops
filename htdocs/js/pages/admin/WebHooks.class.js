@@ -190,6 +190,7 @@ Page.WebHooks = class WebHooks extends Page.PageUtils {
 			"retries": 0,
 			"follow": false,
 			"ssl_cert_bypass": false,
+			"max_per_day": 0,
 			"notes": ""
 		};
 		this.headers = this.web_hook.headers;
@@ -548,6 +549,22 @@ Page.WebHooks = class WebHooks extends Page.PageUtils {
 			caption: 'Check this box to allow self-signed SSL/HTTPS certificates.'
 		});
 		
+		// max per day
+		html += this.getFormRow({
+			label: 'Max Per Day:',
+			content: this.getFormText({
+				id: 'fe_ewh_max_per_day',
+				type: 'number',
+				// class: 'monospace',
+				spellcheck: 'false',
+				maxlength: 5,
+				min: 0,
+				max: 9999999,
+				value: web_hook.max_per_day || 0
+			}),
+			caption: 'Optionally set a maximum number of invocations per day for the web hook (antiflood).'
+		});
+		
 		// notes
 		html += this.getFormRow({
 			label: 'Notes:',
@@ -697,6 +714,7 @@ Page.WebHooks = class WebHooks extends Page.PageUtils {
 		web_hook.retries = parseInt( $('#fe_ewh_retries').val() );
 		web_hook.follow = $('#fe_ewh_follow').is(':checked') ? true : false;
 		web_hook.ssl_cert_bypass = $('#fe_ewh_ssl_cert_bypass').is(':checked') ? true : false;
+		web_hook.max_per_day = parseInt( $('#fe_ewh_max_per_day').val() );
 		web_hook.notes = $('#fe_ewh_notes').val();
 		
 		if (!web_hook.id.length) {
