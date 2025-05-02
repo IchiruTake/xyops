@@ -249,9 +249,6 @@ app.comm = {
 		// update user privs if roles changed
 		if (data.roles) app.applyUserRoles();
 		
-		// maintain copy of servers in case they go offline
-		if (data.servers) merge_hash_into(app.serverCache, data.servers);
-		
 		// notify page if wanted
 		if (app.page_manager && app.page_manager.current_page_id) {
 			var id = app.page_manager.current_page_id;
@@ -338,7 +335,7 @@ app.comm = {
 		
 		// some activity types should be warnings or errors
 		if (item.action.match(/^(error)/)) type = 'error';
-		else if (item.action.match(/^(warning|server_delete|alert_new)/)) type = 'warning';
+		else if (item.action.match(/^(warning|server_remove|alert_new)/)) type = 'warning';
 		
 		// override toast icon if we have a better one
 		if (item.icon) type += '/' + item.icon;
