@@ -214,7 +214,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		
 		var url = '#Servers' + (num_keys(query) ? compose_query_string(query) : '');
 		history.replaceState( null, '', url );
-		Nav.loc = url;
+		Nav.loc = url.replace(/^\#/, '');
 		
 		// magic trick: replace link in sidebar for Events
 		// $('#tab_Servers').attr( 'href', url );
@@ -918,6 +918,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		html += '<div class="box" id="d_vs_quickmon" style="display:none">';
 			html += '<div class="box_title">';
 				html += '<div class="box_title_widget" style="overflow:visible; margin-left:0;"><i class="mdi mdi-magnify" onMouseUp="$(this).next().focus()">&nbsp;</i><input type="text" placeholder="Filter" value="" onInput="$P().applyQuickMonitorFilter(this)"></div>';
+				html += this.getChartSizeSelector();
 				html += 'Quick Look &mdash; Last Minute';
 			html += '</div>';
 			html += '<div class="box_content table">';
@@ -954,6 +955,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		html += '<div class="box" id="d_vs_monitors">';
 			html += '<div class="box_title">';
 				html += '<div class="box_title_widget" style="overflow:visible; margin-left:0;"><i class="mdi mdi-magnify" onMouseUp="$(this).next().focus()">&nbsp;</i><input type="text" placeholder="Filter" value="" onInput="$P().applyMonitorFilter(this)"></div>';
+				html += this.getChartSizeSelector();
 				html += 'Server Monitors &mdash; ' + (online ? 'Last Hour' : 'Last Known State');
 			html += '</div>';
 			html += '<div class="box_content table">';
@@ -1006,6 +1008,8 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		html += '</div>'; // box
 		
 		this.div.html(html);
+		
+		SingleSelect.init( this.div.find('select.sel_chart_size') );
 		
 		this.updateServerStats();
 		this.renderMonitorGrid();
@@ -1358,7 +1362,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		var self = this;
 		var server = this.server;
 		var html = '';
-		html += '<div class="chart_grid_horiz">';
+		html += '<div class="chart_grid_horiz ' + (app.getPref('chart_size') || 'medium') + '">';
 		
 		config.quick_monitors.forEach( function(def) {
 			// { "id": "cpu_load", "title": "CPU Load Average", "source": "cpu.avgLoad", "type": "float", "suffix": "" },
@@ -1369,16 +1373,6 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		
 		this.div.find('#d_vs_quickmon').show();
 		this.div.find('#d_vs_quickmon > div.box_content').html( html );
-		
-		var render_chart_overlay = function(key) {
-			$('.pxc_tt_overlay').html(
-				'<div class="chart_toolbar ct_' + key + '">' + 
-					'<div class="chart_icon ci_di" title="Download Image" onClick="$P().chartDownload(\'' + key + '\')"><i class="mdi mdi-cloud-download-outline"></i></div>' + 
-					'<div class="chart_icon ci_cl" title="Copy Image Link" onClick="$P().chartCopyLink(\'' + key + '\',this)"><i class="mdi mdi-clipboard-pulse-outline"></i></div>' + 
-					'<div class="chart_icon ci_cj" title="Copy JSON Data" onClick="$P().chartCopyJSON(\'' + key + '\',this)"><i class="mdi mdi-code-json"></i></div>' + 
-				'</div>' 
-			);
-		};
 		
 		config.quick_monitors.forEach( function(def, idx) {
 			var chart = self.createChart({
@@ -1393,8 +1387,8 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				"legend": false, // single layer, no legend needed
 				"_quick": true
 			});
-			chart.on('mouseover', function(event) { render_chart_overlay(def.id); });
 			self.charts[ def.id ] = chart;
+			self.setupChartHover(def.id);
 		});
 		
 		// request all data from server
@@ -1610,7 +1604,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		var monitors = this.monitors = [];
 		var min_epoch = app.epoch - 3600;
 		var html = '';
-		html += '<div class="chart_grid_horiz">';
+		html += '<div class="chart_grid_horiz ' + (app.getPref('chart_size') || 'medium') + '">';
 		
 		app.monitors.forEach( function(mon_def) {
 			if (!mon_def.display) return;
@@ -1629,15 +1623,6 @@ Page.Servers = class Servers extends Page.ServerUtils {
 			return;
 		}
 		
-		var render_chart_overlay = function(key) {
-			$('.pxc_tt_overlay').html(
-				'<div class="chart_toolbar ct_' + key + '">' + 
-					'<div class="chart_icon ci_di" title="Download Image" onClick="$P().chartDownload(\'' + key + '\')"><i class="mdi mdi-cloud-download-outline"></i></div>' + 
-					'<div class="chart_icon ci_cl" title="Copy Image Link" onClick="$P().chartCopyLink(\'' + key + '\',this)"><i class="mdi mdi-clipboard-pulse-outline"></i></div>' + 
-				'</div>' 
-			);
-		};
-		
 		monitors.forEach( function(def, idx) {
 			var chart = self.createChart({
 				"canvas": '#c_vs_' + def.id,
@@ -1649,10 +1634,11 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				"divideByDelta": def.divide_by_delta || false,
 				"minVertScale": def.min_vert_scale || 0,
 				"showDataGaps": true,
-				"legend": false // single layer, no legend needed
+				"legend": false, // single layer, no legend needed
+				"_allow_zoom": true
 			});
-			chart.on('mouseover', function(event) { render_chart_overlay(def.id); });
 			self.charts[ def.id ] = chart;
+			self.setupChartHover(def.id);
 		});
 		
 		// request last hour from server
@@ -1672,7 +1658,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				chart.addLayer({
 					id: server.id,
 					title: self.getNiceServerText(server),
-					data: self.getMonitorChartData(resp.rows, def.id),
+					data: self.getMonitorChartData(resp.rows, def),
 					color: app.colors[ idx % app.colors.length ]
 				});
 			}); // foreach mon
