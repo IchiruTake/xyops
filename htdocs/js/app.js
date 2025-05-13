@@ -50,7 +50,7 @@ app.extend({
 		SingleSelect.maxMenuItems = config.max_menu_items || 1000;
 		
 		// setup audio subsystem
-		this.setupAudio();
+		this.initAudio();
 		
 		// load prefs and populate for first time users
 		this.initPrefs();
@@ -66,9 +66,15 @@ app.extend({
 		// setup theme (light / dark)
 		this.initTheme();
 		
+		// check for prefers-reduced-motion
+		this.initAccessibility();
+		
 		for (var key in resp) {
 			this[key] = resp[key];
 		}
+		
+		// config blob should have epoch, so track delta from it
+		this.serverPerfStart = performance.now();
 		
 		// allow visible app name to be changed in config
 		this.name = config.name;
@@ -485,6 +491,10 @@ app.extend({
 		this.updateHeaderInfo();
 		this.setupDragDrop();
 		this.pruneData();
+		this.updateAccessibility();
+		
+		// login resp should have epoch, so track delta from it
+		this.serverPerfStart = performance.now();
 		
 		// websocket connect
 		this.comm.init();
@@ -960,33 +970,37 @@ app.extend({
 		if (args.sound) this.playSound(args.sound);
 	},
 	
-	setupAudio() {
+	initAudio() {
 		// workaround for browser security and playing audio (sigh)
 		var silence = new Audio('silence.mp3');
 		var allowed = false;
 		
 		var unlockAudioContext = function() {
 			if (allowed) return;
+			var pstart = performance.now();
 			
 			silence.play().then(() => {
 				allowed = true;
-				Debug.trace("Audio context unlocked");
+				var elapsed = Math.floor( performance.now() - pstart );
+				Debug.trace(`Audio context unlocked (${elapsed} ms)`);
 			}).catch(console.error);
 		};
 		
-		['click', 'keydown', 'keyup', 'touchstart'].forEach(eventType => {
+		['mousedown', 'keydown', 'keyup', 'touchstart'].forEach(eventType => {
 			document.addEventListener(eventType, unlockAudioContext, { once: true });
 		});
 	},
 	
-	playSound(name) {
+	playSound(name, preview) {
 		// play sound, load if needed
-		if (this.getPref('mute') || app.user.mute) return;
+		if (!app.user.volume && !preview) return;
 		var track = this.tracks[name];
+		var volume = (preview || app.user.volume || 0) / 10;
 		
 		if (track) {
 			// track already loaded, replay
 			Debug.trace("Replaying loaded sound: " + name);
+			track.volume = volume;
 			if (!track.paused) track.currentTime = 0;
 			else track.play();
 		}
@@ -998,13 +1012,43 @@ app.extend({
 			track.autoplay = true;
 			track.loop = false;
 			track.preload = 'auto';
-			track.volume = 1.0;
+			track.volume = volume;
 			track.muted = false;
 			track.onerror = function(err) { console.error("Failed to load sound: " + name, err); };
 			track.src = 'sounds/' + name;
 			
 			this.tracks[name] = track;
 		}
+	},
+	
+	getApproxServerTime() {
+		// get approximate server time based on last tick epoch + cient-side performance counter
+		if (!this.epoch) return hires_time_now(); // fallback to client-side time
+		if (!this.serverPerfStart) return app.epoch; // 2nd fallback to last server tick
+		return this.epoch + ((performance.now() - this.serverPerfStart) / 1000);
+	},
+	
+	initAccessibility() {
+		// initialize accessibility subsystem
+		var rmQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+		this.sysReducedMotion = rmQuery.matches;
+		
+		rmQuery.addEventListener('change', function(event) {
+			app.sysReducedMotion = event.matches;
+			app.updateAccessibility();
+		});
+	},
+	
+	updateAccessibility() {
+		// update accessibility settings, after user login, user settings change or CSS event
+		if (this.reducedMotion()) $('body').addClass('reduced'); else $('body').removeClass('reduced');
+	},
+	
+	reducedMotion() {
+		// return true if user prefers reduced motion, false otherwise
+		if (this.user.motion == 'full') return false;
+		else if (this.user.motion == 'reduced') return true;
+		else return this.sysReducedMotion;
 	}
 	
 }); // app
