@@ -449,7 +449,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		$file[0].click();
 	}
 	
-	getChartSizeSelector() {
+	getChartSizeSelector(pref_key = 'chart_size') {
 		// get chart title widget menu selector
 		return '<div class="box_title_widget" style="overflow:visible; min-width:100px; max-width:200px; font-size:13px;">' + this.getFormMenuSingle({
 			class: 'sel_chart_size',
@@ -459,23 +459,23 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				{ id: 'medium', title: 'Medium', icon: 'view-grid-outline' },
 				{ id: 'large', title: 'Large', icon: 'view-agenda-outline' }
 			],
-			value: app.getPref('chart_size') || 'medium',
+			value: app.getPref(pref_key) || 'medium',
 			onChange: '$P().applyChartSize(this)',
 			'data-shrinkwrap': 1,
-			'data-compact': 1
+			'data-compact': 1,
+			'data-prefkey': pref_key
 		}) + '</div>';
 	}
 	
 	applyChartSize(elem) {
 		// set new chart size
-		var size = $(elem).val();
-		this.div.find('div.chart_grid_horiz').removeClass(['small', 'medium', 'large']).addClass(size);
+		var $elem = $(elem);
+		var size = $elem.val();
+		var pref_key = $elem.data('prefkey');
+		$elem.closest('div.box').find('div.chart_grid_horiz').removeClass(['small', 'medium', 'large']).addClass(size);
 		ChartManager.charts.forEach( function(chart) { chart.dirty = true; } );
 		ChartManager.check();
-		app.setPref('chart_size', size);
-		
-		// also update other menus if present on page
-		this.div.find('select.sel_chart_size').val(size);
+		app.setPref(pref_key, size);
 	}
 	
 };
