@@ -196,8 +196,8 @@ Page.Base = class Base extends Page {
 		return html;
 	}
 	
-	getNiceProcess(item, link) {
-		// get formatted process cmd
+	getNiceProcessText(item) {
+		// get short process name from full path + args
 		var short_cmd = '' + item.command;
 		short_cmd = short_cmd.replace(/\s[\-\(\/\*].*$/, '');
 		
@@ -217,6 +217,13 @@ Page.Base = class Base extends Page {
 		
 		// colon space gets chopped
 		short_cmd = short_cmd.replace(/\:\s+.*$/, '');
+		
+		return short_cmd;
+	}
+	
+	getNiceProcess(item, link) {
+		// get formatted process cmd
+		var short_cmd = this.getNiceProcessText(item);
 		
 		var html = '<span class="nowrap">';
 		var icon = '<i class="mdi mdi-' + (item.job ? 'console' : 'console') + '"></i>';
@@ -865,7 +872,7 @@ Page.Base = class Base extends Page {
 				var yesterday = noon - 86400; // subtract 1d for yesterday -- can be +/- 1 hour off
 				dargs = this.getDateArgsTZ( yesterday ); // get dargs for yesterday
 				var yesterday_midnight = this.parseDateTZ( dargs.year + '-' + dargs.month + '-' + dargs.day + ' 00:00:00' ); // get epoch of midnight yesterday
-				query += '' + key + ':' + yesterday_midnight + '..' + midnight;
+				query += '' + key + ':' + yesterday_midnight + '..' + Math.floor(midnight - 1);
 			break;
 			
 			case 'month': 
@@ -878,7 +885,7 @@ Page.Base = class Base extends Page {
 				var before = cur_month - (86400 * 15); // sometime in last month -- does not need to be exact
 				dargs = this.getDateArgsTZ( before ); // get dargs for last month
 				var last_month = this.parseDateTZ( dargs.year + '-' + dargs.month + '-01 00:00:00' ); // get epoch of midnight on first day of last month
-				query += '' + key + ':' + last_month + '..' + cur_month;
+				query += '' + key + ':' + last_month + '..' + Math.floor(cur_month - 1);
 			break;
 			
 			case 'year': 
@@ -891,7 +898,7 @@ Page.Base = class Base extends Page {
 				var before = cur_year - (86400 * 180); // sometime in last year -- does not need to be exact
 				dargs = this.getDateArgsTZ( before ); // get dargs for last year
 				var last_year = this.parseDateTZ( dargs.year + '-01-01 00:00:00' ); // get epoch of midnight on first day of last year
-				query += '' + key + ':' + last_year + '..' + cur_year;
+				query += '' + key + ':' + last_year + '..' + Math.floor(cur_year - 1);
 			break;
 			
 			case 'older':
@@ -1314,7 +1321,7 @@ Page.Base = class Base extends Page {
 			data_type: 'limit',
 			class: 'data_grid',
 			empty_msg: add_link,
-			grid_template_columns: 'min-content auto auto auto'
+			grid_template_columns: '40px auto auto auto'
 		};
 		
 		if (rows.length && (rows.length < 7)) {
@@ -1719,7 +1726,7 @@ Page.Base = class Base extends Page {
 			class: 'data_grid',
 			empty_msg: add_link,
 			always_append_empty_msg: true,
-			grid_template_columns: 'min-content auto auto auto auto'
+			grid_template_columns: '40px auto auto auto auto'
 		};
 		
 		html += this.getCompactGrid(targs, function(item, idx) {
@@ -2249,11 +2256,11 @@ Page.Base = class Base extends Page {
 		// sorted properly, with labels and icons
 		var servers = Object.values(app.servers).sort( 
 			function(a, b) {
-				return ( a.label || a.hostname ).localeCompare( b.label || b.hostname );
+				return ( a.title || a.hostname ).localeCompare( b.title || b.hostname );
 			} 
 		).map( 
 			function(server) {
-				return merge_objects( { title: server.label || server.hostname }, server );
+				return merge_objects( server, { title: server.title || server.hostname } );
 			}
 		);
 		
