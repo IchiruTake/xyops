@@ -1281,6 +1281,7 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 			if (result) Dialog.hide(); 
 		};
 		
+		SingleSelect.init( $('#fe_as_icon') );
 		MultiSelect.init( $('#fe_as_groups') );
 		Dialog.autoResize();
 		
