@@ -620,7 +620,7 @@ Page.Events = class Events extends Page.PageUtils {
 		this.event = this.events[idx];
 		app.clearError();
 		
-		Dialog.confirm( 'Run Event', "Are you sure you want to manually run the event &ldquo;" + this.event.title + "&rdquo;?", ['run-fast', 'Run Now'], function(result) {
+		Dialog.confirm( 'Run Event', "Are you sure you want to manually run the event &ldquo;<b>" + this.event.title + "</b>&rdquo;?", ['run-fast', 'Run Now'], function(result) {
 			if (!result) return;
 			self.run_event(idx);
 		} ); // confirm
@@ -889,7 +889,7 @@ Page.Events = class Events extends Page.PageUtils {
 		// confirm user wants to run job
 		var self = this;
 		
-		Dialog.confirm( 'Run Event', "Are you sure you want to manually run the event &ldquo;" + this.event.title + "&rdquo;?", ['run-fast', 'Run Now'], function(result) {
+		Dialog.confirm( 'Run Event', "Are you sure you want to manually run the event &ldquo;<b>" + this.event.title + "</b>&rdquo;?", ['run-fast', 'Run Now'], function(result) {
 			if (!result) return;
 			self.do_run_from_view();
 		} ); // confirm
@@ -2041,7 +2041,7 @@ Page.Events = class Events extends Page.PageUtils {
 		var event_jobs = find_objects( app.activeJobs, { event: this.event.id } );
 		if (event_jobs.length) return app.doError("Sorry, you cannot delete a event that has active jobs running.");
 		
-		Dialog.confirmDanger( 'Delete Event', "Are you sure you want to <b>permanently delete</b> the event &ldquo;" + this.event.title + "&rdquo;?  There is no way to undo this action.", ['trash-can', 'Delete'], function(result) {
+		Dialog.confirmDanger( 'Delete Event', "Are you sure you want to <b>permanently delete</b> the event &ldquo;<b>" + this.event.title + "</b>&rdquo;?  There is no way to undo this action.", ['trash-can', 'Delete'], function(result) {
 			if (result) {
 				Dialog.showProgress( 1.0, "Deleting Event..." );
 				app.api.post( 'app/delete_event', self.event, self.delete_event_finish.bind(self) );
