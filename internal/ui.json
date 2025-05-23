@@ -285,6 +285,15 @@
 		{ "id": "average", "title": "Average", "icon": "chart-bell-curve" }
 	],
 	
+	"event_target_algo_menu": [
+		{ "id": "random", "title": "Random", "icon": "dice-5-outline" },
+		{ "id": "round_robin", "title": "Round Robin", "icon": "radius-outline" },
+		{ "id": "prefer_first", "title": "Prefer First (Alphabetically)", "icon": "sort-ascending" },
+		{ "id": "prefer_last", "title": "Prefer Last (Alphabetically)", "icon": "sort-descending" },
+		{ "id": "least_cpu", "title": "Least CPU Usage", "icon": "chip" },
+		{ "id": "least_mem", "title": "Least Memory Usage", "icon": "memory" }
+	],
+	
 	"satellite_install_commands": {
 		"standard": "curl -s \"[base_url]/api/app/satellite/install?t=[token]\" | sudo sh",
 		"windows": "powershell -Command \"IEX (New-Object Net.WebClient).DownloadString('[base_url]/api/app/satellite/install?t=[token]&os=windows')\""
