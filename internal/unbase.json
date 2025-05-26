@@ -6,8 +6,7 @@
 			"fields": [
 				{
 					"id": "code",
-					"source": "/code",
-					"master_list": true
+					"source": "/code"
 				},
 				{
 					"id": "date",
