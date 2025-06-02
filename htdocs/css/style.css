@@ -723,6 +723,11 @@ body.dark div.box_unit {
 
 /* Misc */
 
+div.header_title.error {
+	font-size: 27px;
+	color: var(--red);
+}
+
 .data_grid div.td_drag_handle > div.checkbox_container {
 	top: 4px;
 }
