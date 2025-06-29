@@ -231,6 +231,32 @@
 		"master": "Unfortunately, you have landed on a non-primary conductor server.  Meaning, this server is part of a cluster of conductor servers, but it is not the current primary server.  The current primary server is \"[masterHost]\", but you may not be able to access it directly.  Multi-conductor setups typically have a load balancer in front, so you don't ever have to address any conductor server directly.  However, since you are here reading this, something has clearly gone wrong.  Please contact your system administrator for help."
 	},
 	
+	"workflow_controller_descriptions": {
+		"multiplex": "The **Multiplex** controller allows you to run an event job multiple times in parallel, across multiple servers.  Specifically, it will launch one parallel job for each configured target server in the event.  Make sure your event targets multiple servers, otherwise this will only launch a single job.",
+		"repeat": "The **Repeat** controller will run a job multiple times in series or in parallel, based on the configured limits on the event.  You can specify the exact number of iterations below.  This is useful for running the same job a set number of times.",
+		"split": "The **Split** controller will run a job multiple times in series or in parallel, but it will split the input data into multiple chunks, and run each chunk in its own job.  This is useful for processing large datasets in parallel, such as splitting a large file into smaller parts.  Use the expression field to specify the input data to split, which should point to an array.",
+		"join": "The **Join* controller will wait for multiple input jobs to complete, and then pass control to the next node, combining the results of the jobs.  This is useful for aggregating data from multiple sources, such as combining the results of multiple API calls into a single response.",
+		"decision": "The **Decision** controller will evalulate a custom expression, and only pass control to the next node if the expression evaluates to true.  This is useful for conditional logic, such as only running a job if a certain condition is met."
+	},
+	
+	"control_type_labels": {
+		"text": "Text Field",
+		"textarea": "Text Box",
+		"code": "Code Editor",
+		"checkbox": "Checkbox",
+		"select": "Menu",
+		"hidden": "Hidden"
+	},
+	
+	"control_type_icons": {
+		"text": "form-textbox",
+		"textarea": "form-textarea",
+		"code": "code-json",
+		"checkbox": "checkbox-marked-outline",
+		"select": "form-dropdown",
+		"hidden": "eye-off-outline"
+	},
+	
 	"marked_config": {
 		"gfm": true,
 		"tables": true,
@@ -290,6 +316,24 @@
 		{ "id": "average", "title": "Average", "icon": "chart-bell-curve" }
 	],
 	
+	"event_timing_type_menu": [
+		{ "id": "custom", "title": "Custom Schedule", "icon": "order-bool-descending" },
+		{ "id": "yearly", "title": "Yearly Schedule", "icon": "earth" },
+		{ "id": "monthly", "title": "Monthly Schedule", "icon": "calendar-month-outline" },
+		{ "id": "weekly", "title": "Weekly Schedule", "icon": "calendar-week-outline" },
+		{ "id": "daily", "title": "Daily Schedule", "icon": "calendar-today-outline" },
+		{ "id": "hourly", "title": "Hourly Schedule", "icon": "clock-outline" },
+		{ "id": "crontab", "title": "Crontab", "icon": "file-clock-outline" },
+		{ "id": "continuous", "title": "Continuous", "icon": "all-inclusive" },
+		{ "id": "single", "title": "Single Shot", "icon": "alarm-check" },
+		{ "id": "manual", "title": "Manual Run", "icon": "run-fast" },
+		{ "id": "plugin", "title": "Plugin", "icon": "power-plug" },
+		{ "id": "catchup", "title": "Catch-Up", "icon": "calendar-refresh-outline", "group": "Options" },
+		{ "id": "range", "title": "Range", "icon": "calendar-range-outline" },
+		{ "id": "blackout", "title": "Blackout", "icon": "circle" },
+		{ "id": "delay", "title": "Delay", "icon": "chat-sleep-outline" }
+	],
+	
 	"event_target_algo_menu": [
 		{ "id": "random", "title": "Random", "icon": "dice-5-outline" },
 		{ "id": "round_robin", "title": "Round Robin", "icon": "radius-outline" },
@@ -297,6 +341,55 @@
 		{ "id": "prefer_last", "title": "Prefer Last (Alphabetically)", "icon": "sort-descending" },
 		{ "id": "least_cpu", "title": "Least CPU Usage", "icon": "chip" },
 		{ "id": "least_mem", "title": "Least Memory Usage", "icon": "memory" }
+	],
+	
+	"action_trigger_menu": [ 
+		{ "id": "start", "title": "On Start", "icon": "play-circle-outline" },
+		{ "id": "complete", "title": "On Complete", "icon": "stop-circle-outline" },
+		{ "id": "continue", "title": "On Continue", "icon": "step-forward-2" },
+		{ "id": "success", "title": "On Success", "icon": "check-circle-outline", "group": "On Result:" },
+		{ "id": "error", "title": "On Error", "icon": "alert-decagram-outline" },
+		{ "id": "warning", "title": "On Warning", "icon": "alert-outline" },
+		{ "id": "critical", "title": "On Critical", "icon": "fire-alert" },
+		{ "id": "abort", "title": "On Abort", "icon": "cancel" }
+	],
+	
+	"action_type_menu": [ 
+		{ "id": "email", "title": "Send Email", "icon": "email-send-outline" },
+		{ "id": "web_hook", "title": "Web Hook", "icon": "webhook" },
+		{ "id": "run_event", "title": "Run Event", "icon": "calendar-clock" },
+		{ "id": "channel", "title": "Notify Channel", "icon": "bullhorn-outline" },
+		{ "id": "snapshot", "title": "Take Snapshot", "icon": "monitor-screenshot" },
+		{ "id": "disable", "title": "Disable Event", "icon": "cancel" },
+		{ "id": "delete", "title": "Delete Event", "icon": "trash-can-outline" },
+		{ "id": "plugin", "title": "Plugin", "icon": "power-plug" }
+	],
+	
+	"limit_type_menu": [ 
+		{ "id": "time", "title": "Max Run Time", "icon": "timer-remove-outline" },
+		{ "id": "job", "title": "Max Concurrent Jobs", "icon": "traffic-light-outline" },
+		{ "id": "log", "title": "Max Log Size", "icon": "file-remove-outline" },
+		{ "id": "mem", "title": "Memory Limit", "icon": "memory" },
+		{ "id": "cpu", "title": "CPU % Limit", "icon": "chip" },
+		{ "id": "retry", "title": "Max Retry Limit", "icon": "redo-variant" },
+		{ "id": "queue", "title": "Max Queue Limit", "icon": "tray-full" }
+	],
+	
+	"workflow_new_node_menu": [
+		{ "id": "event", "title": "New Event...", "icon": "calendar-clock" },
+		{ "id": "job", "title": "New Job...", "icon": "timer-outline" },
+		{ "id": "limit", "title": "New Limiter...", "icon": "gauge" },
+		{ "id": "launcher", "title": "New Launcher...", "icon": "rocket-launch-outline" },
+		{ "id": "action", "title": "New Action...", "icon": "gesture-tap" },
+		{ "id": "controller", "title": "New Controller...", "icon": "gamepad-variant-outline" }
+	],
+	
+	"workflow_controller_type_menu": [
+		{ "id": "multiplex", "title": "Multiplex", "icon": "multicast" },
+		{ "id": "repeat", "title": "Repeat", "icon": "rotate-360" },
+		{ "id": "split", "title": "Split", "icon": "call-split" },
+		{ "id": "join", "title": "Join", "icon": "set-center" },
+		{ "id": "decision", "title": "Decision", "icon": "boom-gate-up" }
 	],
 	
 	"satellite_install_commands": {
