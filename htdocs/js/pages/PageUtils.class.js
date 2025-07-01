@@ -2081,7 +2081,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			
 			case 'manual':
 				nice_icon = '<i class="mdi mdi-cog-outline"></i>';
-				nice_type = 'Other';
+				nice_type = 'On-Demand';
 				nice_desc = '<i class="mdi mdi-run-fast">&nbsp;</i>Manual Run';
 				short_desc = "Manual Run";
 			break;
