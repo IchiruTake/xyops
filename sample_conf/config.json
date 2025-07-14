@@ -39,14 +39,17 @@
 	"job_log_max_size": 0,
 	"job_env": {},
 	
-	"job_universal_actions": [
-		{
-			"enabled": true,
-			"hidden": true,
-			"condition": "error",
-			"type": "snapshot"
-		}
-	],
+	"job_universal_actions": {
+		"default": [
+			{
+				"enabled": true,
+				"hidden": true,
+				"condition": "error",
+				"type": "snapshot"
+			}
+		],
+		"workflow": []
+	},
 	
 	"hostname_display_strip": "\\.[\\w\\-]+\\.\\w+$",
 	"tick_precision_ms": 50,
