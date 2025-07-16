@@ -532,7 +532,7 @@ Page.Job = class Job extends Page.PageUtils {
 		// render table showing all workflow sub-jobs, and also update workflow preview
 		// called on load and when jobs changed
 		var self = this;
-		var workflow = this.workflow;
+		var workflow = this.job.workflow;
 		var html = '';
 		
 		// active jobs on top, sorted
@@ -545,13 +545,13 @@ Page.Job = class Job extends Page.PageUtils {
 		// completed jobs on bottom, sorted
 		var completed_stubs = [];
 		
-		for (var node_id in this.workflow.jobs) {
+		for (var node_id in workflow.jobs) {
 			var node = find_object( workflow.nodes, { id: node_id } );
 			if (!node) continue; // sanity
 			
 			var event = node.data.event ? find_object(app.events, { id: node.data.event }) : null;
 			
-			this.workflow.jobs[node_id].forEach( function(job) {
+			workflow.jobs[node_id].forEach( function(job) {
 				var stub = { ...job, state: 'complete', final: true, workflow: {} };
 				if (event) {
 					stub.event = node.data.event;
@@ -620,7 +620,7 @@ Page.Job = class Job extends Page.PageUtils {
 	decorateWorkflowNodes() {
 		// after rendering the table, assign css classes to workflow nodes, etc.
 		var self = this;
-		var workflow = this.workflow;
+		var workflow = this.job.workflow;
 		var $cont = this.wfGetContainer();
 		
 		workflow.nodes.forEach( function(node) {
@@ -684,7 +684,7 @@ Page.Job = class Job extends Page.PageUtils {
 	getWorkflowQueueSummary() {
 		// fetch summary of queued job counts per node
 		var self = this;
-		var workflow = this.workflow;
+		var workflow = this.job.workflow;
 		var $cont = this.wfGetContainer();
 		
 		app.api.get( 'app/get_workflow_job_summary', { 'workflow.job': this.job.id, state: 'queued' }, function(resp) {
@@ -886,6 +886,7 @@ Page.Job = class Job extends Page.PageUtils {
 		// render details on executed job actions
 		var self = this;
 		var job = this.job;
+		var workflow = this.job.workflow;
 		if (!this.active) return; // sanity
 		
 		// we're only interested in actions that actually fired (and aren't hidden)
@@ -893,8 +894,8 @@ Page.Job = class Job extends Page.PageUtils {
 		
 		// if workflow, add sub-job actions that fired
 		if (this.isWorkflow) {
-			find_objects(this.workflow.nodes, { type: 'action' }).forEach( function(node) {
-				var state = self.workflow.state[node.id] || null;
+			find_objects(workflow.nodes, { type: 'action' }).forEach( function(node) {
+				var state = workflow.state[node.id] || null;
 				if (state && state.date) actions.push( state );
 			} );
 		}
@@ -1398,7 +1399,7 @@ Page.Job = class Job extends Page.PageUtils {
 			
 			if (row.node) {
 				nice_node_id = '#' + row.node;
-				var node = find_object( this.workflow.nodes, { id: row.node } );
+				var node = find_object( this.job.workflow.nodes, { id: row.node } );
 				if (node) nice_node_type = this.getNiceWorkflowNodeType(node);
 			}
 			return [
@@ -2366,7 +2367,10 @@ Page.Job = class Job extends Page.PageUtils {
 			this.updateLiveMetaLog();
 			
 			// fast-update jobs table for workflows
-			if (this.isWorkflow) this.updateWorkflowJobs();
+			if (this.isWorkflow) {
+				this.workflow = this.job.workflow; // this is refreshed every time!
+				this.updateWorkflowJobs();
+			}
 			
 			// race condition with setting up live log and jobs that immediately print something at startup
 			if (this.job.log_file_size && this.emptyLogMessage) this.setupLiveJobLog();
