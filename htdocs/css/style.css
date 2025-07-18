@@ -1728,10 +1728,6 @@ i.mdi.mdi-content-duplicate:before {
 	.data_grid.job_history_grid { grid-template-columns: auto auto auto auto 0px auto auto !important; }
 	.data_grid.job_history_grid > ul > div:nth-child(5) { visibility: hidden; }
 	
-	/* 'Event', 'Source', 'Scheduled Time', 'Countdown', 'Actions' */
-	.data_grid.event_job_upcoming_grid { grid-template-columns: auto auto 0px auto auto !important; }
-	.data_grid.event_job_upcoming_grid > ul > div:nth-child(3) { visibility: hidden; }
-	
 	/* 'Hostname', 'IP Address', 'Group', '# CPUs', 'RAM', 'OS', 'Uptime', '# Jobs', '# Alerts' */
 	.data_grid.server_grid { grid-template-columns: auto auto auto auto auto 0px auto auto auto !important; }
 	.data_grid.server_grid > ul > div:nth-child(6) { visibility: hidden; }
@@ -2047,11 +2043,6 @@ i.mdi.mdi-content-duplicate:before {
 	.data_grid.job_history_grid > ul > div:nth-child(3) { visibility: hidden; }
 	.data_grid.job_history_grid > ul > div:nth-child(4) { visibility: hidden; }
 	.data_grid.job_history_grid > ul > div:nth-child(5) { visibility: hidden; }
-	
-	/* 'Event', 'Source', 'Scheduled Time', 'Countdown', 'Actions' */
-	.data_grid.event_job_upcoming_grid { grid-template-columns: auto 0px 0px auto auto !important; }
-	.data_grid.event_job_upcoming_grid > ul > div:nth-child(2) { visibility: hidden; }
-	.data_grid.event_job_upcoming_grid > ul > div:nth-child(3) { visibility: hidden; }
 	
 	/* 'Hostname', 'IP Address', 'Group', '# CPUs', 'RAM', 'OS', 'Uptime', '# Jobs', '# Alerts' */
 	.data_grid.server_grid { grid-template-columns: auto auto auto 0px 0px 0px auto auto auto !important; }
