@@ -1371,7 +1371,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		switch (action.type) {
 			case 'email':
 				title = "Send Email";
-				icon = 'email-send-outline';
+				icon = 'email-arrow-right-outline';
 			break;
 			
 			case 'web_hook':
