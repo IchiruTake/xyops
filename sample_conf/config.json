@@ -242,7 +242,8 @@
 		"job_upload_settings": {
 			"max_files_per_job": 100,
 			"max_file_size": 1073741824,
-			"accepted_file_types": ""
+			"accepted_file_types": "",
+			"user_file_expiration": "30 days"
 		}
 	},
 	
