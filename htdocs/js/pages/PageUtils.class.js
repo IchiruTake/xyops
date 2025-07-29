@@ -1906,8 +1906,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				id: 'fe_epa_id',
 				class: 'monospace',
 				spellcheck: 'false',
-				readonly: 'readonly', // safari hack for stupid autofill nonsense
-				onFocus: "this.removeAttribute('readonly')",
+				autocomplete: 'off',
 				value: param.id
 			}),
 			caption: 'Enter a unique ID for the parameter (alphanumerics only).'
@@ -1919,6 +1918,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			content: this.getFormText({
 				id: 'fe_epa_title',
 				spellcheck: 'false',
+				autocomplete: 'off',
 				value: param.title
 			}),
 			caption: 'Enter a label for the parameter, for display purposes.'
@@ -1943,6 +1943,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			content: this.getFormText({
 				id: 'fe_epa_value_text',
 				spellcheck: 'false',
+				autocomplete: 'off',
 				value: param.value || ''
 			}),
 			caption: 'Enter the default value for the text field.'
@@ -1986,6 +1987,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			content: this.getFormText({
 				id: 'fe_epa_value_select',
 				spellcheck: 'false',
+				autocomplete: 'off',
 				value: param.value || ''
 			}),
 			caption: "Enter items for the menu, separated by commas.  The first will be selected by default."
@@ -1996,6 +1998,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			content: this.getFormText({
 				id: 'fe_epa_value_hidden',
 				spellcheck: 'false',
+				autocomplete: 'off',
 				value: param.value || ''
 			}),
 			caption: 'Enter the default value for the hidden field.'
@@ -2106,7 +2109,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			
 			switch (param.type) {
 				case 'text':
-					html += self.getFormText({ id: elem_id, value: elem_value, disabled: elem_dis, readonly: 'readonly', onFocus: "this.removeAttribute('readonly')" });
+					html += self.getFormText({ id: elem_id, value: elem_value, disabled: elem_dis, autocomplete: 'off' });
 				break;
 				
 				case 'code':
