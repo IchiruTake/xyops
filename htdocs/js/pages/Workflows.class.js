@@ -1269,6 +1269,7 @@ Page.Workflows = class Workflows extends Page.Events {
 			content: this.getFormText({
 				id: 'fe_wfd_title',
 				spellcheck: 'false',
+				autocomplete: 'off',
 				value: node.data.label
 			}),
 			caption: 'Optionally customize the title for the node (defaults to the Plugin name).'
@@ -1732,6 +1733,7 @@ Page.Workflows = class Workflows extends Page.Events {
 			content: this.getFormText({
 				id: 'fe_wfd_title',
 				spellcheck: 'false',
+				autocomplete: 'off',
 				value: node.data.label || ''
 			}),
 			caption: 'Optionally enter a custom title for the node.'
