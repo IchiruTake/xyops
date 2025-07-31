@@ -113,6 +113,7 @@ Page.Users = class Users extends Page.Base {
 		// see if user exists, edit if so
 		// exact username
 		var self = this;
+		app.clearError();
 		
 		app.api.post( 'user/admin_get_user', { username: text }, 
 			function(resp) {
@@ -120,7 +121,7 @@ Page.Users = class Users extends Page.Base {
 				Nav.go('Users?sub=edit&username=' + text);
 			},
 			function(resp) {
-				app.doError("User not found: " + text, 10);
+				app.doError("User not found: " + text);
 			}
 		);
 	}
