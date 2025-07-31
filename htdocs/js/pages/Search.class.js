@@ -158,6 +158,7 @@ Page.Search = class Search extends Page.Base {
 								{ id: 'scheduler', title: "Scheduler", icon: 'update' },
 								{ id: 'user', title: "Manual (User)", icon: 'account' },
 								{ id: 'key', title: "Manual (API Key)", icon: 'key' },
+								{ id: 'workflow', title: "Workflow", icon: 'clipboard-play-outline' },
 								{ id: 'action', title: "Job Action", icon: 'gesture-tap' },
 								{ id: 'alert', title: "Server Alert", icon: 'bell-outline' },
 								{ id: 'plugin', title: "Plugin", icon: 'power-plug' }
