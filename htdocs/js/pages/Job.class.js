@@ -1503,17 +1503,6 @@ Page.Job = class Job extends Page.PageUtils {
 			return self.formatMetaRow(row);
 		});
 		
-		// html += this.getBasicTable({
-		// 	attribs: { class: 'data_table' },
-		// 	compact: true,
-		// 	cols: this.isWorkflow ? ['Timestamp', 'Node ID', 'Type', 'Message'] : ['Timestamp', 'Server', 'Message'],
-		// 	rows: activity,
-		// 	data_type: 'row',
-		// 	callback: function(row) {
-		// 		return self.formatMetaRow(row);
-		// 	}
-		// });
-		
 		// save row count to compare on live updates
 		this.metaRowCount = activity.length;
 		
