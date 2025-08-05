@@ -1634,6 +1634,8 @@ body.dark .CodeMirror-selected, body.dark .CodeMirror-focused .CodeMirror-select
 .cm-s-one-dark span.cm-comment { color: var(--label-color) !important; }
 .cm-s-one-dark span.cm-header { color: var(--theme-color); }
 
+.cm-mustache { color: var(--cyan); font-weight: bold; text-decoration: underline; }
+
 .CodeMirror-wrap {
 	box-shadow: 0px 0px 1px var(--label-color);
 }
