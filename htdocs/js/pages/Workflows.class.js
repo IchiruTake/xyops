@@ -1920,7 +1920,7 @@ Page.Workflows = class Workflows extends Page.Events {
 				autocomplete: 'off',
 				maxlength: 8192,
 				class: 'monospace',
-				value: $input.val()
+				value: ''
 			})
 		});
 		
@@ -1947,9 +1947,7 @@ Page.Workflows = class Workflows extends Page.Events {
 				// add click handler to all keys
 				$('#d_ex_tree .tree_key').on('click', function() {
 					var path = $(this).data('path');
-					var value = $('#fe_ex_exp').val();
-					if (value.match(/\S$/)) value += ' ';
-					$('#fe_ex_exp').val( value + path );
+					$('#fe_ex_exp').val( path );
 					
 					// apply flash effect
 					$('#fe_ex_exp').addClass('iflash').focus();
@@ -1960,7 +1958,9 @@ Page.Workflows = class Workflows extends Page.Events {
 		
 		$('#btn_ex_apply').on('click', function() {
 			// apply changes and exit dialog
-			$input.val( $('#fe_ex_exp').val() );
+			var value = $input.val();
+			if (value.length) value += ' ';
+			$input.val( (value + $('#fe_ex_exp').val()).trim() );
 			CodeEditor.hide();
 			
 			// apply flash effect
