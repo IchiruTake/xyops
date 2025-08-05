@@ -225,7 +225,7 @@ Page.Events = class Events extends Page.PageUtils {
 			self.applyTableFilters(true);
 		});
 		
-		$('#fe_el_search').focus().on('keydown', function(event) {
+		$('#fe_el_search').on('keydown', function(event) {
 			// capture enter key
 			if (event.keyCode == 13) {
 				event.preventDefault();
