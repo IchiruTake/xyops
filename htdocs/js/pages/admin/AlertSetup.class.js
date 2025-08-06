@@ -444,7 +444,7 @@ Page.AlertSetup = class AlertSetup extends Page.PageUtils {
 				autocomplete: 'off',
 				class: 'monospace',
 				value: alert.expression
-			}), // + '<div class="text_field_icon mdi mdi-database-search-outline" title="' + config.ui.tooltips.server_data_explorer + '" onClick="$P().openServerDataExplorer(this)"></div>',
+			}),
 			suffix: `<div class="form_suffix_icon mdi mdi-database-search-outline" title="${config.ui.tooltips.server_data_explorer}" onClick="$P().openServerDataExplorer(this)"></div>`,
 			caption: 'Enter an expression to evaluate the alert condition, e.g. `monitors.load_avg >= 5.0`.  For help, click the search icon to the right to open the Server Data Explorer, or [view the documentation](#Docs/monitoring/alert-expressions).'			
 		});
@@ -458,9 +458,9 @@ Page.AlertSetup = class AlertSetup extends Page.PageUtils {
 				rows: 5,
 				class: 'monospace',
 				value: alert.message
-			}), // + '<div class="text_field_icon mdi mdi-database-search-outline" title="' + config.ui.tooltips.server_data_explorer + '" onClick="$P().openServerDataExplorer(this)"></div>',
+			}),
 			suffix: `<div class="form_suffix_icon mdi mdi-database-search-outline" title="${config.ui.tooltips.server_data_explorer}" onClick="$P().openServerDataExplorer(this,true)"></div>`,
-			caption: 'Enter the message text to be delivered with the alert notifications.  You can use `{{mustache.syntax}}` to insert dynamic content from the server data.  Click the search icon to the right to open the Server Data Explorer.  [Learn More](#Docs/monitoring/alert-messages).'
+			caption: 'Enter the message text to be delivered with the alert notifications.  You can use `{{macros}}` to insert dynamic content from the server data.  Click the search icon to the right to open the Server Data Explorer.  [Learn More](#Docs/monitoring/alert-messages).'
 		});
 		
 		// samples
