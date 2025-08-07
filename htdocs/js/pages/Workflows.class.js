@@ -1950,8 +1950,10 @@ Page.Workflows = class Workflows extends Page.Events {
 					$('#fe_ex_exp').val( path );
 					
 					// apply flash effect
-					$('#fe_ex_exp').addClass('iflash').focus();
-					setTimeout( function() { $('#fe_ex_exp').removeClass('iflash'); }, 1500 );
+					if (!$('#fe_ex_exp').hasClass('iflash')) {
+						$('#fe_ex_exp').addClass('iflash').focus();
+						setTimeout( function() { $('#fe_ex_exp').removeClass('iflash'); }, 1500 );
+					}
 				});
 			} ); // api.get
 		}); // on change
