@@ -3862,9 +3862,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 	
 	uploadDialogFiles() {
 		// upload files using ZeroUpload (for progress, etc.)
-		ZeroUpload.chooseFiles({}, {
-			session_id: app.getPref('session_id')
-		});
+		ZeroUpload.chooseFiles({}, {});
 	}
 	
 };

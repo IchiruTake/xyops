@@ -89,7 +89,7 @@ Page.Users = class Users extends Page.Base {
 		
 		html += '<div class="box_buttons">';
 			html += '<div class="button secondary phone_collapse" onClick="$P().go_history()"><i class="mdi mdi-history">&nbsp;</i><span>Revision History...</span></div>';
-			html += '<div class="button default ' + (app.config.external_users ? 'disabled' : '') + '" onClick="$P().edit_user(-1)"><i class="mdi mdi-account-plus">&nbsp;</i><span>New User...</span></div>';
+			html += '<div class="button default" onClick="$P().edit_user(-1)"><i class="mdi mdi-account-plus">&nbsp;</i><span>New User...</span></div>';
 		html += '</div>'; // box_buttons
 		
 		html += '</div>'; // box
@@ -129,9 +129,6 @@ Page.Users = class Users extends Page.Base {
 	edit_user(idx) {
 		// jump to edit sub
 		if (idx > -1) Nav.go( '#Users?sub=edit&username=' + this.users[idx].username );
-		else if (app.config.external_users) {
-			app.doError("Users are managed by an external system, so you cannot add them from here.");
-		}
 		else Nav.go( '#Users?sub=new' );
 	}
 	
@@ -330,7 +327,7 @@ Page.Users = class Users extends Page.Base {
 			html += '<div class="button mobile_collapse" onClick="$P().cancel_user_edit()"><i class="mdi mdi-close-circle-outline">&nbsp;</i><span>Cancel</span></div>';
 			html += '<div class="button danger mobile_collapse" onClick="$P().show_delete_account_dialog()"><i class="mdi mdi-trash-can-outline">&nbsp;</i><span>Delete...</span></div>';
 			html += '<div class="button secondary mobile_collapse" onClick="$P().go_edit_history()"><i class="mdi mdi-history">&nbsp;</i><span>History...</span></div>';
-			html += '<div class="button primary phone_collapse ' + (app.config.external_users ? 'disabled' : '') + '" onClick="$P().do_save_user()"><i class="mdi mdi-floppy">&nbsp;</i><span>Save Changes</span></div>';
+			html += '<div class="button primary phone_collapse" onClick="$P().do_save_user()"><i class="mdi mdi-floppy">&nbsp;</i><span>Save Changes</span></div>';
 		html += '</div>'; // box_buttons
 		
 		html += '</div>'; // box
@@ -341,10 +338,6 @@ Page.Users = class Users extends Page.Base {
 		MultiSelect.init( this.div.find('select[multiple]') );
 		$('#fe_eu_username').attr('disabled', true);
 		this.setupBoxButtonFloater();
-		
-		if (app.config.external_users) {
-			app.showMessage('warning', "Users are managed by an external system, so making changes here may have little effect.");
-		}
 	}
 	
 	go_edit_history() {
@@ -354,7 +347,6 @@ Page.Users = class Users extends Page.Base {
 	upload_avatar() {
 		// upload profile pic using ZeroUpload
 		ZeroUpload.chooseFiles({}, {
-			session_id: app.getPref('session_id'),
 			username: this.user.username
 		});
 	}
@@ -452,12 +444,7 @@ Page.Users = class Users extends Page.Base {
 	show_delete_account_dialog() {
 		// show dialog confirming account delete action
 		var self = this;
-		
 		var msg = "Are you sure you want to <b>permanently delete</b> the user account &ldquo;" + this.user.username + "&rdquo;?  There is no way to undo this action, and no way to recover the data.";
-		
-		if (app.config.external_users) {
-			msg = "Are you sure you want to delete the user account &ldquo;" + this.user.username + "&rdquo;?  Users are managed by an external system, so this will have little effect here.";
-		}
 		
 		Dialog.confirmDanger( 'Delete Account', msg, ['trash-can', 'Delete'], function(result) {
 			if (result) {

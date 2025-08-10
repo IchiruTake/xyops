@@ -549,7 +549,6 @@ app.extend({
 		}
 		
 		this.setPref('username', resp.username);
-		this.setPref('session_id', resp.session_id);
 		
 		// keep pristine copy of user, for applying roles
 		this.origUser = deep_copy_object(this.user);
@@ -571,7 +570,7 @@ app.extend({
 	doConfirmLogout() {
 		// ask user if they are sure
 		var self = this;
-		var msg = 'Are you sure you want to log out of Cronyx?';
+		var msg = 'Are you sure you want to log out?';
 		
 		Dialog.confirmDanger( 'Log Out', msg, ['power-standby', 'Logout'], function(result) {
 			if (!result) return;
@@ -590,78 +589,32 @@ app.extend({
 			this.setPref('username', '');
 		}
 		
-		this.api.post( 'user/logout', {
-			session_id: this.getPref('session_id')
-		}, 
-		function(resp) {
+		this.api.post( 'user/logout', {}, function(resp) {
 			Dialog.hideProgress();
 			delete self.user;
 			delete self.username;
 			delete self.user_info;
 			delete app.navAfterLogin;
 			
-			self.setPref('session_id', '');
+			self.setPref('username', '');
 			$('#d_header_user_container').html( '' );
 			$(document).off('dragenter').off('dragover').off('dragleave').off('drop');
 			
 			// kill websocket
 			self.comm.disconnect();
 			
-			if (app.config.external_users) {
-				// external user api
-				Debug.trace("User session cookie was deleted, querying external user API");
-				setTimeout( function() {
-					if (bad_cookie) app.doExternalLogin(); 
-					else app.doExternalLogout(); 
-				}, 250 );
-			}
-			else {
-				Debug.trace("User session cookie was deleted, redirecting to login page");
-				Dialog.hideProgress();
-				Nav.go('Login');
-			}
+			Debug.trace("User session cookie was deleted, redirecting to login page");
+			Dialog.hideProgress();
+			Nav.go('Login');
 			
 			setTimeout( function() {
-				if (!app.config.external_users) {
-					if (bad_cookie) self.showMessage('error', "Your session has expired.  Please log in again.");
-					else self.showMessage('success', "You were logged out successfully.");
-				}
+				if (bad_cookie) self.showMessage('error', "Your session has expired.  Please log in again.");
+				else self.showMessage('success', "You were logged out successfully.");
 			}, 150 );
 			
 			$('#d_sidebar_admin_group').hide();
 			$('body').removeClass('admin');
 		} );
-	},
-	
-	doExternalLogin: function() {
-		// login using external user management system
-		// Force API to hit current page hostname vs. master server, so login redirect URL reflects it
-		var self = this;
-		
-		app.api.post( '/api/user/external_login', { cookie: document.cookie }, function(resp) {
-			if (resp.user) {
-				Debug.trace("User Session Resume: " + resp.username + ": " + resp.session_id);
-				Dialog.hideProgress();
-				self.doUserLogin( resp );
-				Nav.refresh();
-			}
-			else if (resp.location) {
-				Debug.trace("External User API requires redirect");
-				Dialog.showProgress(1.0, "Logging in...");
-				setTimeout( function() { window.location = resp.location; }, 250 );
-			}
-			else app.doError(resp.description || "Unknown login error.");
-		} );
-	},
-	
-	doExternalLogout: function() {
-		// redirect to external user management system for logout
-		var url = app.config.external_user_api;
-		url += (url.match(/\?/) ? '&' : '?') + 'logout=1';
-		
-		Debug.trace("External User API requires redirect");
-		Dialog.showProgress(1.0, "Logging out...");
-		setTimeout( function() { window.location = url; }, 250 );
 	},
 	
 	get_password_toggle_html: function() {

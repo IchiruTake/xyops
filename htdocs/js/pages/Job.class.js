@@ -1341,7 +1341,7 @@ Page.Job = class Job extends Page.PageUtils {
 		$cont.html( '<div class="loading_container"><div class="loading"></div></div>' );
 		
 		var url = app.base_api_url + "/app/get_job_log?id=" + job.id;
-		var opts = { headers: { 'X-Session-ID': app.getPref('session_id') } };
+		var opts = {};
 		Debug.trace('api', "Fetching job log: " + url);
 		
 		window.fetch( url, opts )

@@ -528,7 +528,6 @@ Page.Buckets = class Buckets extends Page.PageUtils {
 		if (!this.bucket.id) return; // sanity
 		
 		ZeroUpload.chooseFiles({}, {
-			session_id: app.getPref('session_id'),
 			bucket: this.bucket.id
 		});
 	}
@@ -537,7 +536,6 @@ Page.Buckets = class Buckets extends Page.PageUtils {
 		// intercept drag-drop event and upload files to bucket
 		if (this.args.sub == 'edit') {
 			ZeroUpload.upload( files, {}, {
-				session_id: app.getPref('session_id'),
 				bucket: this.bucket.id
 			} );
 		}

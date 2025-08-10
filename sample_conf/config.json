@@ -380,6 +380,13 @@
 			"recover_password": "conf/emails/recover_password.txt",
 			"verify_email": "conf/emails/verify_email.txt",
 			"logout_all_sessions": "conf/emails/logout_all_sessions.txt"
+		},
+		
+		"cookie_settings": {
+			"path": "/",
+			"secure": "auto",
+			"httpOnly": true,
+			"sameSite": "Lax"
 		}
 	},
 	

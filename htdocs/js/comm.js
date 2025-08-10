@@ -37,7 +37,7 @@ app.comm = {
 		var progress_message = "Reconnecting to server...";
 		
 		// don't do anything if user is not logged in
-		if (!app.getPref('session_id')) return;
+		if (!app.getPref('username')) return;
 		
 		this.disconnect();
 		
@@ -82,7 +82,7 @@ app.comm = {
 			}
 			
 			// authenticate websocket now
-			socket.emit( 'authenticate', { session_id: app.getPref('session_id') } );
+			socket.emit( 'authenticate', {} );
 		};
 		
 		socket.ws.onmessage = function (event) {
@@ -106,7 +106,7 @@ app.comm = {
 				// deliberate disconnect, stop here
 				return;
 			}
-			if (!app.getPref('session_id')) {
+			if (!app.getPref('username')) {
 				// user logged out, do not reconnect
 				return;
 			}

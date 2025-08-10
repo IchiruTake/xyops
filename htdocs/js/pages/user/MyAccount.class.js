@@ -197,9 +197,7 @@ Page.MyAccount = class MyAccount extends Page.Base {
 	
 	uploadAvatar() {
 		// upload profile pic using ZeroUpload
-		ZeroUpload.chooseFiles({}, {
-			session_id: app.getPref('session_id')
-		});
+		ZeroUpload.chooseFiles({}, {});
 	}
 	
 	uploadStart(files, userData) {

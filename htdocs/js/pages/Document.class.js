@@ -32,7 +32,7 @@ Page.Document = class Document extends Page.Base {
 			// highlight our pseudo-tab
 			app.highlightTab( 'Document_' + args.id );
 		}
-		else if (app.getPref('session_id')) {
+		else if (app.getPref('username')) {
 			// user has cookie
 			this.requireLogin(args);
 			return true;

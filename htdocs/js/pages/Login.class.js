@@ -113,7 +113,7 @@ Page.Login = class Login extends Page.Base {
 				password: password
 			}, 
 			function(resp) {
-				Debug.trace("User Login: " + username + ": " + resp.session_id);
+				Debug.trace("User Login: " + username);
 				
 				Dialog.hideProgress();
 				app.doUserLogin( resp );
