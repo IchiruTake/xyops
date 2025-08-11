@@ -594,7 +594,3 @@ body.dark .wf_condition {
 	animation: wf_flash_kf 2s ease-in-out;
 	animation-fill-mode: forwards;
 }
-
-body.reduced .wf_event.wf_flash, body.reduced .wf_entity.wf_flash > div {
-	animation: none !important;
-}

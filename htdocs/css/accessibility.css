@@ -226,3 +226,18 @@ body.grayscale.dark.highcon {
 body.grayscale.dark.lowcon {
 	--background-color: rgb(44, 44, 44);
 }
+
+/* Reduced Motion */
+
+body.reduced .progress_bar_inner {
+	animation: none !important;
+}
+body.reduced .marquee {
+	animation: none !important;
+}
+body.reduced .flash, body.reduced .iflash, body.reduced .rflash {
+	animation: none !important;
+}
+body.reduced .wf_event, body.reduced .wf_entity > div {
+	animation: none !important;
+}
