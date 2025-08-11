@@ -330,8 +330,8 @@ app.extend({
 			this.$jobCounter.hide();
 		}
 		
-		// show queued job count as separate widget
-		if (num_pending) {
+		// show queued job count as separate widget (but only if user is not limited)
+		if (num_pending && !this.isCategoryLimited() && !this.isGroupLimited()) {
 			this.$pendingCounter.show().html( '<i class="mdi mdi-tray-full"></i><span><b>' + commify(num_pending) + '<span class="sm_hide">&nbsp;Pending</span></b></span>' );
 		}
 		else {
