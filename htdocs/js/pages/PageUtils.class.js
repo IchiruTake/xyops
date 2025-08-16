@@ -299,6 +299,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		var title = template.replace(/\:\s+.+$/, '').replace(/\s+\(.+$/, '');
 		var btn = '<div class="button danger" onClick="$P().prepRevHistRollback(' + idx + ')"><i class="mdi mdi-undo-variant">&nbsp;</i>Rollback...</div>';
 		if (is_cur_rev) btn = '&nbsp;';
+		if (obj_key.match(/^(secret|bucket)$/)) btn = '&nbsp;';
 		var md = '';
 		
 		// summary
@@ -325,7 +326,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			delete new_obj.modified;
 			delete new_obj.sort_order;
 			
-			var diff_html = this.getDiffHTML( old_obj, new_obj );
+			var diff_html = this.getDiffHTML( old_obj, new_obj ) || '(No changes)';
 			md += "\n### Diff to Previous\n\n";
 			md += '<div class="diff_content">' + diff_html + '</div>' + "\n";
 		}
