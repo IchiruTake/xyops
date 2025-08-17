@@ -589,6 +589,8 @@
 			
 			[ "symlinkCompress", "node_modules/@xterm/xterm/lib/xterm.js", "htdocs/js/external/" ],
 			[ "symlinkCompress", "node_modules/@xterm/xterm/lib/xterm.js.map", "htdocs/js/external/" ],
+			[ "symlinkCompress", "node_modules/@xterm/addon-fit/lib/addon-fit.js", "htdocs/js/external/" ],
+			[ "symlinkCompress", "node_modules/@xterm/addon-fit/lib/addon-fit.js.map", "htdocs/js/external/" ],
 			[ "symlinkCompress", "node_modules/@xterm/xterm/css/xterm.css", "htdocs/css/" ],
 			
 			[ "symlinkCompress", "node_modules/canvas-confetti/dist/confetti.browser.js", "htdocs/js/external/" ],
