@@ -41,6 +41,10 @@
 				{
 					"id": "groups",
 					"source": "/groups"
+				},
+				{
+					"id": "workflow",
+					"source": "/workflow/event"
 				}
 			],
 			"sorters": [

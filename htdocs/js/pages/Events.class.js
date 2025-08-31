@@ -2205,10 +2205,10 @@ Page.Events = class Events extends Page.PageUtils {
 		var event_jobs = find_objects( app.activeJobs, { event: this.event.id } );
 		if (event_jobs.length) return app.doError("Sorry, you cannot delete a event that has active jobs running.");
 		
-		Dialog.confirmDanger( 'Delete Event', "Are you sure you want to <b>permanently delete</b> the " + thing + " &ldquo;<b>" + this.event.title + "</b>&rdquo;?  There is no way to undo this action.", ['trash-can', 'Delete'], function(result) {
+		Dialog.confirmDanger( 'Delete Event', "Are you sure you want to <b>permanently delete</b> the " + thing + " &ldquo;<b>" + this.event.title + "</b>&rdquo;?  This will also delete all job history for the event.  There is no way to undo this action.", ['trash-can', 'Delete'], function(result) {
 			if (result) {
 				Dialog.showProgress( 1.0, self.workflow ? "Deleting Workflow..." : "Deleting Event..." );
-				app.api.post( 'app/delete_event', self.event, self.delete_event_finish.bind(self) );
+				app.api.post( 'app/delete_event', { id: self.event.id, delete_jobs: true }, self.delete_event_finish.bind(self) );
 			}
 		} );
 	}
@@ -2224,7 +2224,7 @@ Page.Events = class Events extends Page.PageUtils {
 		this.deletePageDraft();
 		
 		Nav.go('Events?sub=list', 'force');
-		app.showMessage('success', "The " + thing + " &ldquo;" + this.event.title + "&rdquo; was deleted successfully.");
+		app.showMessage('success', "The " + thing + " &ldquo;" + this.event.title + "&rdquo; was deleted successfully.  The job history is being deleted in the background.");
 	}
 	
 	get_event_edit_html() {
