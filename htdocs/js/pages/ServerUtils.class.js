@@ -1264,7 +1264,7 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 				id: 'fe_as_platform',
 				title: 'Select Platform',
 				options: [ ['standard','Linux / macOS'], ['windows','Windows'] ],
-				value: 'standard',
+				value: app.getPref('fe_as_platform') || 'standard',
 				onChange: '$P().updateServerInstallCode()',
 			}),
 			caption: 'Select the target platform to generate the install command for.'
@@ -1309,6 +1309,8 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 	updateServerInstallCode() {
 		// update server install code based on platform
 		var platform = $('#fe_as_platform').val();
+		app.setPref('fe_as_platform', platform);
+		
 		var code = substitute( config.ui.satellite_install_commands[platform], this.serverInstallArgs );
 		$('#fe_as_install_code').val( code );
 	}
