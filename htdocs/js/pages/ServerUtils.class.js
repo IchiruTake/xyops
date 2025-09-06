@@ -203,7 +203,7 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 				
 				return [
 					cmd,
-					item.user,
+					item.user || '-',
 					item.pid
 				];
 			} ); // grid (procs)
@@ -249,12 +249,12 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 		}, */
 		
 		html += '<div class="dash_donut_grid">';
-			html += this.getDonutDashUnit({ id: 'mem_used', value: mem.used, max: mem.total, type: 'bytes', suffix: '', label: 'Used', color: app.colors[2] });
-			html += this.getDonutDashUnit({ id: 'mem_active', value: mem.active, max: mem.total, type: 'bytes', suffix: '', label: 'Active', color: app.colors[3] });
-			html += this.getDonutDashUnit({ id: 'mem_available', value: mem.available, max: mem.total, type: 'bytes', suffix: '', label: 'Available', color: app.colors[0] });
-			html += this.getDonutDashUnit({ id: 'mem_free', value: mem.free, max: mem.total, type: 'bytes', suffix: '', label: 'Free', color: app.colors[1] });
-			html += this.getDonutDashUnit({ id: 'mem_buffers', value: mem.buffers, max: mem.total, type: 'bytes', suffix: '', label: 'Buffered', color: app.colors[4] });
-			html += this.getDonutDashUnit({ id: 'mem_cached', value: mem.cached, max: mem.total, type: 'bytes', suffix: '', label: 'Cached', color: app.colors[5] });
+			html += this.getDonutDashUnit({ id: 'mem_used', value: mem.used || 0, max: mem.total, type: 'bytes', suffix: '', label: 'Used', color: app.colors[2] });
+			html += this.getDonutDashUnit({ id: 'mem_active', value: mem.active || 0, max: mem.total, type: 'bytes', suffix: '', label: 'Active', color: app.colors[3] });
+			html += this.getDonutDashUnit({ id: 'mem_available', value: mem.available || 0, max: mem.total, type: 'bytes', suffix: '', label: 'Available', color: app.colors[0] });
+			html += this.getDonutDashUnit({ id: 'mem_free', value: mem.free || 0, max: mem.total, type: 'bytes', suffix: '', label: 'Free', color: app.colors[1] });
+			html += this.getDonutDashUnit({ id: 'mem_buffers', value: mem.buffers || 0, max: mem.total, type: 'bytes', suffix: '', label: 'Buffered', color: app.colors[4] });
+			html += this.getDonutDashUnit({ id: 'mem_cached', value: mem.cached || 0, max: mem.total, type: 'bytes', suffix: '', label: 'Cached', color: app.colors[5] });
 		html += '</div>';
 		
 		return html;
@@ -268,12 +268,12 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 		var cpu_totals = data.cpu.totals;
 		
 		html += '<div class="dash_donut_grid">';
-			html += this.getDonutDashUnit({ id: 'cpu_user', value: cpu_totals.user, max: 100, type: 'float', suffix: '%', label: 'User %', color: app.colors[6] });
-			html += this.getDonutDashUnit({ id: 'cpu_system', value: cpu_totals.system, max: 100, type: 'float', suffix: '%', label: 'System %', color: app.colors[7] });
-			html += this.getDonutDashUnit({ id: 'cpu_nice', value: cpu_totals.nice, max: 100, type: 'float', suffix: '%', label: 'Nice %', color: app.colors[8] });
-			html += this.getDonutDashUnit({ id: 'cpu_iowait', value: cpu_totals.iowait, max: 100, type: 'float', suffix: '%', label: 'I/O Wait %', color: app.colors[9] });
-			html += this.getDonutDashUnit({ id: 'cpu_irq', value: cpu_totals.irq, max: 100, type: 'float', suffix: '%', label: 'Hard IRQ %', color: app.colors[10] });
-			html += this.getDonutDashUnit({ id: 'cpu_softirq', value: cpu_totals.softirq, max: 100, type: 'float', suffix: '%', label: 'Soft IRQ %', color: app.colors[11] });
+			html += this.getDonutDashUnit({ id: 'cpu_user', value: cpu_totals.user || 0, max: 100, type: 'float', suffix: '%', label: 'User %', color: app.colors[6] });
+			html += this.getDonutDashUnit({ id: 'cpu_system', value: cpu_totals.system || 0, max: 100, type: 'float', suffix: '%', label: 'System %', color: app.colors[7] });
+			html += this.getDonutDashUnit({ id: 'cpu_nice', value: cpu_totals.nice || 0, max: 100, type: 'float', suffix: '%', label: 'Nice %', color: app.colors[8] });
+			html += this.getDonutDashUnit({ id: 'cpu_iowait', value: cpu_totals.iowait || 0, max: 100, type: 'float', suffix: '%', label: 'I/O Wait %', color: app.colors[9] });
+			html += this.getDonutDashUnit({ id: 'cpu_irq', value: cpu_totals.irq || 0, max: 100, type: 'float', suffix: '%', label: 'Hard IRQ %', color: app.colors[10] });
+			html += this.getDonutDashUnit({ id: 'cpu_softirq', value: cpu_totals.softirq || 0, max: 100, type: 'float', suffix: '%', label: 'Soft IRQ %', color: app.colors[11] });
 		html += '</div>';
 		
 		html += '<div style="height:30px;"></div>';
@@ -292,12 +292,12 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 		html += this.getBasicGrid( grid_args, function(item, idx) {
 			return [
 				'#' + Math.floor(idx + 1),
-				Math.floor(item.user) + '%',
-				Math.floor(item.system) + '%',
-				Math.floor(item.nice) + '%',
-				Math.floor(item.iowait) + '%',
-				Math.floor(item.irq) + '%',
-				Math.floor(item.softirq) + '%',
+				Math.floor(item.user || 0) + '%',
+				Math.floor(item.system || 0) + '%',
+				Math.floor(item.nice || 0) + '%',
+				Math.floor(item.iowait || 0) + '%',
+				Math.floor(item.irq || 0) + '%',
+				Math.floor(item.softirq || 0) + '%',
 				self.getNiceProgressBar( (100 - item.idle) / 100, 'static wider', true )
 			];
 		}); // grid
@@ -539,7 +539,7 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 		return this.getSortableTable( snapshot.data.processes.list, proc_opts, function(proc) {
 			return [
 				'<b>' + self.getNiceProcess(proc, true) + '</b>',
-				proc.user,
+				proc.user || '-',
 				'<span class="link" onClick="$P().showProcessInfo(' + proc.pid + ')">' + proc.pid + '</span>',
 				proc.parentPid ? ('<span class="link" onClick="$P().showProcessInfo(' + proc.parentPid + ')">' + proc.parentPid + '</span>') : 'n/a',
 				pct( proc.cpu, 100 ),
@@ -1842,7 +1842,7 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 			return [
 				'<b>' + self.getNiceProcess(proc, true) + '</b>',
 				self.getNiceServer(proc.server, true),
-				proc.user,
+				proc.user || '-',
 				`<span class="link" onClick="$P().showGroupProcessInfo(${proc.pid},'${proc.server}')">${proc.pid}</span>`,
 				proc.parentPid ? (`<span class="link" onClick="$P().showGroupProcessInfo(${proc.parentPid},'${proc.server}')">${proc.parentPid}</span>`) : 'n/a',
 				pct( proc.cpu, 100 ),
