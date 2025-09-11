@@ -2210,9 +2210,13 @@ Page.Job = class Job extends Page.PageUtils {
 				'<span class="link danger" onMouseUp="$P().do_delete_file(' + idx + ')"><b>Delete</b></span>'
 			];
 			
-			var nice_source = (file.source == 'input') ? 
-				(file.bucket ? self.getNiceBucket(file.bucket, true) : '<i class="mdi mdi-file-download-outline">&nbsp;</i>Input') : 
-				'<i class="mdi mdi-file-upload-outline">&nbsp;</i>Output';
+			var nice_source = '';
+			if (file.source == 'input') {
+				if (file.bucket) nice_source = self.getNiceBucket(file.bucket, true);
+				else if (file.plugin) nice_source = self.getNicePlugin(file.plugin, true);
+				else nice_source = '<i class="mdi mdi-file-download-outline">&nbsp;</i>Input';
+			}
+			else nice_source = '<i class="mdi mdi-file-upload-outline">&nbsp;</i>Output';
 			
 			var tds = [
 				'<b>' + self.getNiceFile(file.filename, url) + '</b>',
