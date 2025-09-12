@@ -719,6 +719,19 @@
 		"hidden": "eye-off-outline"
 	},
 	
+	"text_field_variants": [
+		{ "id": "color", "title": "Color", "icon": "palette" },
+		{ "id": "date", "title": "Date", "icon": "calendar-today" },
+		{ "id": "datetime-local", "title": "Date / Time", "icon": "calendar-clock" },
+		{ "id": "email", "title": "Email Address", "icon": "email-edit-outline" },
+		{ "id": "number", "title": "Number", "icon": "counter" },
+		{ "id": "password", "title": "Password", "icon": "form-textbox-lock" },
+		{ "id": "text", "title": "Plain Text", "icon": "form-textbox" },
+		{ "id": "time", "title": "Time", "icon": "clock-edit-outline" },
+		{ "id": "tel", "title": "Phone Number", "icon": "phone-dial" },
+		{ "id": "url", "title": "URL", "icon": "link-variant" }
+	],
+	
 	"marked_config": {
 		"gfm": true,
 		"tables": true,

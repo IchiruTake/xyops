@@ -1785,7 +1785,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			
 			switch (param.type) {
 				case 'text':
-					html += self.getFormText({ id: elem_id, value: elem_value, disabled: elem_dis, autocomplete: 'off' });
+					html += self.getFormText({ id: elem_id, type: param.variant || 'text', value: elem_value, disabled: elem_dis, autocomplete: 'off' });
 				break;
 				
 				case 'code':
@@ -3194,6 +3194,11 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			var pairs = [];
 			switch (param.type) {
 				case 'text':
+					if (param.variant && (param.variant !== 'text')) {
+						var variant = find_object( config.ui.text_field_variants, { id: param.variant } );
+						nice_type = variant.title;
+						nice_icon = variant.icon;
+					}
 					if (param.value.length) pairs.push([ 'Default', '&ldquo;' + strip_html(param.value) + '&rdquo;' ]);
 					else pairs.push([ "(No default)" ]);
 				break;
@@ -3261,7 +3266,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 	editParam(idx) {
 		// show dialog to configure param
 		var self = this;
-		var param = (idx > -1) ? this.params[idx] : { type: 'text', value: '' };
+		var param = (idx > -1) ? this.params[idx] : { type: 'text', variant: 'text', value: '' };
 		var title = (idx > -1) ? "Editing Parameter" : "New Parameter";
 		var btn = (idx > -1) ? ['check-circle', "Accept"] : ['plus-circle', "Add Param"];
 		
@@ -3315,6 +3320,17 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		});
 		
 		// type-specific
+		html += this.getFormRow({
+			id: 'd_epa_text_variant',
+			label: 'Text Variant:',
+			content: this.getFormMenuSingle({
+				id: 'fe_epa_text_variant',
+				title: 'Select Text Field Variant',
+				options: config.ui.text_field_variants,
+				value: param.variant || 'text'
+			}),
+			caption: 'Choose a UI type variant for the text field.'
+		});
 		html += this.getFormRow({
 			id: 'd_epa_value_text',
 			label: 'Default Value:',
@@ -3436,6 +3452,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			switch (param.type) {
 				case 'text':
 					param.value = $('#fe_epa_value_text').val();
+					param.variant = $('#fe_epa_text_variant').val();
 					param.required = !!$('#fe_epa_required').is(':checked');
 				break;
 				
@@ -3451,16 +3468,21 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				
 				case 'checkbox':
 					param.value = !!$('#fe_epa_value_checkbox').is(':checked');
+					delete param.required;
 				break;
 				
 				case 'select':
 					param.value = $('#fe_epa_value_select').val();
+					delete param.required;
 				break;
 				
 				case 'hidden':
 					param.value = $('#fe_epa_value_hidden').val();
+					delete param.required;
 				break;
 			} // switch action.type
+			
+			if (param.type != 'text') delete param.variant;
 			
 			// see if we need to add or replace
 			if (idx == -1) {
@@ -3476,6 +3498,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			$('#d_epa_value_text, #d_epa_value_textarea, #d_epa_value_code, #d_epa_value_checkbox, #d_epa_value_select, #d_epa_value_hidden').hide();
 			$('#d_epa_value_' + new_type).show();
 			$('#d_epa_required').toggle( !!new_type.match(/^(text|textarea|code)$/) );
+			$('#d_epa_text_variant').toggle( !!new_type.match(/^(text)$/) );
 			Dialog.autoResize();
 		}; // change_action_type
 		
@@ -3487,7 +3510,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		
 		if (idx == -1) $('#fe_epa_id').focus();
 		
-		SingleSelect.init( $('#fe_epa_type') );
+		SingleSelect.init( $('#fe_epa_type, #fe_epa_text_variant') );
 		Dialog.autoResize();
 	}
 	
@@ -3517,7 +3540,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			
 			switch (param.type) {
 				case 'text':
-					html += self.getFormText({ id: elem_id, value: elem_value, disabled: elem_dis, autocomplete: 'off' });
+					html += self.getFormText({ id: elem_id, type: param.variant || 'text', value: elem_value, disabled: elem_dis, autocomplete: 'off' });
 				break;
 				
 				case 'code':
