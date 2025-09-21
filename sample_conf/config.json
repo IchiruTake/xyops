@@ -73,7 +73,7 @@
 		"job_success": "xyOps Job completed successfully on {{nice_server}}: {{event.title}}: {{links.job_details}}",
 		"job_error": "xyOps Job failed on {{nice_server}}: {{event.title}}: Error ({{job.code}}): {{job.description}}: {{links.job_details}}",
 		"job_progress": "xyOps Job is in progress on {{nice_server}} ({{event.title}}): {{links.job_details}}",
-		"alert_new": "xyOps Alert: {{nice_server}}: {{def.title}}: {{alert.message}}: {{alert_url}}",
+		"alert_new": "xyOps Alert: {{nice_server}}: {{def.title}}: {{alert.message}}: {{links.alert_url}}",
 		"alert_cleared": "xyOps Alert Cleared: {{nice_server}}: {{def.title}}"
 	},
 	

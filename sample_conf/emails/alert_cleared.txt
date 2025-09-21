@@ -9,13 +9,13 @@ IP Address: [params/ip]
 Group: [nice_group]
 Date/Time: [date_time]
 Expression: [def/expression]
-Elapsed: [elapsed_nice]
+Elapsed: [nice_elapsed]
 
 Alert Detail View:
-[alert_url]
+[links/alert_url]
 
 Live Server View:
-[server_url]
+[links/server_url]
 
 Regards,
 The xyOps Team

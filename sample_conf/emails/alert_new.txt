@@ -13,10 +13,10 @@ Expression: [def/expression]
 Evaluation: [alert/exp]
 
 Alert Detail View:
-[alert_url]
+[links/alert_url]
 
 Live Server View:
-[server_url]
+[links/server_url]
 
 Alert Notes:
 [nice_notes]
