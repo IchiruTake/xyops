@@ -955,6 +955,10 @@
 		border-radius: 2px;
 	}
 	
+	div.editor_toolbar {
+		display: none;
+	}
+	
 	/* 'Enabled', 'Event Title', 'Category', 'Plugin', 'Target', 'Trigger', 'Status', 'Actions' */
 	.data_grid.event_grid { grid-template-columns: 40px auto auto 0px 0px 0px 0px auto !important; }
 	.data_grid.event_grid > ul > div:nth-child(4) { visibility: hidden; }
@@ -1338,6 +1342,10 @@
 	div.box.charts > div.box_content {
 		padding-left: 15px;
 		padding-right: 15px;
+	}
+	
+	div.editor_toolbar {
+		display: none;
 	}
 	
 	/* 'Enabled', 'Event Title', 'Category', 'Plugin', 'Target', 'Trigger', 'Status', 'Actions' */
