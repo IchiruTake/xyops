@@ -114,24 +114,6 @@ Page.Document = class Document extends Page.Base {
 		this.expandInlineImages();
 	}
 	
-	expandInlineImages(elem) {
-		// expand all inline image URLs in doc
-		var self = this;
-		if (!elem) elem = this.div;
-		
-		elem.find('div.markdown-body p a').each( function() {
-			var $this = $(this);
-			var href = $this.attr('href') || '';
-			if (!href.match(/\.(jpg|jpeg|gif|png)(\?|$)/i)) return; // supported images only
-			if ($this.data('expanded')) return; // do not re-expand an expanded link
-			if ($this.next().length) return; // only process links at the end of parent blocks
-			
-			$this.after('<img src="' + href + '" class="inline_image" onMouseUp="window.open(this.src)">');
-			// $this.data('expanded', true);
-			$this.remove();
-		});
-	}
-	
 	doCreateAccount() {
 		Nav.go('Login?create=1');
 	}
