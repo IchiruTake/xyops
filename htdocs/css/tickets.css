@@ -251,3 +251,11 @@ div.message_body {
 	line-height: 18px;
 	/* overflow: hidden; */
 }
+
+div.message_body pre {
+	margin-top: 0;
+}
+
+div.message_body pre code.hljs {
+	padding: 0;
+}
