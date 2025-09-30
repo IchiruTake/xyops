@@ -314,6 +314,14 @@
 	/* 'Date/Time', 'Server', 'Node ID', 'Type', 'Message' */
 	.data_grid.wf_meta_grid { grid-template-columns: auto auto 0px auto auto !important; }
 	.data_grid.wf_meta_grid > ul > div:nth-child(3) { visibility: hidden; }
+	
+	/* '#', 'Subject', 'Type', 'Status', 'Assignee', 'Tags', 'Created', 'Actions' */
+	.data_grid.ticket_grid { grid-template-columns: min-content auto auto auto auto auto 0px auto !important; }
+	.data_grid.ticket_grid > ul > div:nth-child(7) { visibility: hidden; }
+	
+	/* 'Event Title', 'Category', 'Plugin', 'Target', 'Trigger', 'Actions' */
+	.data_grid.ticket_event_grid { grid-template-columns: auto auto auto auto 0px auto !important; }
+	.data_grid.ticket_event_grid > ul > div:nth-child(5) { visibility: hidden; }
 }
 
 /* Tablets */
@@ -717,6 +725,17 @@
 	.data_grid.wf_meta_grid { grid-template-columns: auto 0px 0px auto auto !important; }
 	.data_grid.wf_meta_grid > ul > div:nth-child(2) { visibility: hidden; }
 	.data_grid.wf_meta_grid > ul > div:nth-child(3) { visibility: hidden; }
+	
+	/* '#', 'Subject', 'Type', 'Status', 'Assignee', 'Tags', 'Created', 'Actions' */
+	.data_grid.ticket_grid { grid-template-columns: min-content auto auto auto 0px 0px 0px auto !important; }
+	.data_grid.ticket_grid > ul > div:nth-child(5) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(6) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(7) { visibility: hidden; }
+	
+	/* 'Event Title', 'Category', 'Plugin', 'Target', 'Trigger', 'Actions' */
+	.data_grid.ticket_event_grid { grid-template-columns: auto auto auto 0px 0px auto !important; }
+	.data_grid.ticket_event_grid > ul > div:nth-child(4) { visibility: hidden; }
+	.data_grid.ticket_event_grid > ul > div:nth-child(5) { visibility: hidden; }
 }
 
 /* Phones */
@@ -1263,6 +1282,20 @@
 	/* 'Enabled', 'Condition', 'Type', 'Description', 'Actions' */
 	.data_grid.c_action_grid { grid-template-columns: 0px auto auto auto auto !important; }
 	.data_grid.c_action_grid > ul > div:nth-child(1) { visibility: hidden; }
+	
+	/* '#', 'Subject', 'Type', 'Status', 'Assignee', 'Tags', 'Created', 'Actions' */
+	.data_grid.ticket_grid { grid-template-columns: min-content auto 0px auto 0px 0px 0px 0px !important; }
+	.data_grid.ticket_grid > ul > div:nth-child(3) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(5) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(6) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(7) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(8) { visibility: hidden; }
+	
+	/* 'Event Title', 'Category', 'Plugin', 'Target', 'Trigger', 'Actions' */
+	.data_grid.ticket_event_grid { grid-template-columns: auto auto 0px 0px 0px auto !important; }
+	.data_grid.ticket_event_grid > ul > div:nth-child(3) { visibility: hidden; }
+	.data_grid.ticket_event_grid > ul > div:nth-child(4) { visibility: hidden; }
+	.data_grid.ticket_event_grid > ul > div:nth-child(5) { visibility: hidden; }
 }
 
 /* Smaller Phones */
@@ -1706,5 +1739,22 @@
 	.data_grid.c_action_grid { grid-template-columns: 0px auto auto 0px auto !important; }
 	.data_grid.c_action_grid > ul > div:nth-child(1) { visibility: hidden; }
 	.data_grid.c_action_grid > ul > div:nth-child(4) { visibility: hidden; }
+	
+	/* '#', 'Subject', 'Type', 'Status', 'Assignee', 'Tags', 'Created', 'Actions' */
+	.data_grid.ticket_grid { grid-template-columns: min-content auto 0px 0px 0px 0px 0px 0px !important; }
+	.data_grid.ticket_grid > ul > div:nth-child(1) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(3) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(4) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(5) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(6) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(7) { visibility: hidden; }
+	.data_grid.ticket_grid > ul > div:nth-child(8) { visibility: hidden; }
+	
+	/* 'Event Title', 'Category', 'Plugin', 'Target', 'Trigger', 'Actions' */
+	.data_grid.ticket_event_grid { grid-template-columns: auto 0px 0px 0px 0px auto !important; }
+	.data_grid.ticket_event_grid > ul > div:nth-child(2) { visibility: hidden; }
+	.data_grid.ticket_event_grid > ul > div:nth-child(3) { visibility: hidden; }
+	.data_grid.ticket_event_grid > ul > div:nth-child(4) { visibility: hidden; }
+	.data_grid.ticket_event_grid > ul > div:nth-child(5) { visibility: hidden; }
 	
 }
