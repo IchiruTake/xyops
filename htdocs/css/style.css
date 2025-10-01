@@ -698,7 +698,7 @@ body.dark .dialog .markdown-body table tr th {
 	padding: 0;
 }
 
-.markdown-body p code {
+.markdown-body p code, .markdown-body td code, .markdown-body li code {
 	background-color: var(--shadow-color);
 	border-radius: 4px;
 	padding: 2px 4px 2px 4px;
@@ -707,7 +707,7 @@ body.dark .dialog .markdown-body table tr th {
 	/* font-size: 13px; */
 	font-size: 0.85em;
 }
-body.dark .markdown-body p code {
+body.dark .markdown-body p code, body.dark .markdown-body td code, body.dark .markdown-body li code {
 	background-color: var(--border-color);
 }
 
