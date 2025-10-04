@@ -58,6 +58,7 @@
 	"alert_universal_actions": [
 		{
 			"enabled": true,
+			"hidden": true,
 			"condition": "alert_new",
 			"type": "snapshot"
 		}
