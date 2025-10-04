@@ -992,6 +992,11 @@
 		{ "id": "abort", "title": "On Abort", "icon": "cancel" }
 	],
 	
+	"alert_action_condition_menu": [
+		{ "id": "alert_new", "title": "Alert Fired", "icon": "fire-alert" },
+		{ "id": "alert_cleared", "title": "Alert Cleared", "icon": "check-circle-outline" }
+	],
+	
 	"action_type_menu": [ 
 		{ "id": "email", "title": "Send Email", "icon": "email-arrow-right-outline" },
 		{ "id": "web_hook", "title": "Web Hook", "icon": "webhook" },
