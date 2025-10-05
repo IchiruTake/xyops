@@ -1185,7 +1185,7 @@ Page.Base = class Base extends Page {
 			html += icon + '<span>' + (user.full_name || username) + '</span></a>';
 		}
 		else {
-			if (username == 'system') username = '(System)';
+			if (username == 'system') { username = '(System)'; icon = ''; }
 			html += icon + (user.full_name || username);
 		}
 		html += '</span>';
