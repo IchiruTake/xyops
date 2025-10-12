@@ -30,12 +30,12 @@ var DBCLI = {
 		
 		var cmd = args.cmd;
 		if (!cmd && args.other) cmd = args.other.shift();
-		if (!cmd || !this[cmd]) this.die(usage);
+		if (!cmd || !this[cmd]) return this.die(usage);
 		delete args.cmd;
 		
 		var index = args.index;
 		if (!index && args.other) index = args.other.shift();
-		if (!index) this.die( "Unknown index: " + index );
+		if (!index) return this.die( "Unknown index: " + index );
 		this.index = index;
 		delete args.index;
 		
