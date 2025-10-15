@@ -314,54 +314,6 @@
 			"placeholder": "Select tags to apply..."
 		},
 		
-		"d_wf_id": {
-			"label": "Workflow ID:",
-			"caption": "This is a unique ID for the workflow, used by the API.  It cannot be changed."
-		},
-		"d_wf_title": {
-			"label": "Workflow Title:",
-			"caption": "Enter the title of the workflow, for display purposes."
-		},
-		"d_wf_enabled": {
-			"label": "Status:",
-			"caption": "Only enabled workflows can execute, including scheduled and manual runs."
-		},
-		"fe_wf_enabled": {
-			"label": "Workflow Enabled"
-		},
-		"d_wf_icon": {
-			"label": "Custom Icon:",
-			"caption": "Optionally choose a custom icon for the workflow."
-		},
-		"fe_wf_icon": {
-			"title": "Select icon for workflow",
-			"placeholder": "Select icon for workflow..."
-		},
-		"d_wf_cat": {
-			"label": "Category:",
-			"caption": "Select a category for the workflow (this may limit the max concurrent jobs, etc.)"
-		},
-		"fe_wf_cat": {
-			"title": "Select category for workflow",
-			"placeholder": "Select category for workflow..."
-		},
-		"d_wf_user_fields": {
-			"label": "User Fields:",
-			"caption": "Optionally define custom parameters to be collected when a user runs your workflow manually."
-		},
-		"d_wf_res_limits": {
-			"label": "Resource Limits:",
-			"caption": "Optionally select resource limits to assign to jobs.  These will override limits set at the category level."
-		},
-		"d_wf_job_actions": {
-			"label": "Job Actions:",
-			"caption": "Optionally select custom actions to perform for each job.  Actions may also be added at the category level."
-		},
-		"d_wf_notes": {
-			"label": "Notes:",
-			"caption": "Optionally enter notes for the event, which will be included in all email notifications."
-		},
-		
 		"d_ete_scope": {
 			"label": "Test Scope:",
 			"caption": "Choose whether to test the selected node by itself, or the entire workflow from starting from the selected node."
@@ -398,136 +350,6 @@
 		"d_ete_params": {
 			"label": "Workflow Parameters:",
 			"caption": "Enter values for all the event-defined parameters here."
-		},
-		
-		"d_wfde_event": {
-			"label": "Event:",
-			"caption": "Select the event to use for the workflow node."
-		},
-		"fe_wfde_event": {
-			"title": "Select Event"
-		},
-		"d_wfde_targets": {
-			"label": "Targets:",
-			"caption": "Optionally override the targets for running the event."
-		},
-		"fe_wfde_targets": {
-			"title": "Select targets for event",
-			"placeholder": "(Use event defaults)"
-		},
-		"d_wfde_algo": {
-			"label": "Algorithm:",
-			"caption": "Optionally override the target selection algorithm for the event."
-		},
-		"fe_wfde_algo": {
-			"title": "Select algorithm for targets"
-		},
-		"d_wfde_tags": {
-			"label": "Tags:",
-			"caption": "Optionally override the tags for running the event."
-		},
-		"fe_wfde_tags": {
-			"title": "Select tags for event",
-			"placeholder": "(Use event defaults)"
-		},
-		"d_wfde_user_params": {
-			"label": "User Parameters:",
-			"caption": "Enter values for all the event-defined parameters here."
-		},
-		
-		"d_wfdj_plugin": {
-			"label": "Plugin:",
-			"caption": "Select the desired Plugin for the node.  Plugin parameters will appear below."
-		},
-		"fe_wfdj_plugin": {
-			"title": "Select Plugin for node",
-			"placeholder": "Select Plugin for node..."
-		},
-		"d_wfdj_title": {
-			"label": "Custom Title:",
-			"caption": "Optionally customize the title for the node (defaults to the Plugin name)."
-		},
-		"d_wfdj_cat": {
-			"label": "Category:",
-			"caption": "Select a category for the plugin job (category limits and actions will apply)."
-		},
-		"fe_wfdj_cat": {
-			"title": "Select category for job",
-			"placeholder": "Select category for job..."
-		},
-		"d_wfdj_targets": {
-			"label": "Targets:",
-			"caption": "Select groups and/or servers to run plugin jobs."
-		},
-		"fe_wfdj_targets": {
-			"title": "Select targets for jobs",
-			"placeholder": "Select targets for jobs..."
-		},
-		"d_wfdj_algo": {
-			"label": "Algorithm:",
-			"caption": "Select the desired algorithm for choosing a server from the target list."
-		},
-		"fe_wfdj_algo": {
-			"title": "Select algorithm for targets",
-			"placeholder": "Select algorithm for targets..."
-		},
-		"d_wfdj_tags": {
-			"label": "Tags:",
-			"caption": "Optionally select tags to apply to all plugin jobs."
-		},
-		"fe_wfdj_tags": {
-			"title": "Select tags for jobs",
-			"placeholder": "Select tags for jobs..."
-		},
-		"d_wfdj_user_params": {
-			"label": "Plugin Parameters:",
-			"caption": "Enter values for all the Plugin-defined parameters here."
-		},
-		
-		"d_wfd_type": {
-			"label": "Controller Type:",
-			"caption": "Select the desired type for the controller."
-		},
-		"fe_wfd_type": {
-			"title": "Select Controller Type"
-		},
-		"d_wfd_desc": {
-			"label": "Description"
-		},
-		"d_wfd_stagger": {
-			"label": "Stagger Delay:",
-			"caption": "Optionally enter a duration to stagger the start of each multiplexed job."
-		},
-		"d_wfd_wait": {
-			"label": "Wait Delay:",
-			"caption": "Enter a duration to wait before control passes to the connected nodes."
-		},
-		"d_wfd_repeat": {
-			"label": "Repeat Iterations:",
-			"caption": "Enter the number of iterations to repeat before continuing on."
-		},
-		"d_wfd_split": {
-			"label": "Split Expression:",
-			"caption": "Specify the path to the array for splitting, using `dot.path.notation`."
-		},
-		"d_wfd_if": {
-			"label": "Expression:",
-			"caption": "Enter the expression to evaluate using `dot.path.notation`.  If true, control will pass onto the next node."
-		},
-		"d_wfd_title": {
-			"label": "Custom Title:",
-			"caption": "Optionally enter a custom title for the node."
-		},
-		"d_wfd_icon": {
-			"label": "Custom Icon:",
-			"caption": "Optionally choose a custom icon for the node."
-		},
-		"fe_wfd_icon": {
-			"title": "Select icon for node"
-		},
-		"d_wfd_continue": {
-			"label": "Continue Percentage:",
-			"caption": "Enter the percentage of jobs that must complete successfully before continuing on to the next node."
 		},
 		
 		"d_ex_job": {
@@ -567,6 +389,186 @@
 			"fe_re_tags": {
 				"title": "Select tags for event",
 				"placeholder": "(Use event defaults)"
+			}
+		},
+		
+		"Workflows": {
+			"d_wf_id": {
+				"label": "Workflow ID:",
+				"caption": "This is a unique ID for the workflow, used by the API.  It cannot be changed."
+			},
+			"d_wf_title": {
+				"label": "Workflow Title:",
+				"caption": "Enter the title of the workflow, for display purposes."
+			},
+			"d_wf_enabled": {
+				"label": "Status:",
+				"caption": "Only enabled workflows can execute, including scheduled and manual runs."
+			},
+			"fe_wf_enabled": {
+				"label": "Workflow Enabled"
+			},
+			"d_wf_icon": {
+				"label": "Custom Icon:",
+				"caption": "Optionally choose a custom icon for the workflow."
+			},
+			"fe_wf_icon": {
+				"title": "Select icon for workflow",
+				"placeholder": "Select icon for workflow..."
+			},
+			"d_wf_cat": {
+				"label": "Category:",
+				"caption": "Select a category for the workflow (this may limit the max concurrent jobs, etc.)"
+			},
+			"fe_wf_cat": {
+				"title": "Select category for workflow",
+				"placeholder": "Select category for workflow..."
+			},
+			"d_wf_user_fields": {
+				"label": "User Fields:",
+				"caption": "Optionally define custom parameters to be collected when a user runs your workflow manually."
+			},
+			"d_wf_res_limits": {
+				"label": "Resource Limits:",
+				"caption": "Optionally select resource limits to assign to jobs.  These will override limits set at the category level."
+			},
+			"d_wf_job_actions": {
+				"label": "Job Actions:",
+				"caption": "Optionally select custom actions to perform for each job.  Actions may also be added at the category level."
+			},
+			"d_wf_notes": {
+				"label": "Notes:",
+				"caption": "Optionally enter notes for the event, which will be included in all email notifications."
+			},
+			
+			"d_wfde_event": {
+				"label": "Event:",
+				"caption": "Select the event to use for the workflow node."
+			},
+			"fe_wfde_event": {
+				"title": "Select Event"
+			},
+			"d_wfde_targets": {
+				"label": "Targets:",
+				"caption": "Optionally override the targets for running the event."
+			},
+			"fe_wfde_targets": {
+				"title": "Select targets for event",
+				"placeholder": "(Use event defaults)"
+			},
+			"d_wfde_algo": {
+				"label": "Algorithm:",
+				"caption": "Optionally override the target selection algorithm for the event."
+			},
+			"fe_wfde_algo": {
+				"title": "Select algorithm for targets"
+			},
+			"d_wfde_tags": {
+				"label": "Tags:",
+				"caption": "Optionally override the tags for running the event."
+			},
+			"fe_wfde_tags": {
+				"title": "Select tags for event",
+				"placeholder": "(Use event defaults)"
+			},
+			"d_wfde_user_params": {
+				"label": "User Parameters:",
+				"caption": "Enter values for all the event-defined parameters here."
+			},
+			
+			"d_wfdj_plugin": {
+				"label": "Plugin:",
+				"caption": "Select the desired Plugin for the node.  Plugin parameters will appear below."
+			},
+			"fe_wfdj_plugin": {
+				"title": "Select Plugin for node",
+				"placeholder": "Select Plugin for node..."
+			},
+			"d_wfdj_title": {
+				"label": "Custom Title:",
+				"caption": "Optionally customize the title for the node (defaults to the Plugin name)."
+			},
+			"d_wfdj_cat": {
+				"label": "Category:",
+				"caption": "Select a category for the plugin job (category limits and actions will apply)."
+			},
+			"fe_wfdj_cat": {
+				"title": "Select category for job",
+				"placeholder": "Select category for job..."
+			},
+			"d_wfdj_targets": {
+				"label": "Targets:",
+				"caption": "Select groups and/or servers to run plugin jobs."
+			},
+			"fe_wfdj_targets": {
+				"title": "Select targets for jobs",
+				"placeholder": "Select targets for jobs..."
+			},
+			"d_wfdj_algo": {
+				"label": "Algorithm:",
+				"caption": "Select the desired algorithm for choosing a server from the target list."
+			},
+			"fe_wfdj_algo": {
+				"title": "Select algorithm for targets",
+				"placeholder": "Select algorithm for targets..."
+			},
+			"d_wfdj_tags": {
+				"label": "Tags:",
+				"caption": "Optionally select tags to apply to all plugin jobs."
+			},
+			"fe_wfdj_tags": {
+				"title": "Select tags for jobs",
+				"placeholder": "Select tags for jobs..."
+			},
+			"d_wfdj_user_params": {
+				"label": "Plugin Parameters:",
+				"caption": "Enter values for all the Plugin-defined parameters here."
+			},
+			
+			"d_wfd_type": {
+				"label": "Controller Type:",
+				"caption": "Select the desired type for the controller."
+			},
+			"fe_wfd_type": {
+				"title": "Select Controller Type"
+			},
+			"d_wfd_desc": {
+				"label": "Description"
+			},
+			"d_wfd_stagger": {
+				"label": "Stagger Delay:",
+				"caption": "Optionally enter a duration to stagger the start of each multiplexed job."
+			},
+			"d_wfd_wait": {
+				"label": "Wait Delay:",
+				"caption": "Enter a duration to wait before control passes to the connected nodes."
+			},
+			"d_wfd_repeat": {
+				"label": "Repeat Iterations:",
+				"caption": "Enter the number of iterations to repeat before continuing on."
+			},
+			"d_wfd_split": {
+				"label": "Split Expression:",
+				"caption": "Specify the path to the array for splitting, using `dot.path.notation`."
+			},
+			"d_wfd_if": {
+				"label": "Expression:",
+				"caption": "Enter the expression to evaluate using `dot.path.notation`.  If true, control will pass onto the next node."
+			},
+			"d_wfd_title": {
+				"label": "Custom Title:",
+				"caption": "Optionally enter a custom title for the node."
+			},
+			"d_wfd_icon": {
+				"label": "Custom Icon:",
+				"caption": "Optionally choose a custom icon for the node."
+			},
+			"fe_wfd_icon": {
+				"title": "Select icon for node"
+			},
+			"d_wfd_continue": {
+				"label": "Continue Percentage:",
+				"caption": "Enter the percentage of jobs that must complete successfully before continuing on to the next node."
 			}
 		},
 		
