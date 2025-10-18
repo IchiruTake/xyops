@@ -131,7 +131,7 @@
 			"created": 1434125333,
 			"params": [
 				{ "type":"select", "id":"method", "title":"Method", "value":"GET, HEAD, POST, PUT, DELETE" }, 
-				{ "type":"text", "id":"url", "title":"URL", "value":"http://", "required": true }, 
+				{ "type":"text", "id":"url", "title":"URL", "value":"https://", "required": true }, 
 				{ "type":"textarea", "id":"headers", "title":"Request Headers", "value":"User-Agent: xyOps/HTTP-Plugin" }, 
 				{ "type":"textarea", "id":"data", "title":"POST Data", "value":"" }, 
 				{ "type":"text", "id":"timeout", "title":"Timeout (Seconds)", "value":"30" }, 
