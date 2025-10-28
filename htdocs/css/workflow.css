@@ -544,6 +544,10 @@ body.dark .wf_condition {
 	background: var(--active-color) !important;
 }
 
+.wf_event.wf_suspended {
+	outline: 2px dashed var(--orange);
+}
+
 /* Job Progress Indicators */
 
 .wf_active_bar {
@@ -576,6 +580,11 @@ body.dark .wf_condition {
 }
 .wf_active_widget i.mdi {
 	padding-right: 5px;
+}
+
+.wf_active_widget.wf_suspended {
+	color: var(--orange);
+	border-color: var(--orange-highlight);
 }
 
 .wf_active_widget.wf_queued {
