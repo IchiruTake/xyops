@@ -1591,13 +1591,13 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			label: 'Custom Text Content:',
 			content: this.getFormTextarea({
 				id: 'fe_eja_web_hook_text',
-				rows: 5,
+				rows: 3,
 				class: 'monospace',
 				autocomplete: 'off',
 				maxlength: 8192,
 				value: action.text
 			}),
-			caption: 'Optionally customize the text content of the web hook.  Leave blank to use a default system message for the action.'
+			caption: 'Optionally enter custom text to be appended to the end of the web hook system message.'
 		});
 		
 		// run event
