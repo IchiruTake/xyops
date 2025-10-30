@@ -4,7 +4,7 @@
 
 The xyOps project exists to empower users and developers through openness, reliability, and fairness.  Our governance model is designed to preserve these principles indefinitely:
 
-- **Open Access:** All source code, tools, and documentation will be freely available under the MIT License in perpetuity.
+- **Open Access:** All source code, tools, and documentation will be freely available under the BSD 3-Clause License in perpetuity.
 - **Transparency:** All decisions affecting the project are made publicly and archived for accountability.
 - **Meritocracy:** Technical merit and community trust guide decision-making; not titles or corporate affiliation.
 - **Continuity:** Stewardship of xyOps must always serve the longevity and stability of the project above all else.
@@ -26,7 +26,7 @@ Decisions will generally be made by **consensus**, i.e. a proposal is accepted i
 #### Maintainers
 - Have commit access and release authority.
 - Review pull requests for technical soundness, style, and security.
-- Ensure that all merged code remains under the MIT License.
+- Ensure that all merged code remains under the BSD 3-Clause License.
 
 #### Contributors
 - Submit patches, bug reports, and documentation improvements.

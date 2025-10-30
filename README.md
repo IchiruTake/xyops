@@ -87,7 +87,7 @@ xyOps is a flexible job scheduler and server monitoring system, featuring workfl
 - Light and dark themes for the UI
 
 - Free tier you can host yourself.
-	- MIT License
+	- BSD 3-Clause License
 - Professional tier with full cloud hosting and support (24h).
 	- $100 / month, or $1,000 / year.
 - Enterprise tier with on-prem hosting, SSO, a dedicated account manager, and priority support (1h).

@@ -1,7 +1,7 @@
 // Base class for our pages to inherit from
 
 // Copyright (c) 2019 - 2025 PixlCore LLC
-// Released under the MIT License.
+// Released under the BSD 3-Clause License.
 // See the LICENSE.md file in this repository.
 
 Page.Base = class Base extends Page {

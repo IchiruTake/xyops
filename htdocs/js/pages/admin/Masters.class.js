@@ -1,7 +1,7 @@
 // Admin Page -- Masters (Peer) Stats
 
 // Copyright (c) 2019 - 2025 PixlCore LLC
-// Released under the MIT License.
+// Released under the BSD 3-Clause License.
 // See the LICENSE.md file in this repository.
 
 Page.Masters = class Masters extends Page.Base {

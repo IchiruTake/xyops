@@ -5,7 +5,7 @@
 	"description": "A complete task scheduler and server monitoring system.",
 	"author": "Joseph Huckaby <jhuckaby@pixlcore.com>",
 	"homepage": "https://github.com/pixlcore/xyops",
-	"license": "MIT",
+	"license": "BSD-3-Clause",
 	"main": "lib/main.js",
 	"scripts": {
 		"start": "bin/control.sh start",
