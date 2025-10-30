@@ -834,7 +834,7 @@ body.dark div.box_unit {
 }
 
 .box_grid .data_table_compact .data_grid .grid_row.src_cat, .box_grid .data_table_compact .data_grid .grid_row.src_cat .td_big {
-	color: var(--teal) !important;
+	color: var(--cyan) !important;
 }
 .box_grid .data_table_compact .data_grid .grid_row.src_uni, .box_grid .data_table_compact .data_grid .grid_row.src_uni .td_big {
 	color: var(--cyan) !important;
