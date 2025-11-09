@@ -687,6 +687,22 @@ Deletions are permanent and cannot be undone.
 
 
 
+## Secrets
+
+### get_secret
+
+### get_secrets
+
+### decrypt_secret
+
+### create_secret
+
+### update_secret
+
+### delete_secret
+
+
+
 ## Servers
 
 ### get_active_servers
@@ -716,6 +732,28 @@ Deletions are permanent and cannot be undone.
 ### update_tag
 
 ### delete_tag
+
+
+
+## Tickets
+
+### get_ticket
+
+### get_tickets
+
+### search_tickets
+
+### create_ticket
+
+### update_ticket
+
+### add_ticket_change
+
+### update_ticket_change
+
+### delete_ticket_file
+
+### delete_ticket
 
 
 

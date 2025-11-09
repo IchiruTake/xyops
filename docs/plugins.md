@@ -32,7 +32,7 @@ As with most other Plugin types, you can define custom parameters for Action Plu
 
 ### Input
 
-xy, params, ...hook_args -- [Job Hook Data](data-structures.md#job-hook-data)
+xy, params, ...hook_args -- [JobHookData](data-structures.md#jobhookdata)
 
 
 
