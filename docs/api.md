@@ -2492,13 +2492,185 @@ See [Monitors](monitors.md) for more details on the monitoring subsystem.
 
 ### get_plugins
 
+```
+GET /api/app/get_plugins/v1
+```
+
+Fetch all plugin definitions. No specific privilege is required, besides a valid user session or API Key.
+
+In addition to the [Standard Response Format](#standard-response-format), this will include a `rows` array containing all plugins, and a `list` object containing list metadata (e.g. `length` for total rows without pagination).
+
+Example response:
+
+```json
+{
+    "code": 0,
+    "rows": [
+        {
+            "id": "shellplug",
+            "title": "Shell Script",
+            "enabled": true,
+            "command": "[shell-plugin]",
+            "username": "admin",
+            "type": "event",
+            "modified": 1754365754,
+            "created": 1754365754,
+            "params": [
+                { "id": "script", "type": "code", "title": "Script Source", "value": "#!/bin/sh\n\n# Enter your shell script code here" },
+                { "id": "annotate", "type": "checkbox", "title": "Add Date/Time Stamps to Log", "value": false }
+            ],
+            "revision": 1
+        }
+    ],
+    "list": { "length": 1 }
+}
+```
+
+See [Plugin](data-structures.md#plugin) for details on the plugin object and all its properties.
+
 ### get_plugin
+
+```
+GET /api/app/get_plugin/v1
+```
+
+Fetch a single plugin definition by ID. No specific privilege is required, besides a valid user session or API Key. Both a HTTP GET with query string parameters and a HTTP POST with JSON are allowed.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | **(Required)** The alphanumeric ID of the plugin to fetch. |
+
+Example request:
+
+```json
+{ "id": "shellplug" }
+```
+
+Example response:
+
+```json
+{
+    "code": 0,
+    "plugin": {
+        "id": "shellplug",
+        "title": "Shell Script",
+        "enabled": true,
+        "command": "[shell-plugin]",
+        "username": "admin",
+        "type": "event",
+        "modified": 1754365754,
+        "created": 1754365754,
+        "params": [
+            { "id": "script", "type": "code", "title": "Script Source", "value": "#!/bin/sh\n\n# Enter your shell script code here" },
+            { "id": "json", "type": "checkbox", "title": "Interpret JSON in Output", "value": false }
+        ],
+        "revision": 1
+    }
+}
+```
+
+In addition to the [Standard Response Format](#standard-response-format), this will include a `plugin` object containing the requested plugin.
+
+See [Plugin](data-structures.md#plugin) for details on the plugin properties.
 
 ### create_plugin
 
+```
+POST /api/app/create_plugin/v1
+```
+
+Create a new plugin definition. The [create_plugins](privileges.md#create_plugins) privilege is required, as well as a valid user session or API Key. The request must be sent as an HTTP POST with a JSON body.
+
+See [Plugin](data-structures.md#plugin) for details on the input properties. The `id`, `username`, `created`, `modified` and `revision` properties may be omitted, as they are automatically generated (a unique `id` will be assigned if omitted, and the initial `revision` will be set to `1`). The `type` property must be one of: `event`, `monitor`, `action`, or `scheduler`. If you include [Plugin.params](data-structures.md#plugin-params), they must follow the documented schema and will be validated.
+
+Example request:
+
+```json
+{
+    "title": "Shell Script",
+    "enabled": true,
+    "type": "event",
+    "command": "[shell-plugin]",
+    "params": [
+        { "id": "script", "type": "code", "title": "Script Source", "value": "#!/bin/sh\n\n# Enter your shell script code here" },
+        { "id": "annotate", "type": "checkbox", "title": "Add Date/Time Stamps to Log", "value": false }
+    ]
+}
+```
+
+Example response:
+
+```json
+{
+    "code": 0,
+    "plugin": { /* full plugin object including auto-generated fields */ }
+}
+```
+
+In addition to the [Standard Response Format](#standard-response-format), this will include a `plugin` object containing the plugin that was just created (including all the auto-generated properties).
+
 ### update_plugin
 
+```
+POST /api/app/update_plugin/v1
+```
+
+Update an existing plugin definition, specified by its ID. The [edit_plugins](privileges.md#edit_plugins) privilege is required, as well as a valid user session or API Key. The request must be sent as an HTTP POST with a JSON body.
+
+See [Plugin](data-structures.md#plugin) for details on the input properties. The request is shallow-merged into the existing plugin, so you can provide a sparse set of properties to update. The `modified` timestamp is updated automatically, and the `revision` is incremented.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | **(Required)** The alphanumeric ID of the plugin to update. |
+
+Example request:
+
+```json
+{
+    "id": "shellplug",
+    "title": "Shell Script (Updated)",
+    "enabled": false
+}
+```
+
+Example response:
+
+```json
+{ "code": 0 }
+```
+
+The above example would update the `title` and `enabled` properties of the plugin with ID `shellplug`. Other properties will not be touched (aside from `modified` and `revision`, which are updated automatically).
+
 ### delete_plugin
+
+```
+POST /api/app/delete_plugin/v1
+```
+
+Delete an existing plugin definition, specified by its ID. The [delete_plugins](privileges.md#delete_plugins) privilege is required, as well as a valid user session or API Key. The request must be sent as an HTTP POST with a JSON body.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | **(Required)** The alphanumeric ID of the plugin to delete. |
+
+Example request:
+
+```json
+{ "id": "shellplug" }
+```
+
+Example response:
+
+```json
+{ "code": 0 }
+```
+
 
 
 
