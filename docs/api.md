@@ -2678,13 +2678,196 @@ Example response:
 
 ### get_roles
 
+```
+GET /api/app/get_roles/v1
+```
+
+Fetch all user role definitions. No specific privilege is required, besides a valid user session or API Key.
+
+In addition to the [Standard Response Format](#standard-response-format), this will include a `rows` array containing all roles, and a `list` object containing list metadata (e.g. `length` for total rows without pagination).
+
+Example response:
+
+```json
+{
+    "code": 0,
+    "rows": [
+        {
+            "id": "all",
+            "title": "All Users",
+            "enabled": true,
+            "username": "admin",
+            "modified": 1434125333,
+            "created": 1434125333,
+            "notes": "A base set of privileges for all users to enjoy.",
+            "icon": "",
+            "categories": [],
+            "groups": [],
+            "privileges": {
+                "create_events": true,
+                "edit_events": true,
+                "run_jobs": true,
+                "tag_jobs": true,
+                "comment_jobs": true
+            }
+        }
+    ],
+    "list": { "length": 1 }
+}
+```
+
+See [Role](data-structures.md#role) for details on the role object and its properties.
+
 ### get_role
+
+```
+GET /api/app/get_role/v1
+```
+
+Fetch a single role definition by ID. No specific privilege is required, besides a valid user session or API Key. Both a HTTP GET with query string parameters and a HTTP POST with JSON are allowed.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | **(Required)** The alphanumeric ID of the role to fetch. |
+
+Example request:
+
+```json
+{ "id": "all" }
+```
+
+Example response:
+
+```json
+{
+    "code": 0,
+    "role": {
+        "id": "all",
+        "title": "All Users",
+        "enabled": true,
+        "username": "admin",
+        "modified": 1434125333,
+        "created": 1434125333,
+        "notes": "A base set of privileges for all users to enjoy.",
+        "icon": "",
+        "categories": [],
+        "groups": [],
+        "privileges": {
+            "create_events": true,
+            "edit_events": true,
+            "run_jobs": true,
+            "tag_jobs": true,
+            "comment_jobs": true
+        }
+    }
+}
+```
+
+In addition to the [Standard Response Format](#standard-response-format), this will include a `role` object containing the requested role.
+
+See [Role](data-structures.md#role) for details on the role properties.
 
 ### create_role
 
+```
+POST /api/app/create_role/v1
+```
+
+Create a new user role. The [create_roles](privileges.md#create_roles) privilege is required, as well as a valid user session or API Key. The request must be sent as an HTTP POST with a JSON body.
+
+See [Role](data-structures.md#role) for details on the input properties. The `id`, `username`, `created`, `modified` and `revision` properties may be omitted, as they are automatically generated (a unique `id` will be assigned if omitted, and the initial `revision` will be set to `1`). If omitted, `privileges` defaults to an empty object, and `categories`/`groups` default to empty arrays.
+
+Example request:
+
+```json
+{
+    "title": "Operators",
+    "enabled": true,
+    "icon": "account-hard-hat",
+    "notes": "Ops can run jobs and view logs.",
+    "categories": ["cat1", "cat2"],
+    "groups": ["main"],
+    "privileges": {
+        "run_jobs": true,
+        "view_jobs": true
+    }
+}
+```
+
+Example response:
+
+```json
+{
+    "code": 0,
+    "role": { /* full role object including auto-generated fields */ }
+}
+```
+
+In addition to the [Standard Response Format](#standard-response-format), this will include a `role` object containing the role that was just created (including all the auto-generated properties).
+
 ### update_role
 
+```
+POST /api/app/update_role/v1
+```
+
+Update an existing user role, specified by its ID. The [edit_roles](privileges.md#edit_roles) privilege is required, as well as a valid user session or API Key. The request must be sent as an HTTP POST with a JSON body.
+
+See [Role](data-structures.md#role) for details on the input properties. The request is shallow-merged into the existing role, so you can provide a sparse set of properties to update. The `modified` timestamp is updated automatically, and the `revision` is incremented.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | **(Required)** The alphanumeric ID of the role to update. |
+
+Example request:
+
+```json
+{
+    "id": "operators",
+    "title": "Operators (North Region)",
+    "categories": ["cat_north"],
+    "enabled": true
+}
+```
+
+Example response:
+
+```json
+{ "code": 0 }
+```
+
+The above example would update the `title`, `categories` and `enabled` properties of the role with ID `operators`. Other properties will not be modified (aside from `modified` and `revision`, which are updated automatically).
+
 ### delete_role
+
+```
+POST /api/app/delete_role/v1
+```
+
+Delete an existing user role, specified by its ID. The [delete_roles](privileges.md#delete_roles) privilege is required, as well as a valid user session or API Key. The request must be sent as an HTTP POST with a JSON body.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | **(Required)** The alphanumeric ID of the role to delete. |
+
+Example request:
+
+```json
+{ "id": "operators" }
+```
+
+Example response:
+
+```json
+{ "code": 0 }
+```
+
 
 
 
