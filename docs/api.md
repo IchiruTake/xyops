@@ -3689,13 +3689,168 @@ Tag APIs manage free-form labels that can be applied to jobs, events and tickets
 
 ### get_tags
 
+```
+GET /api/app/get_tags/v1
+```
+
+Fetch all tag definitions. No input parameters are required. No specific privilege is required beyond a valid user session or API Key.
+
+In addition to the [Standard Response Format](#standard-response-format), this will include a `rows` array containing all tags, and a `list` object containing list metadata (e.g. `length` for total rows without pagination).
+
+Example response:
+
+```json
+{
+  "code": 0,
+  "rows": [
+    {
+      "id": "important",
+      "title": "Important",
+      "icon": "alert-rhombus",
+      "username": "admin",
+      "modified": 1611173740,
+      "created": 1611173740
+    }
+  ],
+  "list": { "length": 1 }
+}
+```
+
+See [Tag](data-structures.md#tag) for tag object details.
+
 ### get_tag
+
+```
+GET /api/app/get_tag/v1
+```
+
+Fetch a single tag by ID. No specific privilege is required beyond a valid user session or API Key. Both HTTP GET with query string parameters and HTTP POST with JSON are accepted.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | **(Required)** The tag ID to fetch. |
+
+Example request:
+
+```json
+{ "id": "important" }
+```
+
+Example response:
+
+```json
+{
+  "code": 0,
+  "tag": {
+    "id": "important",
+    "title": "Important",
+    "icon": "alert-rhombus",
+    "username": "admin",
+    "modified": 1611173740,
+    "created": 1611173740
+  }
+}
+```
+
+In addition to the [Standard Response Format](#standard-response-format), this will include a `tag` object. See [Tag](data-structures.md#tag) for details.
 
 ### create_tag
 
+```
+POST /api/app/create_tag/v1
+```
+
+Create a new tag. Requires the [create_tags](privileges.md#create_tags) privilege and a valid user session or API Key. Send as HTTP POST with JSON. The `id` may be omitted and will be auto-generated.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | Optional. Alphanumeric ID to assign; if omitted, a unique one is generated. |
+| `title` | String | **(Required)** The display title for the tag. |
+| `icon` | String | Optional icon name for the tag (Material Design Icons). |
+| `notes` | String | Optional notes or comments about the tag. |
+
+Example request:
+
+```json
+{
+  "title": "Important",
+  "icon": "alert-rhombus",
+  "notes": "Attention is needed!"
+}
+```
+
+Example response:
+
+```json
+{
+  "code": 0,
+  "tag": { /* full tag object including auto-generated fields */ }
+}
+```
+
+In addition to the [Standard Response Format](#standard-response-format), this will include a `tag` object containing the newly created tag, including auto-generated fields such as `id`, `username`, `created`, `modified` (and `revision`). See [Tag](data-structures.md#tag) for properties.
+
 ### update_tag
 
+```
+POST /api/app/update_tag/v1
+```
+
+Update an existing tag by ID. Requires the [edit_tags](privileges.md#edit_tags) privilege and a valid user session or API Key. Send as HTTP POST with JSON. The request is shallow-merged into the existing tag, so you can provide a sparse set of properties to update.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | **(Required)** The tag ID to update. |
+| (Other) | Various | Any updatable [Tag](data-structures.md#tag) fields (e.g. `title`, `icon`, `notes`). |
+
+Example request:
+
+```json
+{
+  "id": "important",
+  "title": "High Priority"
+}
+```
+
+Example response:
+
+```json
+{ "code": 0 }
+```
+
 ### delete_tag
+
+```
+POST /api/app/delete_tag/v1
+```
+
+Delete an existing tag by ID. Requires the [delete_tags](privileges.md#delete_tags) privilege and a valid user session or API Key. Send as HTTP POST with JSON.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | **(Required)** The tag ID to delete. |
+
+Example request:
+
+```json
+{ "id": "important" }
+```
+
+Example response:
+
+```json
+{ "code": 0 }
+```
+
+Deletions are permanent and cannot be undone.
 
 
 
