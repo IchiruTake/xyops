@@ -136,80 +136,15 @@ Both are optional, independent toggles on the alert definition.
 
 ## Examples
 
-The default setup includes several examples:
+The default setup includes several alert examples:
 
-High CPU Load
-
-```json
-{
-  "id": "load_avg_high",
-  "title": "High CPU Load",
-  "expression": "monitors.load_avg >= (cpu.cores + 1)",
-  "message": "CPU load average is too high: {{float(monitors.load_avg)}} ({{cpu.cores}} CPU cores)",
-  "groups": [],
-  "monitor_id": "load_avg",
-  "enabled": true,
-  "samples": 1
-}
-```
-
-Low Memory
-
-```json
-{
-  "id": "mem_free_low",
-  "title": "Low Memory",
-  "expression": "memory.available < (memory.total * 0.05)",
-  "message": "Less than 5% of total memory is available ({{bytes(memory.available)}} of {{bytes(memory.total)}})",
-  "monitor_id": "mem_free",
-  "enabled": true,
-  "samples": 1
-}
-```
-
-High I/O Wait
-
-```json
-{
-  "id": "io_wait_high",
-  "title": "High I/O Wait",
-  "expression": "monitors.io_wait >= 75",
-  "message": "Disk I/O wait is too high: {{pct(monitors.io_wait)}}",
-  "monitor_id": "io_wait",
-  "enabled": true,
-  "samples": 1
-}
-```
-
-Disk Full
-
-```json
-{
-  "id": "disk_usage_root_high",
-  "title": "Disk Full",
-  "expression": "monitors.disk_usage_root >= 90",
-  "message": "Root filesystem is {{pct(monitors.disk_usage_root)}} full.",
-  "monitor_id": "disk_usage_root",
-  "enabled": true,
-  "samples": 1
-}
-```
-
-High Active Jobs (with job limiting)
-
-```json
-{
-  "id": "active_jobs_high",
-  "title": "High Active Jobs",
-  "expression": "monitors.active_jobs >= 50",
-  "message": "Active job count is too high: {{number(monitors.active_jobs)}}",
-  "monitor_id": "active_jobs",
-  "enabled": true,
-  "samples": 1,
-  "limit_jobs": true,
-  "abort_jobs": false
-}
-```
+| Alert Title      | Expression                                 | Message |
+|------------------|--------------------------------------------|---------|
+| High CPU Load    | `monitors.load_avg >= (cpu.cores + 1)`     | CPU load average is too high: `{{float(monitors.load_avg)}}` (`{{cpu.cores}}` CPU cores) |
+| Low Memory       | `memory.available < (memory.total * 0.05)` | Less than 5% of total memory is available (`{{bytes(memory.available)}}` of `{{bytes(memory.total)}}`) |
+| High I/O Wait    | `monitors.io_wait >= 75`                   | Disk I/O wait is too high: `{{pct(monitors.io_wait)}}` |
+| Disk Full        | `monitors.disk_usage_root >= 90`           | Root filesystem is `{{pct(monitors.disk_usage_root)}}` full. |
+| High Active Jobs | `monitors.active_jobs >= 50`               | Active job count is too high: `{{number(monitors.active_jobs)}}` |
 
 ## Viewing and Searching Alerts
 
@@ -233,8 +168,8 @@ See [Alerts](api.md#alerts) for full details. Highlights:
 - Prefer relative thresholds when available (e.g., compare load to `cpu.cores`).
 - Use `bytes()`/`pct()`/`number()` to produce readable messages in notifications.
 - Overlay alerts on monitors users already watch to provide context.
-- Use group-level `alert_actions` for standard responses (e.g., page an on-call channel) and keep per-alert actions focused on specifics.
-- Consider `limit_jobs` for conditions that would degrade runtime reliability (e.g., disk full, high I/O wait).
+- Use group-level alert actions for standard responses (e.g., page an on-call channel) and keep per-alert actions focused on specifics.
+- Consider limiting jobs for conditions that would degrade runtime reliability (e.g., disk full, high I/O wait).
 
 ## Privileges
 
