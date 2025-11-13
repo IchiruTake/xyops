@@ -886,6 +886,7 @@ Page.Base = class Base extends Page {
 		var user = app.user;
 		var ropts = Intl.DateTimeFormat().resolvedOptions();
 		var [lang, reg] = ropts.locale.split(/\-/);
+		if (!reg) reg = lang.toUpperCase();
 		
 		lang = user.language || lang;
 		reg = user.region || reg;

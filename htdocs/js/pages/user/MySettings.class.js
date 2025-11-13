@@ -31,8 +31,8 @@ Page.MySettings = class MySettings extends Page.Base {
 		var user = resp.user;
 		
 		var ropts = Intl.DateTimeFormat().resolvedOptions();
-		var lang = ropts.locale.split(/\-/).shift();
-		var reg = ropts.locale.split(/\-/).pop();
+		var lang = ropts.locale.match(/\-/) ? ropts.locale.split(/\-/).shift() : ropts.locale.toLowerCase();
+		var reg = ropts.locale.match(/\-/) ? ropts.locale.split(/\-/).pop() : ropts.locale.toUpperCase();
 		
 		html += '<div class="box">';
 		html += '<div class="box_title">';
@@ -458,8 +458,8 @@ Page.MySettings = class MySettings extends Page.Base {
 		// update date/time preview
 		var json = this.get_settings_form_json();
 		var ropts = Intl.DateTimeFormat().resolvedOptions();
-		var lang = ropts.locale.split(/\-/).shift();
-		var reg = ropts.locale.split(/\-/).pop();
+		var lang = ropts.locale.match(/\-/) ? ropts.locale.split(/\-/).shift() : ropts.locale.toLowerCase();
+		var reg = ropts.locale.match(/\-/) ? ropts.locale.split(/\-/).pop() : ropts.locale.toUpperCase();
 		
 		lang = json.language || lang;
 		reg = json.region || reg;

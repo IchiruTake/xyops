@@ -746,6 +746,7 @@ app.extend({
 		var user = this.user;
 		var ropts = Intl.DateTimeFormat().resolvedOptions();
 		var [lang, reg] = ropts.locale.split(/\-/);
+		if (!reg) reg = lang.toUpperCase();
 		
 		lang = user.language || lang;
 		reg = user.region || reg;
