@@ -1,9 +1,3 @@
-&larr; *[Return to the main document](index.md)*
-
-<hr/>
-
-<!-- toc -->
-
 # SSO Overview
 
 Single Sign-On (SSO) is a mechanism for outsourcing the xyOps user authentication to a third party identity provider, such as Microsoft, Google, GitHub, Okta, Auth0, Cognito, etc.  This document outlines the SSO implementation in xyOps, including configuration, usage, and best practices.

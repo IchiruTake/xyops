@@ -1,9 +1,3 @@
-&larr; *[Return to the main document](index.md)*
-
-<hr/>
-
-<!-- toc -->
-
 # Plugins
 
 This document describes the xyOps Plugin System.  You can extend xyOps with the inclusion of Plugins, either by writing them yourself (in any language!), or by finding one on the [Plugin Marketplace](#plugin-marketplace).

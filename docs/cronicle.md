@@ -1,9 +1,3 @@
-&larr; *[Return to the main document](index.md)*
-
-<hr/>
-
-<!-- toc -->
-
 # Cronicle
 
 This chapter is for users of [Cronicle](https://github.com/jhuckaby/cronicle), the spiritual predecessor of xyOps.  If you have an existing Cronicle installation, you can migrate all of your data over to xyOps, enable a special compatibility mode for Cronicle Plugin interop, and if you like, white-label the UI to bring back the Cronicle name and logo.

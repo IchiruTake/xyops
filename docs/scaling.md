@@ -1,9 +1,3 @@
-&larr; *[Return to the main document](index.md)*
-
-<hr/>
-
-<!-- toc -->
-
 # Overview
 
 Using xyOps on live production?  Got lots of servers?  Please read these best practices for scaling your deployment.

@@ -1,9 +1,3 @@
-&larr; *[Return to the main document](index.md)*
-
-<hr/>
-
-<!-- toc -->
-
 # Development
 
 xyOps runs as a component in the [pixl-server](https://github.com/jhuckaby/pixl-server) framework.  It is highly recommended to read and understand that module and its component system before attempting to work on xyOps.  The following server components are also used:
