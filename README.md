@@ -33,7 +33,7 @@ Most automation platforms focus on workflow orchestration -- they run tasks, but
 
 - For production, we highly recommend our managed **[xyOps Cloud](https://xyops.io/cloud)** service.
 - For enterprise, including on-prem air-gapped installs, sign up for an **[Enterprise License](https://xyops.io/enterprise)**.
-- For development, testing and home labs, check out our **[Self-Hosting Guide](docs/self-hosting.md)**.
+- For development, testing and home labs, check out our **[Self-Hosting Guide](docs/hosting.md)**.
 
 Just want to test out xyOps locally really quick?  One-liner Docker command:
 

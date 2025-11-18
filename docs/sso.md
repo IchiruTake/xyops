@@ -371,7 +371,7 @@ For the examples below, we'll be using the following domain placeholders:
 
 The reason why the master servers each need their own unique (internal) domain name is because of how the multi-master system works.  Each master server needs to be individually addressable, and reachable by all of your worker servers in your org.  Worker servers don't know or care about Nginx -- they contact masters directly, and have their own auto-failover system.  Also, worker servers use a persistent WebSocket connection, and can send a large amount of traffic, depending on how many worker servers you have and how many jobs you run.  For these reasons, it's better to have worker servers connect the masters directly, especially at production scale.
 
-That being said, you *can* configure your worker servers to connect through the Nginx front door if you want.  This can be useful if you have worker servers in another network or out in the wild, but it is not recommended for most setups.  To do this, please see [Overriding The Connect URL](self-hosting.md#overriding-the-connect-url) in our self-hosting guide.
+That being said, you *can* configure your worker servers to connect through the Nginx front door if you want.  This can be useful if you have worker servers in another network or out in the wild, but it is not recommended for most setups.  To do this, please see [Overriding The Connect URL](hosting.md#overriding-the-connect-url) in our self-hosting guide.
 
 Here is a docker compose file for running Nginx and OAuth2-Proxy in the proper configuration for multi-master with TLS and SSO.  xyOps is not included yet, as that will be running separately.
 
@@ -466,7 +466,7 @@ Grab our sample [config.json](https://github.com/pixlcore/xyops/blob/main/sample
 
 Notice the request header names are different; they all have a `x-auth-request-` prefix.  This is how Nginx forwards along trusted headers with it uses OAuth2-Proxy as a side effect via the [auth_request](http://nginx.org/en/docs/http/ngx_http_auth_request_module.html) mechanism.  So you will have to use this style of header in your `header_map` to properly map the user fields.
 
-**Advanced:** xyOps actually performs its own TLS termination in its embedded web server, and hosts HTTPS on port 5523.  This is used by worker servers who connect to the master directly.  By default xyOps is configured with a self-signed certificate, which our satellite software ([xySat](https://github.com/pixlcore/xysat)) is designed to support.  You can change all this, however, and include signed certificates for use on your master servers, and also configure the worker servers to reject self-signed certs.  For more information, see [Self-Hosting Guide - TLS](self-hosting.md#tls).
+**Advanced:** xyOps actually performs its own TLS termination in its embedded web server, and hosts HTTPS on port 5523.  This is used by worker servers who connect to the master directly.  By default xyOps is configured with a self-signed certificate, which our satellite software ([xySat](https://github.com/pixlcore/xysat)) is designed to support.  You can change all this, however, and include signed certificates for use on your master servers, and also configure the worker servers to reject self-signed certs.  For more information, see [Self-Hosting Guide - TLS](hosting.md#tls).
 
 ## Troubleshooting
 

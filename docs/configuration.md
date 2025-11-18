@@ -381,7 +381,7 @@ This number sets the maximum rows retained for the servers database table (defau
 
 This section is for airgap mode, which can prevent xyOps from making unauthorized outbound connections beyond a specified IP range.
 
-See [Air-Gapped Mode](self-hosting.md#air-gapped-mode) for more details.
+See [Air-Gapped Mode](hosting.md#air-gapped-mode) for more details.
 
 ### airgap.enabled
 
