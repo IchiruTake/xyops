@@ -62,7 +62,7 @@ Tips:
 
 ## Expressions
 
-An expression is evaluated by the [jexl](https://www.npmjs.com/package/jexl) engine against the current [ServerMonitorData](data.md#servermonitordata) object. It uses JavaScript‑style syntax with dot paths, array indexing, arithmetic and boolean operators.
+Monitor expressions are evaluated in [xyOps Expression Syntax](xyexp.md), using the current [ServerMonitorData](data.md#servermonitordata) object as context.  This uses JavaScript‑style syntax with dot paths, array indexing, arithmetic and boolean operators.
 
 Examples:
 
@@ -77,7 +77,6 @@ Guidelines:
 - Expressions must resolve to a single numeric value before final casting.
 - The evaluation context is the [ServerMonitorData](data.md#servermonitordata) for the current minute. Do not reference `monitors.*` or `deltas.*` in monitor expressions.
 - For complex or custom metrics, consider a [Monitor Plugin](plugins.md#monitor-plugins) that can emit data into `commands`, and extract a number via expression (and optionally `data_match`).
-
 
 ## Data Match
 
@@ -119,7 +118,7 @@ xyOps ships with a set of standard monitors. Here is what each tracks:
 - **Network In**: `stats.network.rx_bytes` — Network bytes in per second (bytes/sec). Enable: Calc as Delta, Divide by Time, Zero Minimum.
 - **Network Out**: `stats.network.tx_bytes` — Network bytes out per second (bytes/sec). Enable: Calc as Delta, Divide by Time, Zero Minimum.
 - **Processes**: `processes.all` — Total number of processes (integer).
-- **Active Jobs**: `jobs` — Active xyOps jobs on the server (integer).
+- **Active Jobs**: `jobs` — Number of active xyOps jobs on the server (integer).
 
 Use these as templates for your own monitors, or create more from scratch. You can also import/export monitors as JSON files.
 
@@ -139,14 +138,19 @@ QuickMon complements minute‑level monitors: use QuickMon for immediate visibil
 
 ## Examples and Recipes
 
+- **Track Specific Process Memory**
+  - Expression: `processes.list[.command == 'ffmpeg'].memRss` *(exact name match)*
+  - Expression: `find( processes.list, 'command', 'ffmpeg' ).memRss` *(substring match)*
+  - Type: `bytes`
 - **Memory Used %**
   - Expression: `100 - memory.available / memory.total * 100`
   - Type: `float`, Suffix: `%`, Min Vert Range: `100`.
-- **Root Free Space (GB)**
-  - Expression: ` (mounts.root.available) / (1024 * 1024 * 1024) `
+- **Root Free Space (in GB)**
+  - Expression: `(mounts.root.available) / (1024 * 1024 * 1024)`
   - Type: `float`, Suffix: `GB`.
 - **TCP LISTEN Sockets**
-  - Expression: `find(conns, 'state', 'LISTEN').length`
+  - Expression: `count( conns[.state == 'LISTEN'] )`
+  - Or alternatively: `stats.network.states.listen`
   - Type: `integer`.
 
 If your expression returns a string (e.g., a custom command output), use “Data Match” to extract the number. For advanced metrics, write a [Monitor Plugin](plugins.md#monitor-plugins) that emits structured data, then point a monitor expression at it.

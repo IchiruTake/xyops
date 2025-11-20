@@ -943,47 +943,7 @@ My favorite animal is {{ data.animal }}, and my favorite color is {{ data.green 
 
 When the job runs, those `{{ mustache }}` placeholders are automatically expanded using the [Job](data.md#job) object as the context.  In addition, the [Job.input](data.md#job-input) sub-object is "flattened" into the outer context for convenience (just so you can skip the `input` prefix in the macros).  This allows you to access all the output data from the previous job in the current job, and copy it into Plugin parameters.
 
-The mustache macros can do more than just data lookups.  They can also evaluate simple JavaScript-style expressions (specifically, we use the [jexl](https://github.com/TomFrost/Jexl) library).  See below for a few examples.
-
-Here is some context with more sample data:
-
-```json
-{
-	"data": {
-		"employees": [
-			{ "first": "Sterling", "last": "Archer", "age": 36 },
-			{ "first": "Malory",   "last": "Archer", "age": 75 },
-			{ "first": "Lana",     "last": "Kane",   "age": 33 },
-			{ "first": "Cyril",    "last": "Figgis", "age": 45 },
-			{ "first": "Cheryl",   "last": "Tunt",   "age": 28 }
-		],
-		"retireAge": 62
-	}
-}
-```
-
-| Expression | Result |
-|------------|--------|
-| `data.employees[.first == 'Sterling']` | `[{first: 'Sterling', last: 'Archer', age: 36}]` |
-| `data.employees[.last == 'Tu' + 'nt'].first` | `Cheryl` |
-| `data.employees[.age >= 30 && .age < 40]` | `[{first: 'Sterling', last: 'Archer', age: 36},{first: 'Lana', last: 'Kane', age: 33}]` |
-| `data.employees[.age >= 30 && .age < 40][.age < 35]` | `[{first: 'Lana', last: 'Kane', age: 33}]` |
-| `data.employees[.age >= data.retireAge].first` | `Malory` |
-
-**Note:** When an expression returns an array with multiple items, and you sub-index into the array with a dot property, this implicitly references the first item in the set.
-
-In addition, several "functions" are available to use inside the mustache macro braces, for transforming data on-the-fly.  Here is the list of functions, and what they do:
-
-| Function Name | Description |
-|---------------|-------------|
-| `min` | Returns the minimum of multiple number arguments, e.g. `{{ min(1, 2, 3) }}` would return "1". |
-| `max` | Returns the minimum of multiple number arguments, e.g. `{{ max(1, 2, 3) }}` would return "3". |
-| `bytes` | Returns a human-readable representation of raw bytes, e.g. `{{ bytes(1048576) }}` would return "1 MB". |
-| `number` | Returns a formatted number according to the server's locale, e.g. `{{ number(1234567) }}` would return "1,234,567". |
-| `pct` | Returns a formatted percentage, given an arbitrary number and maximum, e.g. `{{ pct(0.5, 1) }}` would return "50%". |
-| `integer` | Returns an integer given a float, e.g. `{{ integer(12.3456789) }}` would return "12" (rounds down). |
-| `float` | Returns a formatted, human-readable float with up to 2 digits after the decimal, e.g. `{{ float(12.3456789) }}` would return "12.34" (rounds down). |
-| `stringify` | Returns a JSON-stringified version of an object or any value, e.g. `{{ stringify(data) }}` would return `{"animal":"frog","color":"green"}` as a string. |
+The mustache macros can do more than just data lookups.  They can also evaluate simple JavaScript-style expressions as well.  For more on this, see [xyOps Expression Syntax](xyexp.md).
 
 ## Built-in Plugins
 

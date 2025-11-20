@@ -31,14 +31,14 @@ Notes:
 
 ## Alert Expressions
 
-An alert expression is a JavaScript-style expression evaluated by [jexl](https://www.npmjs.com/package/jexl) against the current [ServerMonitorData](data.md#servermonitordata). Common entry points include:
+An alert expression is evaluated using the [xyOps Expression Format](xyexp.md), with the current [ServerMonitorData](data.md#servermonitordata) as context. Common entry points include:
 
 - `cpu`: CPU stats and hardware information.
 - `memory`: Total/available memory, etc.
 - `load`: 1/5/15 minute load averages.
 - `monitors`: Values from configured monitors (absolute values).
 - `deltas`: Computed deltas for counter-style monitors since the last sample (per minute by default).
-- `jobs`: Running job summary for the server.
+- `jobs`: Running job count for the server.
 
 Example:
 
@@ -63,6 +63,8 @@ Useful helper functions available in expressions and message macros:
 - `pct(x)` renders a percentage
 - `stringify(obj)` JSON stringifies a value
 - `find(array, key, substr)` filters array items where `item[key]` includes `substr`
+
+See [xyOps Expression Format](xyexp.md) for more details.
 
 Tips:
 
