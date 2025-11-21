@@ -5,6 +5,10 @@
 // Released under the BSD 3-Clause License.
 // See the LICENSE.md file in this repository.
 
+// Examples:
+// node bin/db-cli.js get alerts amg6sl6z0cc
+// node bin/db-cli.js search jobs "tags:flag tmgvnw9kkga" --select id,tags --limit 100
+
 var PixlServer = require("pixl-server");
 var Echo = require('../lib/echo.js');
 var cli = require('pixl-cli');
@@ -81,6 +85,17 @@ var DBCLI = {
 			
 			delete data.perf;
 			data.opts = opts;
+			
+			if (args.select && data.records) {
+				if (!Array.isArray(args.select)) args.select = args.select.split(/\,\s*/);
+				data.records = data.records.map( function(record) {
+					var output = {};
+					args.select.forEach( function(key) {
+						output[ key ] = record[ key ];
+					});
+					return output;
+				} );
+			}
 			
 			self.emit(data);
 			callback();
