@@ -107,7 +107,7 @@ Page.Job = class Job extends Page.PageUtils {
 			// job in progress
 			var bwidth = this.header_bar_width;
 			nav_items.push(
-				'<div class="progress_bar_container" id="d_live_progress_bar_cont" style="width:' + bwidth + 'px;">' + 
+				'<div class="progress_bar_container" id="d_live_progress_bar_cont" style="width:' + bwidth + 'px;" role="progressbar">' + 
 					'<div class="progress_bar_label first_half" style="width:' + bwidth + 'px;"></div>' + 
 					'<div class="progress_bar_inner" style="width:0px;">' + 
 						'<div class="progress_bar_label second_half" style="width:' + bwidth + 'px;"></div>' + 
@@ -491,7 +491,7 @@ Page.Job = class Job extends Page.PageUtils {
 					html += '<div class="clear"></div>';
 				html += '</div>';
 				html += '<div class="box_content table">';
-					html += '<div id="d_live_job_log"></div>';
+					html += '<div id="d_live_job_log" role="log"></div>';
 				html += '</div>'; // box_content
 			html += '</div>'; // box
 			
@@ -1039,11 +1039,11 @@ Page.Job = class Job extends Page.PageUtils {
 			if (!job.final) {
 				// job in progress
 				if (app.hasPrivilege('abort_jobs')) {
-					actions.push('<span class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></a>');
+					actions.push('<button class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></button>');
 				}
 				if (job.suspended && app.hasPrivilege('run_jobs')) {
 					actions = []; // replace abort with resume
-					actions.push('<span class="link" onClick="$P().doResumeJob(\'' + job.id + '\')"><b>Resume Job...</b></a>');
+					actions.push('<button class="link" onClick="$P().doResumeJob(\'' + job.id + '\')"><b>Resume Job...</b></button>');
 				}
 				
 				tds = [
@@ -1309,8 +1309,8 @@ Page.Job = class Job extends Page.PageUtils {
 			callback: function(comment, idx) {
 				var actions = [];
 				if ((comment.username == app.username) || app.isAdmin()) {
-					actions.push('<span class="link" onClick="$P().do_edit_comment(' + idx + ')"><b>Edit</b></span>');
-					actions.push('<span class="link danger" onClick="$P().do_delete_comment(' + idx + ')"><b>Delete</b></span>');
+					actions.push('<button class="link" onClick="$P().do_edit_comment(' + idx + ')"><b>Edit</b></button>');
+					actions.push('<button class="link danger" onClick="$P().do_delete_comment(' + idx + ')"><b>Delete</b></button>');
 				}
 				return [
 					self.getNiceUser(comment.username, app.isAdmin()),
@@ -1425,10 +1425,10 @@ Page.Job = class Job extends Page.PageUtils {
 			else if (item.description || item.details) link = `$P().viewJobLimitDetails(${idx})`;
 			
 			var view_details = 'n/a';
-			if (link) view_details = '<span class="link" onClick="' + link + '">View Details...</span>';
+			if (link) view_details = '<button class="link" onClick="' + link + '">View Details...</button>';
 			
 			return [
-				'<span class="link nowrap" onClick="' + link + '"><b><i class="mdi mdi-' + limit_def.icon + '"></i>' + limit_def.title + '</b></span>',
+				'<button class="link nowrap" onClick="' + link + '"><b><i class="mdi mdi-' + limit_def.icon + '"></i>' + limit_def.title + '</b></button>',
 				self.getNiceLimitSource(item.source || 'event'),
 				item.msg,
 				self.getRelativeDateTime(item.date, true),
@@ -1500,10 +1500,10 @@ Page.Job = class Job extends Page.PageUtils {
 			else if (item.description || item.details) link = `$P().viewJobActionDetails(${idx})`;
 			
 			var view_details = 'n/a';
-			if (link) view_details = '<span class="link" onClick="' + link + '">View Details...</span>';
+			if (link) view_details = '<button class="link" onClick="' + link + '">View Details...</button>';
 			
 			return [
-				'<span class="link nowrap" onClick="' + link + '"><b><i class="mdi mdi-' + disp.condition.icon + '"></i>' + disp.condition.title + '</b></span>',
+				'<button class="link nowrap" onClick="' + link + '"><b><i class="mdi mdi-' + disp.condition.icon + '"></i>' + disp.condition.title + '</b></button>',
 				'<i class="mdi mdi-' + disp.icon + '">&nbsp;</i>' + disp.type,
 				self.getNiceActionSource(item.source || 'event'),
 				disp.desc,
@@ -2444,7 +2444,7 @@ Page.Job = class Job extends Page.PageUtils {
 			
 			if (job.timelines.minute.length) {
 				// completed job: default snap to first minute
-				cols.headerRight = '<span class="link" onClick="$P().jumpSnapshotDelta(-1)"><i class="mdi mdi-chevron-double-left">&nbsp;</i>Snapshots</span>';
+				cols.headerRight = '<button class="link" onClick="$P().jumpSnapshotDelta(-1)"><i class="mdi mdi-chevron-double-left">&nbsp;</i>Snapshots</button>';
 			}
 		}
 		else {
@@ -2794,7 +2794,7 @@ Page.Job = class Job extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_args, function(ticket, idx) {
 			var actions = [
-				'<span class="link danger" onClick="$P().doRemoveTicket(' + idx + ')"><b>Remove</b></span>'
+				'<button class="link danger" onClick="$P().doRemoveTicket(' + idx + ')"><b>Remove</b></button>'
 			];
 			
 			// handle deleted tickets (should be rare, as they're cleaned up in background)
@@ -2866,7 +2866,7 @@ Page.Job = class Job extends Page.PageUtils {
 			var actions = [
 				'<a href="' + url + '" target="_blank"><b>View</b></a>',
 				'<a href="' + url + '?download=' + encodeURIComponent(file.filename) + '"><b>Download</b></a>',
-				'<span class="link danger" onClick="$P().do_delete_file(' + idx + ')"><b>Delete</b></span>'
+				'<button class="link danger" onClick="$P().do_delete_file(' + idx + ')"><b>Delete</b></button>'
 			];
 			
 			var nice_source = '';

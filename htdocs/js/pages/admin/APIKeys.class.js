@@ -62,8 +62,8 @@ Page.APIKeys = class APIKeys extends Page.PageUtils {
 		var self = this;
 		html += this.getBasicGrid( this.api_keys, cols, 'key', function(item, idx) {
 			var actions = [
-				'<span class="link" onClick="$P().edit_api_key('+idx+')"><b>Edit</b></span>',
-				'<span class="link danger" onClick="$P().delete_api_key('+idx+')"><b>Delete</b></span>'
+				'<button class="link" onClick="$P().edit_api_key('+idx+')"><b>Edit</b></button>',
+				'<button class="link danger" onClick="$P().delete_api_key('+idx+')"><b>Delete</b></button>'
 			];
 			
 			var nice_status = '';

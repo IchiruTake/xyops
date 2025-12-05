@@ -72,8 +72,8 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_opts, function(item, idx) {
 			var actions = [];
-			if (app.hasPrivilege('edit_plugins')) actions.push( '<span class="link" onClick="$P().edit_plugin('+idx+')"><b>Edit</b></span>' );
-			if (app.hasPrivilege('delete_plugins')) actions.push( '<span class="link danger" onClick="$P().delete_plugin('+idx+')"><b>Delete</b></span>' );
+			if (app.hasPrivilege('edit_plugins')) actions.push( '<button class="link" onClick="$P().edit_plugin('+idx+')"><b>Edit</b></button>' );
+			if (app.hasPrivilege('delete_plugins')) actions.push( '<button class="link danger" onClick="$P().delete_plugin('+idx+')"><b>Delete</b></button>' );
 			
 			var plugin_events = find_objects( app.events, { plugin: item.id } );
 			var num_events = plugin_events.length;

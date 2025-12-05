@@ -235,3 +235,19 @@ body.reduced .button.pulse {
 	will-change: backdrop-filter;
 	display: none;
 }
+
+/* Focus */
+
+.sidebar .section a:focus-visible, .header_nav_item:focus-visible, .sel_dialog_item:focus-visible, select:focus-visible { 
+	outline: 2px solid var(--theme-color); 
+	outline-offset: -2px;
+}
+.button:focus-visible, button:focus-visible { 
+	outline: 2px solid var(--theme-color); 
+	outline-offset: 2px;
+}
+button.link:focus-visible, button.editor_toolbar_button:focus-visible { 
+	outline: 2px solid var(--theme-color); 
+	outline-offset: -2px;
+}
+

@@ -762,7 +762,7 @@ Page.Alerts = class Alerts extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_args, function(ticket, idx) {
 			var actions = [
-				'<span class="link danger" onClick="$P().doRemoveTicket(' + idx + ')"><b>Remove</b></span>'
+				'<button class="link danger" onClick="$P().doRemoveTicket(' + idx + ')"><b>Remove</b></button>'
 			];
 			
 			// handle deleted tickets (should be rare, as they're cleaned up in background)
@@ -908,10 +908,10 @@ Page.Alerts = class Alerts extends Page.PageUtils {
 			else if (item.description || item.details) link = `$P().viewActionDetails(${idx})`;
 			
 			var view_details = 'n/a';
-			if (link) view_details = '<span class="link" onClick="' + link + '">View Details...</span>';
+			if (link) view_details = '<button class="link" onClick="' + link + '">View Details...</button>';
 			
 			return [
-				'<span class="link nowrap" onClick="' + link + '"><b><i class="mdi mdi-' + disp.condition.icon + '"></i>' + disp.condition.title + '</b></span>',
+				'<button class="link nowrap" onClick="' + link + '"><b><i class="mdi mdi-' + disp.condition.icon + '"></i>' + disp.condition.title + '</b></button>',
 				'<i class="mdi mdi-' + disp.icon + '">&nbsp;</i>' + disp.type,
 				self.getNiceActionSource(item.source || 'alert'),
 				disp.desc,

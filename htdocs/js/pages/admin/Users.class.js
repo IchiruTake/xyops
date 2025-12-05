@@ -66,8 +66,8 @@ Page.Users = class Users extends Page.PageUtils {
 		var self = this;
 		html += this.getPaginatedGrid( resp, cols, 'user', function(user, idx) {
 			var actions = [
-				'<span class="link" onClick="$P().edit_user('+idx+')"><b>Edit</b></span>',
-				'<span class="link danger" onClick="$P().delete_user('+idx+')"><b>Delete</b></span>'
+				'<button class="link" onClick="$P().edit_user('+idx+')"><b>Edit</b></button>',
+				'<button class="link danger" onClick="$P().delete_user('+idx+')"><b>Delete</b></button>'
 			];
 			
 			return [

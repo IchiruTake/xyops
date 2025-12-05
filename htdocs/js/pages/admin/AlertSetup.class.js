@@ -71,8 +71,8 @@ Page.AlertSetup = class AlertSetup extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_opts, function(item, idx) {
 			var actions = [];
-			if (app.hasPrivilege('edit_alerts')) actions.push( '<span class="link" onClick="$P().edit_alert('+idx+')"><b>Edit</b></span>' );
-			if (app.hasPrivilege('delete_alerts')) actions.push( '<span class="link danger" onClick="$P().delete_alert('+idx+')"><b>Delete</b></span>' );
+			if (app.hasPrivilege('edit_alerts')) actions.push( '<button class="link" onClick="$P().edit_alert('+idx+')"><b>Edit</b></button>' );
+			if (app.hasPrivilege('delete_alerts')) actions.push( '<button class="link danger" onClick="$P().delete_alert('+idx+')"><b>Delete</b></button>' );
 			
 			var tds = [
 				'<div class="td_drag_handle" style="cursor:default">' + self.getFormCheckbox({

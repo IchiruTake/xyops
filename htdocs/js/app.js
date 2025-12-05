@@ -303,18 +303,18 @@ app.extend({
 		// update top-right display
 		var html = '';
 		
-		html += '<div class="header_widget icon danger"><i class="mdi mdi-power-standby" onClick="app.doConfirmLogout()" title="Logout"></i></div>';
+		html += '<div class="header_widget icon danger" title="Logout"><i class="mdi mdi-power-standby" onClick="app.doConfirmLogout()"></i></div>';
 		html += '<div id="d_my_account" class="header_widget user" style="background-image:url(' + this.getUserAvatarURL( this.retina ? 64 : 32, bust ) + ')" onClick="app.doMyAccount()" title="My Account (' + encode_attrib_entities(app.user.full_name) + ')"></div>';
-		html += '<div id="d_my_settings" class="header_widget icon"><i class="mdi mdi-tune-vertical-variant" onClick="app.doMySettings()" title="My Preferences"></i></div>';
-		html += '<div id="d_theme_ctrl" class="header_widget icon" onMouseDown="app.openThemeSelector()" title="Select Theme"></div>';
-		html += '<div id="d_header_clock" class="header_widget combo" onMouseDown="app.openScheduleSelector()" title="Toggle Scheduler">...</div>';
+		html += '<div id="d_my_settings" class="header_widget icon" title="My Preferences"><i class="mdi mdi-tune-vertical-variant" onClick="app.doMySettings()"></i></div>';
+		html += '<div id="d_theme_ctrl" class="header_widget icon" onClick="app.openThemeSelector()" title="Select Theme"></div>';
+		html += '<div id="d_header_clock" class="header_widget combo" onClick="app.openScheduleSelector()" title="Toggle Scheduler">...</div>';
 		
 		html += '<div id="d_job_counter" class="header_widget combo marquee" onClick="app.goJobs()" title="Active Jobs" style="display:none">...</div>';
 		html += '<div id="d_pending_counter" class="header_widget combo" onClick="app.goPending()" title="Pending Jobs" style="display:none">...</div>';
 		html += '<div id="d_alert_counter" class="header_widget combo red" onClick="app.goAlerts()" title="Active Alerts" style="display:none">...</div>';
 		
 		// html += '<div class="header_search_widget"><i class="mdi mdi-magnify">&nbsp;</i><input type="text" size="15" id="fe_header_search" placeholder="Quick Search" onKeyDown="app.qsKeyDown(this,event)"/></div>';
-		$('#d_header_user_container').html( html );
+		$('#d_header_user_container').html( html ).buttonize('.header_widget');
 		
 		this.$headerClock = $('#d_header_clock');
 		this.$alertCounter = $('#d_alert_counter');
@@ -1223,6 +1223,11 @@ app.extend({
 		return this.epoch + ((performance.now() - this.serverPerfStart) / 1000);
 	},
 	
+	buttonize: function($cont, sel = '.button') {
+		// add aria roles and keyboard handlers to all buttons inside container
+		$cont.find(sel).attr({ role: 'button', tabindex: '0', onkeypress: 'app.buttonKey(this,event)' });
+	},
+	
 	initAccessibility() {
 		// initialize accessibility subsystem
 		var rmQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -1245,6 +1250,12 @@ app.extend({
 		
 		conHighQuery.addEventListener('change', handleContrastChange);
 		conLowQuery.addEventListener('change', handleContrastChange);
+		
+		// add some base aria tags
+		$('div.header').attr('role', 'banner');
+		$('div.main').attr('role', 'main');
+		$('div.sidebar').attr('role', 'complementary');
+		$('#d_footer').attr('role', 'contentinfo');
 	},
 	
 	updateAccessibility() {

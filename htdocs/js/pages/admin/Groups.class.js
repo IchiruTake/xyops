@@ -85,8 +85,8 @@ Page.Groups = class Groups extends Page.ServerUtils {
 		
 		html += this.getBasicGrid( grid_opts, function(item, idx) {
 			var actions = [];
-			if (app.hasPrivilege('edit_groups')) actions.push( '<span class="link" onClick="$P().edit_group('+idx+')"><b>Edit</b></span>' );
-			if (app.hasPrivilege('delete_groups')) actions.push( '<span class="link danger" onClick="$P().delete_group('+idx+')"><b>Delete</b></span>' );
+			if (app.hasPrivilege('edit_groups')) actions.push( '<button class="link" onClick="$P().edit_group('+idx+')"><b>Edit</b></button>' );
+			if (app.hasPrivilege('delete_groups')) actions.push( '<button class="link danger" onClick="$P().delete_group('+idx+')"><b>Delete</b></button>' );
 			
 			var nice_match = '';
 			if (item.hostname_match == '(?!)') nice_match = '(None)';
@@ -1246,7 +1246,7 @@ Page.Groups = class Groups extends Page.ServerUtils {
 				'<div id="d_vg_jt_progress_' + job.id + '">' + self.getNiceJobProgressBar(job) + '</div>',
 				'<div id="d_vg_jt_remaining_' + job.id + '">' + self.getNiceJobRemainingTime(job, false) + '</div>',
 				
-				'<span class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></a>'
+				'<button class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></button>'
 			];
 			
 			if (job.suspended) tds.className = 'suspended';

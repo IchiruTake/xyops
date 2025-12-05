@@ -206,8 +206,8 @@ Page.Base = class Base extends Page {
 	getNiceCopyableID(id, icon = 'clipboard-text-outline') {
 		// show nice ID with copy-to-clipboard
 		var html = '<span class="nowrap">';
-		html += '<span class="link" onClick="$P().copyID(this)" title="Copy ID to Clipboard">';
-		html += '<i class="mdi mdi-' + icon + '"></i><span>' + id + '</span></span>';
+		html += '<button class="link" onClick="$P().copyID(this)" title="Copy ID to Clipboard">';
+		html += '<i class="mdi mdi-' + icon + '"></i><span>' + id + '</span></button>';
 		html += '</span>';
 		return html;
 	}
@@ -275,8 +275,8 @@ Page.Base = class Base extends Page {
 				if (item.server) link = `$P().showGroupProcessInfo(${item.pid},'${item.server}')`;
 				else link = '$P().showProcessInfo(' + item.pid + ')';
 			}
-			html += '<span class="link" onClick="' + link + '" title="' + encode_attrib_entities(item.command) + '">';
-			html += icon + '<span>' + encode_entities(short_cmd) + '</span></span>';
+			html += '<button class="link" onClick="' + link + '" title="' + encode_attrib_entities(item.command) + '">';
+			html += icon + '<span>' + encode_entities(short_cmd) + '</span></button>';
 		}
 		else {
 			html += icon + encode_entities(short_cmd);
@@ -1301,7 +1301,7 @@ Page.Base = class Base extends Page {
 			break;
 		}
 		
-		html += '<div class="progress_bar_container ' + extra_classes.join(' ') + '" style="width:' + bar_width + 'px;">';
+		html += '<div class="progress_bar_container ' + extra_classes.join(' ') + '" style="width:' + bar_width + 'px;" role="progressbar">';
 			html += '<div class="progress_bar_label first_half" style="width:' + bar_width + 'px;">' + label + '</div>';
 			html += '<div class="progress_bar_inner" style="width:' + cx + 'px;">';
 				html += '<div class="progress_bar_label second_half" style="width:' + bar_width + 'px;">' + label + '</div>';
@@ -1355,7 +1355,7 @@ Page.Base = class Base extends Page {
 		var label = '' + Math.floor( (counter / 1.0) * 100 ) + '%';
 		var extra_attribs = show_label ? '' : ('title="' + label + '"');
 		
-		html += '<div class="progress_bar_container ' + extra_classes + '" style="width:' + bar_width + 'px; margin:0;" ' + extra_attribs + '>';
+		html += '<div class="progress_bar_container ' + extra_classes + '" style="width:' + bar_width + 'px; margin:0;" ' + extra_attribs + ' role="progressbar">';
 			if (show_label) html += '<div class="progress_bar_label first_half" style="width:' + bar_width + 'px;">' + label + '</div>';
 			html += '<div class="progress_bar_inner" style="width:' + cx + 'px;">';
 				if (show_label) html += '<div class="progress_bar_label second_half" style="width:' + bar_width + 'px;">' + label + '</div>';
@@ -2468,7 +2468,7 @@ Page.Base = class Base extends Page {
 				case 'code':
 					if (elem_value.toString().length) {
 						html += '<i class="link mdi mdi-' + elem_icon + '" onClick="$P().copyPluginParamValue(this)" title="Copy to Clipboard">&nbsp;</i>';
-						html += '<span class="link" onClick="$P().viewPluginParamValue(this)">Click to View...</span>';
+						html += '<button class="link" onClick="$P().viewPluginParamValue(this)">Click to View...</button>';
 						html += '<span class="data_value" style="display:none" data-title="' + encode_attrib_entities(param.title) + '">' + encode_entities(elem_value) + '</span>';
 					}
 					else html += none;
@@ -2659,6 +2659,8 @@ Page.Base = class Base extends Page {
 		var elem = document.getElementById("fe_editor");
 		var auto_mode = !mode;
 		
+		$(elem).closest('div').attr('aria-label', config.ui.labels.code_editor);
+		
 		if (!mode && elem.value.length) {
 			mode = this.defaultEditorMode || app.detectCodemirrorMode(elem.value) || null;
 			Debug.trace('debug', "Detected initial language: " + mode);
@@ -2667,7 +2669,11 @@ Page.Base = class Base extends Page {
 		this.editor = CodeMirror.fromTextArea(elem, merge_objects( config.editor_defaults, {
 			mode: { name: 'mustache', backdrop: mode },
 			theme: app.getCodemirrorTheme(),
-			viewportMargin: Infinity
+			viewportMargin: Infinity,
+			
+			extraKeys: {
+				'Esc': function() { app.focusNext(); }
+			}
 		}));
 		
 		if (auto_mode) this.setupEditorAutoDetect();
@@ -2754,7 +2760,7 @@ Page.Base = class Base extends Page {
 		delete this.defaultEditorMode;
 		
 		// start with a "fake" codemirror element so the dialog can auto-size itself
-		html += '<div id="fe_dialog_editor"><div class="CodeMirror ' + (is_maxed ? 'maximize' : '') + '"></div></div>';
+		html += '<div id="fe_dialog_editor" aria-label="' + config.ui.labels.code_editor + '"><div class="CodeMirror ' + (is_maxed ? 'maximize' : '') + '"></div></div>';
 		
 		var buttons_html = "";
 		buttons_html += '<div class="button phone_collapse" onClick="CodeEditor.hide()"><i class="mdi mdi-close-circle-outline">&nbsp;</i><span>Cancel</span></div>';
@@ -2762,9 +2768,9 @@ Page.Base = class Base extends Page {
 		buttons_html += '<div class="button phone_collapse" title="Upload File..." onClick="$P().uploadCodeFile()"><i class="mdi mdi-cloud-upload-outline">&nbsp;</i><span>Upload...</span></div>';
 		buttons_html += '<div id="btn_ceditor_confirm" class="button primary"><i class="mdi mdi-check-circle">&nbsp;</i><span>Accept</span></div>';
 		
-		title += ' <div class="dialog_title_widget mobile_hide"><span class="link" onClick="$P().toggleDialogCodeEditorSize(this)">';
-		if (is_maxed) title += 'Minimize<i style="padding-left:3px" class="mdi mdi-arrow-bottom-left-thick"></i></span></div>';
-		else title += 'Maximize<i style="padding-left:3px" class="mdi mdi-arrow-top-right-thick"></i></span></div>';
+		title += ' <div class="dialog_title_widget mobile_hide"><button class="link" onClick="$P().toggleDialogCodeEditorSize(this)">';
+		if (is_maxed) title += 'Minimize<i style="padding-left:3px" class="mdi mdi-arrow-bottom-left-thick"></i></button></div>';
+		else title += 'Maximize<i style="padding-left:3px" class="mdi mdi-arrow-top-right-thick"></i></button></div>';
 		
 		CodeEditor.showSimpleDialog(title, html, buttons_html);
 		
@@ -2803,6 +2809,18 @@ Page.Base = class Base extends Page {
 			
 			reader.readAsText(file);
 		}; // onDragDrop
+		
+		CodeEditor.onKeyDown = function(event) {
+			// prevent esc from canceling if editor is focused
+			if (event.keyCode == 27) {
+				if (document.activeElement && (document.activeElement.nodeName == 'TEXTAREA')) {
+					app.focusNext();
+					return;
+				}
+				event.preventDefault();
+				CodeEditor.hide();
+			}
+		};
 		
 		// now setup the editor itself
 		var elem = document.getElementById("fe_dialog_editor");

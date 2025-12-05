@@ -74,8 +74,8 @@ Page.Monitors = class Monitors extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_opts, function(item, idx) {
 			var actions = [];
-			if (app.hasPrivilege('edit_monitors')) actions.push( '<span class="link" onClick="$P().edit_monitor('+idx+')"><b>Edit</b></span>' );
-			if (app.hasPrivilege('delete_monitors')) actions.push( '<span class="link danger" onClick="$P().delete_monitor('+idx+')"><b>Delete</b></span>' );
+			if (app.hasPrivilege('edit_monitors')) actions.push( '<button class="link" onClick="$P().edit_monitor('+idx+')"><b>Edit</b></button>' );
+			if (app.hasPrivilege('delete_monitors')) actions.push( '<button class="link danger" onClick="$P().delete_monitor('+idx+')"><b>Delete</b></button>' );
 			
 			var tds = [
 				'<div class="td_drag_handle" draggable="true" title="Drag to reorder"><i class="mdi mdi-menu"></i></div>',

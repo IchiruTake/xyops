@@ -354,7 +354,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		html += '<div class="box_content" style="padding:20px;">';
 			
 			// search box
-			html += '<div class="search_box">';
+			html += '<div class="search_box" role="search">';
 				html += '<i class="mdi mdi-magnify" onClick="$(\'#fe_ss_query\').focus()">&nbsp;</i>';
 				// html += '<div class="search_help"><a href="https://github.com/pixlcore/xyops#search" target="_blank">Search Help<i class="mdi mdi-open-in-new"></i></a></div>';
 				html += '<input type="text" id="fe_ss_query" maxlength="128" placeholder="Search Labels, Hostnames or IPs..." value="' + escape_text_field_value(args.query || '') + '">';
@@ -1362,7 +1362,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				'<div id="d_vs_jt_progress_' + job.id + '">' + self.getNiceJobProgressBar(job) + '</div>',
 				'<div id="d_vs_jt_remaining_' + job.id + '">' + self.getNiceJobRemainingTime(job, false) + '</div>',
 				
-				'<span class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></a>'
+				'<button class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></button>'
 			];
 			
 			if (job.suspended) tds.className = 'suspended';

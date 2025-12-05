@@ -65,8 +65,8 @@ Page.Tags = class Tags extends Page.PageUtils {
 		var self = this;
 		html += this.getBasicGrid( this.tags, cols, 'tag', function(item, idx) {
 			var actions = [];
-			if (app.hasPrivilege('edit_tags')) actions.push( '<span class="link" onClick="$P().edit_tag('+idx+')"><b>Edit</b></span>' );
-			if (app.hasPrivilege('delete_tags')) actions.push( '<span class="link danger" onClick="$P().delete_tag('+idx+')"><b>Delete</b></span>' );
+			if (app.hasPrivilege('edit_tags')) actions.push( '<button class="link" onClick="$P().edit_tag('+idx+')"><b>Edit</b></button>' );
+			if (app.hasPrivilege('delete_tags')) actions.push( '<button class="link danger" onClick="$P().delete_tag('+idx+')"><b>Delete</b></button>' );
 			
 			return [
 				'<b>' + self.getNiceTag(item, !!app.hasPrivilege('edit_tags')) + '</b>',

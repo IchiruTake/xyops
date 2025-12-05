@@ -69,8 +69,8 @@ Page.Roles = class Roles extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_opts, function(item, idx) {
 			var actions = [
-				'<span class="link" onClick="$P().edit_role('+idx+')"><b>Edit</b></span>',
-				'<span class="link danger" onClick="$P().delete_role('+idx+')"><b>Delete</b></span>'
+				'<button class="link" onClick="$P().edit_role('+idx+')"><b>Edit</b></button>',
+				'<button class="link danger" onClick="$P().delete_role('+idx+')"><b>Delete</b></button>'
 			];
 			
 			var num_users = 0;

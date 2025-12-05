@@ -304,7 +304,7 @@ Page.Dashboard = class Dashboard extends Page.PageUtils {
 				'<div id="d_dash_jt_progress_' + job.id + '">' + self.getNiceJobProgressBar(job) + '</div>',
 				'<div id="d_dash_jt_remaining_' + job.id + '">' + self.getNiceJobRemainingTime(job, false) + '</div>',
 				
-				'<span class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></a>'
+				'<button class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></button>'
 			];
 			
 			if (job.suspended) tds.className = 'suspended';
@@ -515,7 +515,7 @@ Page.Dashboard = class Dashboard extends Page.PageUtils {
 				self.getNiceJobSourceList( Object.keys(item.sources).sort() ),
 				self.getNiceTargetList( Object.keys(item.targets).sort(), true ),
 				commify( item.states.queued ),
-				'<span class="link danger" onClick="$P().doFlushQueue(\'' + item.id + '\')"><b>Flush Queue</b></a>'
+				'<button class="link danger" onClick="$P().doFlushQueue(\'' + item.id + '\')"><b>Flush Queue</b></button>'
 			];
 		} );
 		

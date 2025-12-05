@@ -71,8 +71,8 @@ Page.Channels = class Channels extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_opts, function(item, idx) {
 			var actions = [];
-			if (app.hasPrivilege('edit_channels')) actions.push( '<span class="link" onClick="$P().edit_channel('+idx+')"><b>Edit</b></span>' );
-			if (app.hasPrivilege('delete_channels')) actions.push( '<span class="link danger" onClick="$P().delete_channel('+idx+')"><b>Delete</b></span>' );
+			if (app.hasPrivilege('edit_channels')) actions.push( '<button class="link" onClick="$P().edit_channel('+idx+')"><b>Edit</b></button>' );
+			if (app.hasPrivilege('delete_channels')) actions.push( '<button class="link danger" onClick="$P().delete_channel('+idx+')"><b>Delete</b></button>' );
 			
 			var tds = [
 				'<div class="td_drag_handle" style="cursor:default">' + self.getFormCheckbox({

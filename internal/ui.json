@@ -904,6 +904,10 @@
 		"back_to_workflow": "&laquo; Back to Workflow"
 	},
 	
+	"labels": {
+		"code_editor": "Code editor. Press escape to move to next element."
+	},
+	
 	"snapshot_source_menu": [
 		{ "id": "alert", "title": "Alert", "icon": "bell-outline" },
 		{ "id": "user", "title": "User", "icon": "account" },

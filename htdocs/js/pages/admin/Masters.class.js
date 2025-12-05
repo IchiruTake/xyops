@@ -55,10 +55,10 @@ Page.Masters = class Masters extends Page.Base {
 		
 		html += this.getBasicGrid( rows, cols, 'master', function(item, idx) {
 			var actions = [
-				'<span class="link" onClick="$P().upgrade_master(' + idx + ')"><b>Upgrade</b></span>',
-				'<span class="link" onClick="$P().restart_master(' + idx + ')"><b>Restart</b></span>',
-				'<span class="link" onClick="$P().shutdown_master(' + idx + ')"><b>Shutdown</b></span>',
-				'<span class="link" onClick="$P().remove_master(' + idx + ')"><b>Remove</b></span>'
+				'<button class="link" onClick="$P().upgrade_master(' + idx + ')"><b>Upgrade</b></button>',
+				'<button class="link" onClick="$P().restart_master(' + idx + ')"><b>Restart</b></button>',
+				'<button class="link" onClick="$P().shutdown_master(' + idx + ')"><b>Shutdown</b></button>',
+				'<button class="link" onClick="$P().remove_master(' + idx + ')"><b>Remove</b></button>'
 			];
 			var status = item.online ? (item.master ? '<span class="color_label green"><i class="mdi mdi-check-circle">&nbsp;</i>Master</span>' : '<span class="color_label blue">Online</span>') : '<span class="color_label gray"><i class="mdi mdi-alert-circle">&nbsp;</i>Offline</span>';
 			
@@ -77,7 +77,8 @@ Page.Masters = class Masters extends Page.Base {
 				'<div style="">' + (item.stats.load ? short_float(item.stats.load) : '-') + '</div>',
 				'<div style="">' + item.ping + ' ms</div>',
 				'<div style="">' + (item.date ? get_text_from_seconds( app.epoch - item.date, false, true ) : '-') + '</div>',
-				item.online ? actions.join(' | ') : '-'
+				// item.online ? actions.join(' | ') : '-'
+				'-'
 			];
 			if (!item.online) row.className = 'disabled';
 			return row;

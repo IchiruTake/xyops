@@ -71,8 +71,8 @@ Page.Buckets = class Buckets extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_opts, function(item, idx) {
 			var actions = [];
-			if (app.hasPrivilege('edit_buckets')) actions.push( '<span class="link" onClick="$P().edit_bucket('+idx+')"><b>Edit</b></span>' );
-			if (app.hasPrivilege('delete_buckets')) actions.push( '<span class="link danger" onClick="$P().delete_bucket('+idx+')"><b>Delete</b></span>' );
+			if (app.hasPrivilege('edit_buckets')) actions.push( '<button class="link" onClick="$P().edit_bucket('+idx+')"><b>Edit</b></button>' );
+			if (app.hasPrivilege('delete_buckets')) actions.push( '<button class="link danger" onClick="$P().delete_bucket('+idx+')"><b>Delete</b></button>' );
 			
 			var tds = [
 				'<div class="td_drag_handle" style="cursor:default">' + self.getFormCheckbox({
@@ -485,7 +485,7 @@ Page.Buckets = class Buckets extends Page.PageUtils {
 			
 			var actions = [];
 			// actions.push( '<a href="' + url + '?download=' + encodeURIComponent(file.filename) + '"><b>Download</b></a>' );
-			actions.push( '<span class="link danger" onClick="$P().deleteBucketFile('+idx+')"><b>Delete</b></span>' );
+			actions.push( '<button class="link danger" onClick="$P().deleteBucketFile('+idx+')"><b>Delete</b></button>' );
 			
 			var nice_author = '';
 			if (file.username) nice_author = self.getNiceUser(file.username, app.isAdmin());

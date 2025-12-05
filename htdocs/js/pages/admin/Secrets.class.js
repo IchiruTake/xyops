@@ -71,8 +71,8 @@ Page.Secrets = class Secrets extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_opts, function(item, idx) {
 			var actions = [];
-			actions.push( '<span class="link" onClick="$P().edit_secret('+idx+')"><b>Edit</b></span>' );
-			actions.push( '<span class="link danger" onClick="$P().delete_secret('+idx+')"><b>Delete</b></span>' );
+			actions.push( '<button class="link" onClick="$P().edit_secret('+idx+')"><b>Edit</b></button>' );
+			actions.push( '<button class="link danger" onClick="$P().delete_secret('+idx+')"><b>Delete</b></button>' );
 			
 			var tds = [
 				'<div class="td_drag_handle" style="cursor:default">' + self.getFormCheckbox({
@@ -534,9 +534,9 @@ Page.Secrets = class Secrets extends Page.PageUtils {
 			var links = [];
 			
 			if (self.fields) {
-				link = '<span class="link" onClick="$P().editVariable('+idx+')">' + encode_entities(item.name) + '</span>';
-				links.push( '<span class="link" onClick="$P().editVariable('+idx+')"><b>Edit</b></span>' );
-				links.push( '<span class="link danger" onClick="$P().deleteVariable('+idx+')"><b>Delete</b></span>' );
+				link = '<button class="link" onClick="$P().editVariable('+idx+')">' + encode_entities(item.name) + '</button>';
+				links.push( '<button class="link" onClick="$P().editVariable('+idx+')"><b>Edit</b></button>' );
+				links.push( '<button class="link danger" onClick="$P().deleteVariable('+idx+')"><b>Delete</b></button>' );
 			}
 			else {
 				link = '<span>' + encode_entities(item.name) + '</span>';

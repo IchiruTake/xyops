@@ -58,7 +58,7 @@ Page.Events = class Events extends Page.PageUtils {
 		html += '<div class="box_content" style="padding:20px;">';
 			
 			// search box
-			html += '<div class="search_box">';
+			html += '<div class="search_box" role="search">';
 				html += '<i class="mdi mdi-magnify" onClick="$(\'#fe_el_search\').focus()">&nbsp;</i>';
 				// html += '<div class="search_help"><a href="https://github.com/pixlcore/xyops#search" target="_blank">Search Help<i class="mdi mdi-open-in-new"></i></a></div>';
 				html += '<input type="text" id="fe_el_search" maxlength="128" placeholder="Search Keywords..." value="' + escape_text_field_value(args.search || '') + '">';
@@ -298,27 +298,10 @@ Page.Events = class Events extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_opts, function(item, idx) {
 			var classes = [];
-			var action_html = '';
 			var cat = cat_map[ item.category ] || { title: item.category };
 			
-			// action_html += '<div class="table_menu_container">';
-			// 	action_html += '<select onChange="$P().do_event_action(' + idx + ')">';
-			// 		action_html += '<option disabled selected value="">Select Action</option>';
-			// 		action_html += '<option value="run">Run Event</option>';
-			// 		action_html += '<option value="edit">Edit Event...</option>';
-			// 		action_html += '<option value="stats">Event Stats...</option>';
-			// 		action_html += '<option value="history">Event History...</option>';
-			// 		action_html += '<option value="delete">Delete Event...</option>';
-			// 	action_html += '</select>';
-			// 	action_html += '<i class="mdi mdi-dots-horizontal">&nbsp;</i>';
-			// action_html += '</div>';
-			
 			var actions = [];
-			actions.push( '<span class="link" onClick="$P().do_run_event_from_list('+idx+')"><b>Run Now</b></span>' );
-			// actions.push( '<span class="link" onClick="$P().edit_event('+idx+')"><b>Edit</b></span>' );
-			// actions.push( '<span class="link" onClick="$P().go_event_stats('+idx+')"><b>Stats</b></span>' );
-			// actions.push( '<span class="link" onClick="$P().go_event_history('+idx+')"><b>History</b></span>' );
-			// // actions.push( '<span class="link" onClick="$P().delete_event('+idx+')"><b>Delete</b></span>' );
+			actions.push( '<button class="link" onClick="$P().do_run_event_from_list('+idx+')"><b>Run Now</b></button>' );
 			
 			var tds = [
 				'<div class="td_drag_handle" style="cursor:default">' + self.getFormCheckbox({
@@ -333,17 +316,8 @@ Page.Events = class Events extends Page.PageUtils {
 				
 				'<div id="d_el_jt_status_' + item.id + '">' + self.getNiceEventStatus(item) + '</div>',
 				
-				// self.getNiceUser(item.username, true),
-				// '<span title="'+self.getNiceDateTimeText(item.created)+'">'+self.getNiceDate(item.created)+'</span>',
-				// action_html
 				actions.join(' | ')
 			];
-			
-			// if (item.category != last_cat_id) {
-			// 	var is_hidden = !!(item.category in hidden_cats);
-			// 	tds.insertAbove = '<ul class="tr_event_category' + (is_hidden ? ' collapsed' : '') + '" id="tr_ee_cat_' + item.category + '" data-cat="' + item.category + '"><div style="grid-column-start: span ' + cols.length + ';" onClick="$P().toggle_category_collapse(this)"><i class="mdi mdi-' + (is_hidden ? 'folder-outline' : 'folder-open-outline') + '">&nbsp;</i>' + cat.title + '</div></ul>';
-			// 	last_cat_id = item.category;
-			// }
 			
 			if (!item.enabled) classes.push('disabled');
 			if (cat.color) classes.push( 'clr_' + cat.color );
@@ -1158,7 +1132,7 @@ Page.Events = class Events extends Page.PageUtils {
 				self.getNiceTargetList(job.targets),
 				self.getShortDateTime( job.started ),
 				'<div id="d_ve_jt_elapsed_' + job.id + '">' + self.getNiceJobElapsedTime(job, true) + '</div>',
-				'<span class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></a>'
+				'<button class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></button>'
 			];
 		} );
 		
@@ -1212,7 +1186,7 @@ Page.Events = class Events extends Page.PageUtils {
 				'<div id="d_ve_jt_progress_' + job.id + '">' + self.getNiceJobProgressBar(job) + '</div>',
 				'<div id="d_ve_jt_remaining_' + job.id + '">' + self.getNiceJobRemainingTime(job, false) + '</div>',
 				
-				'<span class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></a>'
+				'<button class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></button>'
 			];
 		} );
 		
@@ -1688,13 +1662,13 @@ Page.Events = class Events extends Page.PageUtils {
 			
 			if (item.event) {
 				click = `$P().showActionReport(${idx})`;
-				actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+				actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 			}
 			
 			if (click) {
-				desc = `<span class="link" onClick="${click}">${desc}</span>`;
+				desc = `<button class="link" onClick="${click}">${desc}</button>`;
 				if (item.event.revision) {
-					nice_rev = `<span class="link" onClick="${click}"><i class="mdi mdi-file-compare">&nbsp;</i><b>${item.event.revision}</b></span>`;
+					nice_rev = `<button class="link" onClick="${click}"><i class="mdi mdi-file-compare">&nbsp;</i><b>${item.event.revision}</b></button>`;
 				}
 			}
 			
@@ -2623,8 +2597,8 @@ Page.Events = class Events extends Page.PageUtils {
 		
 		html += this.getCompactGrid(targs, function(item, idx) {
 			var actions = [];
-			actions.push( '<span class="link" onClick="$P().editTrigger('+idx+')"><b>Edit</b></span>' );
-			actions.push( '<span class="link danger" onClick="$P().deleteTrigger('+idx+')"><b>Delete</b></span>' );
+			actions.push( '<button class="link" onClick="$P().editTrigger('+idx+')"><b>Edit</b></button>' );
+			actions.push( '<button class="link danger" onClick="$P().deleteTrigger('+idx+')"><b>Delete</b></button>' );
 			
 			var { nice_icon, nice_type, nice_desc } = self.getTriggerDisplayArgs(item);
 			
@@ -2633,7 +2607,7 @@ Page.Events = class Events extends Page.PageUtils {
 					checked: item.enabled,
 					onChange: '$P().toggleTriggerEnabled(this,' + idx + ')'
 				}) + '</div>',
-				'<div class="td_big nowrap">' + '<span class="link" onClick="$P().editTrigger('+idx+')">' + nice_icon + nice_type + '</span></div>',
+				'<div class="td_big nowrap">' + '<button class="link" onClick="$P().editTrigger('+idx+')">' + nice_icon + nice_type + '</button></div>',
 				'<div class="ellip">' + nice_desc + '</div>',
 				'<span class="nowrap">' + actions.join(' | ') + '</span>'
 			];
@@ -2895,7 +2869,7 @@ Page.Events = class Events extends Page.PageUtils {
 				autocomplete: 'off',
 				value: ''
 			}),
-			caption: 'Optionally adjust the internal clock for this event, to either repeat past jobs, or jump over a backlog.  Select a date/time in your local timezone (' + this.getUserTimezone() + ').  <span class="link" onClick="$P().resetTimeMachine()">Reset to Now</span>'
+			caption: 'Optionally adjust the internal clock for this event, to either repeat past jobs, or jump over a backlog.  Select a date/time in your local timezone (' + this.getUserTimezone() + ').  <button class="link" onClick="$P().resetTimeMachine()">Reset to Now</button>.'
 		});
 		
 		// range

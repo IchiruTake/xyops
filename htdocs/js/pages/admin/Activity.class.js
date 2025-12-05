@@ -50,7 +50,7 @@ Page.ActivityLog = class ActivityLog extends Page.PageUtils {
 		html += '<div class="box_content" style="padding:20px;">';
 			
 			// search box
-			html += '<div class="search_box">';
+			html += '<div class="search_box" role="search">';
 				html += '<i class="mdi mdi-magnify" onClick="$(\'#fe_sa_query\').focus()">&nbsp;</i>';
 				// html += '<div class="search_help"><a href="https://github.com/pixlcore/xyops#search" target="_blank">Search Help<i class="mdi mdi-open-in-new"></i></a></div>';
 				html += '<input type="text" id="fe_sa_query" maxlength="128" placeholder="Search Query..." value="' + escape_text_field_value(args.query || '') + '">';
@@ -336,89 +336,89 @@ Page.ActivityLog = class ActivityLog extends Page.PageUtils {
 				case 'alerts':
 					if (item.alert) {
 						click = `$P().showActionReport(${idx},'alert')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'api_keys':
 					if (item.api_key) {
 						click = `$P().showActionReport(${idx},'api_key')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'categories':
 					if (item.category) {
 						click = `$P().showActionReport(${idx},'category')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'channels':
 					if (item.channel) {
 						click = `$P().showActionReport(${idx},'channel')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'events':
 					if (item.event) {
 						click = `$P().showActionReport(${idx},'event')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'jobs':
 					click = `$P().showActionReport(${idx},'job')`;
-					actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+					actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 				break;
 				
 				case 'groups':
 					if (item.group) {
 						click = `$P().showActionReport(${idx},'group')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'monitors':
 					if (item.monitor) {
 						click = `$P().showActionReport(${idx},'monitor')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'plugins':
 					if (item.plugin) {
 						click = `$P().showActionReport(${idx},'plugin')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'tags':
 					if (item.tag) {
 						click = `$P().showActionReport(${idx},'tag')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'web_hooks':
 					if (item.web_hook) {
 						click = `$P().showActionReport(${idx},'web_hook')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'buckets':
 					if (item.bucket) {
 						click = `$P().showActionReport(${idx},'bucket')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'secrets':
 					if (item.secret) {
 						click = `$P().showActionReport(${idx},'secret')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
@@ -426,21 +426,21 @@ Page.ActivityLog = class ActivityLog extends Page.PageUtils {
 					if (item.ticket) {
 						if (item.change) click = `$P().showActionReport(${idx},'change')`;
 						else click = `$P().showActionReport(${idx},'ticket')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'users':
 					if (item.user) {
 						click = `$P().showActionReport(${idx},'user')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 				break;
 				
 				case 'servers':
 					if (item.action.match(/^(server_update|server_watch)$/)) {
 						click = `$P().showActionReport(${idx},'unused')`;
-						actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+						actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 					}
 					else actions.push(`<a href="#Servers?id=${item.server_id}"><b>Go to Server...</b></a>`);
 				break;
@@ -451,17 +451,17 @@ Page.ActivityLog = class ActivityLog extends Page.PageUtils {
 				// system
 				case 'peer_command':
 					click = `$P().showActionReport(${idx},'blarg')`;
-					actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+					actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 				break;
 				
 				case 'state_update':
 					click = `$P().showActionReport(${idx},'blarg')`;
-					actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+					actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 				break;
 				
 				case 'internal_job':
 					click = `$P().showInternalJobReport(${idx})`;
-					actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+					actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 				break;
 				
 				// misc
@@ -469,23 +469,23 @@ Page.ActivityLog = class ActivityLog extends Page.PageUtils {
 					desc = encode_entities( item.description );
 					color = 'red';
 					click = `$P().showActionReport(${idx},'unused')`;
-					actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+					actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 				break;
 				case 'warning':
 					desc = encode_entities( item.description );
 					color = 'warning';
 					click = `$P().showActionReport(${idx},'unused')`;
-					actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+					actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 				break;
 				case 'notice':
 					desc = encode_entities( item.description );
 					click = `$P().showActionReport(${idx},'unused')`;
-					actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+					actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 				break;
 			} // action
 			
 			if (click) {
-				desc = `<span class="link" onClick="${click}">${desc}</span>`;
+				desc = `<button class="link" onClick="${click}">${desc}</button>`;
 			}
 			
 			var tds = [

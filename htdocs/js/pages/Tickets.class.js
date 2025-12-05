@@ -63,7 +63,7 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 		html += '<div class="box_content" style="padding:20px;">';
 			
 			// search box
-			html += '<div class="search_box">';
+			html += '<div class="search_box" role="search">';
 				html += '<i class="mdi mdi-magnify" onClick="$(\'#fe_s_query\').focus()">&nbsp;</i>';
 				// html += '<div class="search_help"><a href="http://source.dev.ca.admission.net/doc/codepress/#searching" target="_blank">Search Help<i class="mdi mdi-open-in-new"></i></a></div>';
 				html += '<input type="text" id="fe_s_query" maxlength="128" placeholder="Enter search query..." value="' + escape_text_field_value(args.query || '') + '">';
@@ -429,7 +429,7 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 		html += this.getPaginatedGrid( grid_args, function(ticket, idx) {
 			var actions = [
 				'<a href="#' + ticket.num + '"><b>View</b></a>',
-				'<span class="link" onClick="$P().delete_ticket('+idx+')"><b>Delete</b></span>'
+				'<button class="link" onClick="$P().delete_ticket('+idx+')"><b>Delete</b></button>'
 			];
 			
 			return [
@@ -1444,9 +1444,9 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_args, function(item, idx) {
 			var actions = [
-				'<span class="link" onClick="$P().do_edit_event(' + idx + ')"><b>Edit</b></span>',
-				'<span class="link" onClick="$P().do_run_event(' + idx + ')"><b>Run Now</b></span>',
-				'<span class="link danger" onClick="$P().do_remove_event(' + idx + ')"><b>Remove</b></span>'
+				'<button class="link" onClick="$P().do_edit_event(' + idx + ')"><b>Edit</b></button>',
+				'<button class="link" onClick="$P().do_run_event(' + idx + ')"><b>Run Now</b></button>',
+				'<button class="link danger" onClick="$P().do_remove_event(' + idx + ')"><b>Remove</b></button>'
 			];
 			
 			var event_def = find_object( app.events, { id: item.id } ) || { id: item.id, title: '(Not Found)', triggers: [] };
@@ -1597,7 +1597,7 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 				'<div id="d_wf_jt_progress_' + job.id + '">' + self.getNiceJobProgressBar(job) + '</div>',
 				// '<div id="d_wf_jt_remaining_' + job.id + '">' + self.getNiceJobRemainingTime(job, false) + '</div>',
 				
-				'<span class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></a>'
+				'<button class="link danger" onClick="$P().doAbortJob(\'' + job.id + '\')"><b>Abort Job</b></button>'
 			];
 			else tds = [
 				'<b>' + self.getNiceJob(job, true) + '</b>',
@@ -1609,7 +1609,7 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 				self.getNiceJobResult(job),
 				[ 
 					'<a href="#Job?id=' + job.id + '"><b>View</b></a>',
-					'<span class="link danger" onClick="$P().doRemoveJob(\'' + idx + '\')"><b>Remove</b></a>' 
+					'<button class="link danger" onClick="$P().doRemoveJob(\'' + idx + '\')"><b>Remove</b></button>' 
 				].join(' | ')
 				// `<a href="#Job?id=${job.id}"><b>View Details...</b></a>`
 			];
@@ -1712,15 +1712,14 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 			var classes = [];
 			var actions = [
 				'<a href="' + url + '" target="_blank"><b>View</b></a>',
-				'<a href="' + url + '?download=' + encodeURIComponent(file.filename) + '"><b>Download</b></a>',
-				// '<span class="link danger" onClick="$P().do_delete_file(' + idx + ')"><b>Delete</b></span>'
+				'<a href="' + url + '?download=' + encodeURIComponent(file.filename) + '"><b>Download</b></a>'
 			];
 			
 			var nice_source = '';
 			switch (file.source) {
 				case 'ticket': 
 					nice_source = '<i class="mdi mdi-text-box-outline">&nbsp;</i>Ticket'; 
-					actions.push( '<span class="link danger" onClick="$P().do_delete_file(' + idx + ')"><b>Delete</b></span>' );
+					actions.push( '<button class="link danger" onClick="$P().do_delete_file(' + idx + ')"><b>Delete</b></button>' );
 				break;
 				case 'input': nice_source = '<i class="mdi mdi-file-download-outline">&nbsp;</i>Job Input'; break;
 				case 'output': nice_source = '<i class="mdi mdi-file-upload-outline">&nbsp;</i>Job Output'; break;
@@ -2256,7 +2255,7 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 		
 		// replace UI with progress bar until API completes
 		this.editing_comment_box.html(
-			'<div id="d_progress_bar_cont" class="progress_bar_container indeterminate" style="width:196px; margin:0 auto 0 auto;">' + 
+			'<div id="d_progress_bar_cont" class="progress_bar_container indeterminate" style="width:196px; margin:0 auto 0 auto;" role="progressbar">' + 
 				'<div id="d_progress_bar" class="progress_bar_inner" style="width:196px;"></div>' + 
 			'</div>'
 		);
@@ -2390,6 +2389,7 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 		// codemirror go!
 		var self = this;
 		var elem = document.getElementById("fe_editor");
+		$(elem).closest('div').attr('aria-label', config.ui.labels.code_editor);
 		
 		this.editor = CodeMirror.fromTextArea(elem, merge_objects( config.editor_defaults, {
 			mode: {
@@ -2406,7 +2406,9 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 				'Ctrl-I': function() { self.editToggleItalic(); },
 				
 				'Cmd-B': function() { self.editToggleBold(); },
-				'Cmd-I': function() { self.editToggleItalic(); }
+				'Cmd-I': function() { self.editToggleItalic(); },
+				
+				'Esc': function() { app.focusNext(); }
 			}
 		}));
 		
@@ -2499,25 +2501,25 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 		var html = '';
 		
 		html += '<div class="editor_toolbar">';
-			html += '<div class="editor_toolbar_button" title="Header 1" onClick="$P().editInsertHeader(1)"><i class="mdi mdi-format-header-1"></i></div>';
-			html += '<div class="editor_toolbar_button" title="Header 2" onClick="$P().editInsertHeader(2)"><i class="mdi mdi-format-header-2"></i></div>';
-			html += '<div class="editor_toolbar_button" title="Header 3" onClick="$P().editInsertHeader(3)"><i class="mdi mdi-format-header-3"></i></div>';
-			html += '<div class="editor_toolbar_button" title="Header 4" onClick="$P().editInsertHeader(4)"><i class="mdi mdi-format-header-4"></i></div>';
+			html += '<button class="editor_toolbar_button" title="Header 1" onClick="$P().editInsertHeader(1)"><i class="mdi mdi-format-header-1"></i></button>';
+			html += '<button class="editor_toolbar_button" title="Header 2" onClick="$P().editInsertHeader(2)"><i class="mdi mdi-format-header-2"></i></button>';
+			html += '<button class="editor_toolbar_button" title="Header 3" onClick="$P().editInsertHeader(3)"><i class="mdi mdi-format-header-3"></i></button>';
+			html += '<button class="editor_toolbar_button" title="Header 4" onClick="$P().editInsertHeader(4)"><i class="mdi mdi-format-header-4"></i></button>';
 			
 			html += '<div class="editor_toolbar_divider"></div>';
 			
-			html += '<div class="editor_toolbar_button" title="Bold" onClick="$P().editToggleBold()"><i class="mdi mdi-format-bold"></i></div>';
-			html += '<div class="editor_toolbar_button" title="Italic" onClick="$P().editToggleItalic()"><i class="mdi mdi-format-italic"></i></div>';
-			html += '<div class="editor_toolbar_button" title="Strikethrough" onClick="$P().editToggleStrike()"><i class="mdi mdi-format-strikethrough"></i></div>';
-			html += '<div class="editor_toolbar_button" title="Code" onClick="$P().editToggleCode()"><i class="mdi mdi-code-braces"></i></div>';
+			html += '<button class="editor_toolbar_button" title="Bold" onClick="$P().editToggleBold()"><i class="mdi mdi-format-bold"></i></button>';
+			html += '<button class="editor_toolbar_button" title="Italic" onClick="$P().editToggleItalic()"><i class="mdi mdi-format-italic"></i></button>';
+			html += '<button class="editor_toolbar_button" title="Strikethrough" onClick="$P().editToggleStrike()"><i class="mdi mdi-format-strikethrough"></i></button>';
+			html += '<button class="editor_toolbar_button" title="Code" onClick="$P().editToggleCode()"><i class="mdi mdi-code-braces"></i></button>';
 			
 			html += '<div class="editor_toolbar_divider"></div>';
 			
-			html += '<div class="editor_toolbar_button" title="Insert Bullet List" onClick="$P().editInsertList()"><i class="mdi mdi-format-list-bulleted-square"></i></div>';
-			html += '<div class="editor_toolbar_button" title="Insert Numbered List" onClick="$P().editInsertNumList()"><i class="mdi mdi-format-list-numbered"></i></div>';
-			html += '<div class="editor_toolbar_button" title="Insert Blockquote" onClick="$P().editInsertQuote()"><i class="mdi mdi-format-quote-open"></i></div>';
+			html += '<button class="editor_toolbar_button" title="Insert Bullet List" onClick="$P().editInsertList()"><i class="mdi mdi-format-list-bulleted-square"></i></button>';
+			html += '<button class="editor_toolbar_button" title="Insert Numbered List" onClick="$P().editInsertNumList()"><i class="mdi mdi-format-list-numbered"></i></button>';
+			html += '<button class="editor_toolbar_button" title="Insert Blockquote" onClick="$P().editInsertQuote()"><i class="mdi mdi-format-quote-open"></i></button>';
 			
-			html += '<div class="editor_toolbar_button" title="Upload Files..." onClick="$P().editUploadFiles()"><i class="mdi mdi-cloud-upload-outline"></i></div>';
+			html += '<button class="editor_toolbar_button" title="Upload Files..." onClick="$P().editUploadFiles()"><i class="mdi mdi-cloud-upload-outline"></i></button>';
 			
 			html += '<div class="editor_toolbar_divider"></div>';
 			
@@ -2525,7 +2527,7 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 			
 			// html += '<div class="editor_toolbar_divider"></div>';
 			
-			html += '<div class="editor_toolbar_button" id="btn_show_preview" title="Show Preview" onClick="$P().editShowPreview()"><i class="mdi mdi-file-find-outline"></i></div>';
+			html += '<button class="editor_toolbar_button" id="btn_show_preview" title="Show Preview" onClick="$P().editShowPreview()"><i class="mdi mdi-file-find-outline"></i></button>';
 			
 			// html += '<div class="editor_toolbar_help"><a href="#Document?id=markdown" target="_blank">What\'s this?</a></div>';
 			

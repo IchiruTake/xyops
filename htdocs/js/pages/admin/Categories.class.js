@@ -78,8 +78,8 @@ Page.Categories = class Categories extends Page.PageUtils {
 		
 		html += this.getBasicGrid( grid_opts, function(item, idx) {
 			var classes = [], actions = [];
-			if (app.hasPrivilege('edit_categories')) actions.push( '<span class="link" onClick="$P().edit_category('+idx+')"><b>Edit</b></span>' );
-			if (app.hasPrivilege('delete_categories')) actions.push( '<span class="link danger" onClick="$P().delete_category('+idx+')"><b>Delete</b></span>' );
+			if (app.hasPrivilege('edit_categories')) actions.push( '<button class="link" onClick="$P().edit_category('+idx+')"><b>Edit</b></button>' );
+			if (app.hasPrivilege('delete_categories')) actions.push( '<button class="link danger" onClick="$P().delete_category('+idx+')"><b>Delete</b></button>' );
 			
 			var cat_events = find_objects( app.events, { category: item.id } );
 			var num_events = cat_events.length;

@@ -51,7 +51,7 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 		if (proc.parentPid) {
 			html += '<div>';
 				html += '<div class="info_label">Parent PID</div>';
-				html += '<div class="info_value"><span class="link" onClick="$P().showProcessInfo(' + proc.parentPid + ')">' + proc.parentPid + '</span></div>';
+				html += '<div class="info_value"><button class="link" onClick="$P().showProcessInfo(' + proc.parentPid + ')">' + proc.parentPid + '</button></div>';
 			html += '</div>';
 		}
 		
@@ -551,8 +551,8 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 			return [
 				'<b>' + self.getNiceProcess(proc, true) + '</b>',
 				proc.user || '-',
-				'<span class="link" onClick="$P().showProcessInfo(' + proc.pid + ')">' + proc.pid + '</span>',
-				proc.parentPid ? ('<span class="link" onClick="$P().showProcessInfo(' + proc.parentPid + ')">' + proc.parentPid + '</span>') : 'n/a',
+				'<button class="link" onClick="$P().showProcessInfo(' + proc.pid + ')">' + proc.pid + '</button>',
+				proc.parentPid ? ('<button class="link" onClick="$P().showProcessInfo(' + proc.parentPid + ')">' + proc.parentPid + '</button>') : 'n/a',
 				pct( proc.cpu, 100 ),
 				get_text_from_bytes( proc.memRss ),
 				get_text_from_seconds( proc.age || 0, true, true ),
@@ -1871,8 +1871,8 @@ Page.ServerUtils = class ServerUtils extends Page.PageUtils {
 				'<b>' + self.getNiceProcess(proc, true) + '</b>',
 				self.getNiceServer(proc.server, true),
 				proc.user || '-',
-				`<span class="link" onClick="$P().showGroupProcessInfo(${proc.pid},'${proc.server}')">${proc.pid}</span>`,
-				proc.parentPid ? (`<span class="link" onClick="$P().showGroupProcessInfo(${proc.parentPid},'${proc.server}')">${proc.parentPid}</span>`) : 'n/a',
+				`<button class="link" onClick="$P().showGroupProcessInfo(${proc.pid},'${proc.server}')">${proc.pid}</button>`,
+				proc.parentPid ? (`<button class="link" onClick="$P().showGroupProcessInfo(${proc.parentPid},'${proc.server}')">${proc.parentPid}</button>`) : 'n/a',
 				pct( proc.cpu, 100 ),
 				get_text_from_bytes( proc.memRss ),
 				get_text_from_seconds( proc.age || 0, true, true ),

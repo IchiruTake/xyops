@@ -417,3 +417,8 @@ CodeMirror.defineMode("mustache", function(config, parserConfig) {
 	};
 	return CodeMirror.overlayMode(CodeMirror.getMode(config, parserConfig.backdrop || "text/html"), mustacheOverlay);
 });
+
+$.fn.buttonize = function(sel = '.button') {
+	// convenience buttonizer for jquery
+	app.buttonize(this, sel);
+};

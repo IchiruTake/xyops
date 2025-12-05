@@ -161,7 +161,13 @@ div.editor_toolbar {
 	white-space: nowrap;
 }
 
-div.editor_toolbar_button {
+button.editor_toolbar_button {
+	padding: 0;
+	margin: 0;
+	font: inherit;
+}
+
+button.editor_toolbar_button {
 	position: relative;
 	display: inline-block;
 	/* float: left; */
@@ -186,17 +192,17 @@ div.editor_toolbar_button {
 	line-height: 27px;
 	text-align: center;
 }
-div.editor_toolbar_button:hover {
+button.editor_toolbar_button:hover {
 	/* top: -1px; */
 	color: var(--theme-color);
 	border: 1px solid var(--theme-color-half);
 	box-shadow: 0px 2px 1px var(--shadow-color);
 	opacity: 1.0;
 }
-div.editor_toolbar_button:active {
+button.editor_toolbar_button:active {
 	color: var(--body-text-color);
 }
-div.editor_toolbar_button.selected {
+button.editor_toolbar_button.selected {
 	color: white;
 	background: var(--theme-color);
 	border: 1px solid var(--theme-color-half);

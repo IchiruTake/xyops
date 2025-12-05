@@ -71,8 +71,8 @@ Page.WebHooks = class WebHooks extends Page.PageUtils {
 		
 		html += this.getBasicGrid( opts, function(item, idx) {
 			var actions = [];
-			if (app.hasPrivilege('edit_web_hooks')) actions.push( '<span class="link" onClick="$P().edit_web_hook('+idx+')"><b>Edit</b></span>' );
-			if (app.hasPrivilege('delete_web_hooks')) actions.push( '<span class="link danger" onClick="$P().delete_web_hook('+idx+')"><b>Delete</b></span>' );
+			if (app.hasPrivilege('edit_web_hooks')) actions.push( '<button class="link" onClick="$P().edit_web_hook('+idx+')"><b>Edit</b></button>' );
+			if (app.hasPrivilege('delete_web_hooks')) actions.push( '<button class="link danger" onClick="$P().delete_web_hook('+idx+')"><b>Delete</b></button>' );
 			
 			var tds = [
 				'<div class="td_drag_handle" style="cursor:default">' + self.getFormCheckbox({
@@ -612,11 +612,11 @@ Page.WebHooks = class WebHooks extends Page.PageUtils {
 		
 		html += this.getCompactGrid(targs, function(item, idx) {
 			var links = [];
-			links.push( '<span class="link" onClick="$P().editHeader('+idx+')"><b>Edit</b></span>' );
-			links.push( '<span class="link danger" onClick="$P().deleteHeader('+idx+')"><b>Delete</b></span>' );
+			links.push( '<button class="link" onClick="$P().editHeader('+idx+')"><b>Edit</b></button>' );
+			links.push( '<button class="link danger" onClick="$P().deleteHeader('+idx+')"><b>Delete</b></button>' );
 			
 			var tds = [
-				'<div class="td_big ellip monospace"><i class="mdi mdi-form-textbox">&nbsp;</i><span class="link" onClick="$P().editHeader('+idx+')">' + encode_entities(item.name) + '</span></div>',
+				'<div class="td_big ellip monospace"><i class="mdi mdi-form-textbox">&nbsp;</i><button class="link" onClick="$P().editHeader('+idx+')">' + encode_entities(item.name) + '</button></div>',
 				'<div class="ellip monospace">' + encode_entities(item.value) + '</div>',
 				'<div class="ellip">' + links.join(' | ') + '</div>'
 			];

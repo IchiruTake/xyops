@@ -277,13 +277,13 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			
 			if (obj) {
 				click = `$P().showRevHistActionReport(${idx})`;
-				actions.push(`<span class="link" onClick="${click}"><b>Details...</b></span>`);
+				actions.push(`<button class="link" onClick="${click}"><b>Details...</b></button>`);
 			}
 			
 			if (click) {
-				desc = `<span class="link" onClick="${click}">${desc}</span>`;
+				desc = `<button class="link" onClick="${click}">${desc}</button>`;
 				if (obj.revision) {
-					nice_rev = `<span class="link" onClick="${click}"><i class="mdi mdi-file-compare">&nbsp;</i><b>${obj.revision}</b></span>`;
+					nice_rev = `<button class="link" onClick="${click}"><i class="mdi mdi-file-compare">&nbsp;</i><b>${obj.revision}</b></button>`;
 				}
 			}
 			
@@ -626,7 +626,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				}
 				
 				nice_countdown = '<i class="mdi mdi-clock-outline">&nbsp;</i>' + get_text_from_seconds_round( countdown );
-				nice_skip = '<span class="link danger" onClick="$P().doSkipUpcomingJob(' + idx + ')"><b>Skip Job...</b></span>';
+				nice_skip = '<button class="link danger" onClick="$P().doSkipUpcomingJob(' + idx + ')"><b>Skip Job...</b></button>';
 			}
 			
 			var tds = [
@@ -1084,8 +1084,8 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		
 		html += this.getCompactGrid(targs, function(item, idx) {
 			var actions = [];
-			actions.push( '<span class="link" onClick="$P().editResLimit('+idx+')"><b>Edit</b></span>' );
-			actions.push( '<span class="link danger" onClick="$P().deleteResLimit('+idx+')"><b>Delete</b></span>' );
+			actions.push( '<button class="link" onClick="$P().editResLimit('+idx+')"><b>Edit</b></button>' );
+			actions.push( '<button class="link danger" onClick="$P().deleteResLimit('+idx+')"><b>Delete</b></button>' );
 			
 			var { nice_title, nice_desc, icon } = self.getResLimitDisplayArgs(item);
 			
@@ -1094,7 +1094,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 					checked: item.enabled,
 					onChange: '$P().toggleResLimitEnabled(this,' + idx + ')'
 				}) + '</div>',
-				'<div class="td_big nowrap"><span class="link" onClick="$P().editResLimit('+idx+')"><i class="mdi mdi-' + icon + '"></i>' + nice_title + '</span></div>',
+				'<div class="td_big nowrap"><button class="link" onClick="$P().editResLimit('+idx+')"><i class="mdi mdi-' + icon + '"></i>' + nice_title + '</button></div>',
 				'<div class="ellip">' + nice_desc + '</div>',
 				actions.join(' | ')
 			];
@@ -1619,8 +1619,8 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		
 		html += this.getCompactGrid(targs, function(item, idx) {
 			var links = [];
-			links.push( '<span class="link" onClick="$P().editJobAction('+idx+')"><b>Edit</b></span>' );
-			links.push( '<span class="link danger" onClick="$P().deleteJobAction('+idx+')"><b>Delete</b></span>' );
+			links.push( '<button class="link" onClick="$P().editJobAction('+idx+')"><b>Edit</b></button>' );
+			links.push( '<button class="link danger" onClick="$P().deleteJobAction('+idx+')"><b>Delete</b></button>' );
 			
 			var disp = self.getJobActionDisplayArgs(item);
 			
@@ -1629,7 +1629,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 					checked: item.enabled,
 					onChange: '$P().toggleJobActionEnabled(this,' + idx + ')'
 				}) + '</div>',
-				'<div class="td_big nowrap"><span class="link" onClick="$P().editJobAction('+idx+')"><i class="mdi mdi-' + disp.condition.icon + '"></i>' + disp.condition.title + '</span></div>',
+				'<div class="td_big nowrap"><button class="link" onClick="$P().editJobAction('+idx+')"><i class="mdi mdi-' + disp.condition.icon + '"></i>' + disp.condition.title + '</button></div>',
 				'<div class="td_big ellip"><i class="mdi mdi-' + disp.icon + '">&nbsp;</i>' + disp.type + '</div>',
 				'<div class="ellip">' + disp.desc + '</div>',
 				'<div class="">' + links.join(' | ') + '</div>'
@@ -3761,8 +3761,8 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		
 		html += this.getCompactGrid(targs, function(item, idx) {
 			var actions = [];
-			actions.push( '<span class="link" onClick="$P().editParam('+idx+')"><b>Edit</b></span>' );
-			actions.push( '<span class="link danger" onClick="$P().deleteParam('+idx+')"><b>Delete</b></span>' );
+			actions.push( '<button class="link" onClick="$P().editParam('+idx+')"><b>Edit</b></button>' );
+			actions.push( '<button class="link danger" onClick="$P().deleteParam('+idx+')"><b>Delete</b></button>' );
 			
 			var nice_type = config.ui.control_type_labels[item.type];
 			var nice_icon = config.ui.control_type_icons[item.type];
@@ -3817,7 +3817,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			return [
 				// '<div class="td_big mono">' + item.id + '</div>',
 				'<div class="td_drag_handle" draggable="true" title="Drag to reorder"><i class="mdi mdi-menu"></i></div>',
-				'<div class="td_big ellip" title="ID: ' + item.id + '"><i class="mdi mdi-' + nice_label_icon + '">&nbsp;</i><span class="link" onClick="$P().editParam('+idx+')">' + item.title + '</span></div>',
+				'<div class="td_big ellip" title="ID: ' + item.id + '"><i class="mdi mdi-' + nice_label_icon + '">&nbsp;</i><button class="link" onClick="$P().editParam('+idx+')">' + item.title + '</button></div>',
 				'<div class="ellip"><i class="mdi mdi-' + nice_icon + '">&nbsp;</i>' + nice_type + '</div>',
 				'<div class="ellip">' + pairs.join(', ') + '</div>',
 				'<div class="">' + actions.join(' | ') + '</div>'
