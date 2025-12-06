@@ -2,61 +2,86 @@
 
 ### 1. Guiding Principles
 
-The xyOps project exists to empower users and developers through openness, reliability, and fairness.  Our governance model is designed to preserve these principles indefinitely:
+The xyOps project is built on openness, transparency, and long-term reliability.  This governance model exists to protect those values and ensure that xyOps remains a durable, community-serving open-source project.
 
-- **Open Access:** All source code, tools, and documentation will be freely available under the BSD 3-Clause License in perpetuity.
-- **Transparency:** All decisions affecting the project are made publicly and archived for accountability.
-- **Meritocracy:** Technical merit and community trust guide decision-making; not titles or corporate affiliation.
-- **Continuity:** Stewardship of xyOps must always serve the longevity and stability of the project above all else.
+- **Open Access:** All source code and documentation will remain available under the BSD 3-Clause License.
+- **Transparency:** All decisions that materially affect the project will be made publicly and archived for accountability.
+- **Meritocracy:** Influence is earned through high-quality, consistent contributions and alignment with the project's values.
+- **Continuity:** Stewardship decisions prioritize the long-term stability and health of the project above all else.
 
 ### 2. Governance Model
 
-xyOps currently operates under a **Steward-Led** governance model, transitioning toward **Community-Led Stewardship** as the contributor base grows.
+xyOps currently operates under a **Steward-Led** governance model and intends to evolve into a **broader community stewardship model** as the contributor base grows.
 
-- **Steward-Led Phase:** PixlCore LLC and Joseph Huckaby are the initial maintainers and release stewards.
-	- All technical and policy decisions are made in the open and documented in the repository.
-- **Community-Led Phase (in development):**  
-	- A small group of trusted contributors, known as the **Steering Committee**, will be invited to guide roadmap planning, code review policy, and succession matters.
-	- Committee membership will be earned through consistent, high-quality contributions and a demonstrated commitment to the project's longevity principles.
+#### Steward-Led Phase (Current)
+PixlCore LLC and Joseph Huckaby serve as the initial maintainers and project stewards.  
+Their responsibilities include:
 
-Decisions will generally be made by **consensus**, i.e. a proposal is accepted if no one objects after a reasonable period.  If consensus cannot be reached, the Stewards will make a final call guided by the project's principles.
+- Overseeing technical direction and releases  
+- Reviewing and merging contributions  
+- Ensuring that the project continues to align with the Longevity Pledge and BSD licensing  
+- Documenting important decisions in public
+
+#### Evolving Toward Shared Stewardship
+As xyOps grows, additional trusted contributors may be invited into expanded stewardship roles, including:
+
+- Maintainers with commit access  
+- A small advisory group of experienced contributors who help shape roadmap priorities, review policy changes, and advise on succession matters  
+
+This evolution is intentional but not bound to a specific timeline; it will occur naturally as the contributor ecosystem matures.
+
+Decision-making will generally follow **consensus by discussion**.  
+If consensus cannot be reached, the Stewards will make a final decision guided by the project's principles and the best interests of long-term stability.
 
 ### 3. Roles & Responsibilities
 
 #### Maintainers
-- Have commit access and release authority.
-- Review pull requests for technical soundness, style, and security.
-- Ensure that all merged code remains under the BSD 3-Clause License.
+- Have commit access and release authority  
+- Review pull requests for technical soundness, security, and consistency  
+- Uphold the BSD 3-Clause License for the entire codebase  
+- Document notable changes and decisions publicly  
 
 #### Contributors
-- Submit patches, bug reports, and documentation improvements.
-- Agree that all contributions are licensed under MIT.
-- May be nominated for Maintainer or Committee roles based on merit.
+- Provide patches, bug reports, and documentation improvements  
+- Agree that all contributions are licensed under the project's existing BSD 3-Clause License  
+- May be nominated for expanded roles based on merit, trust, and sustained participation  
 
-#### Steering Committee (Future)
-- Provides continuity and high-level guidance.
-- Approves new maintainers and mediates disputes.
-- Oversees the project's adherence to the Longevity Pledge.
+#### Advisory Group (Future)
+As the project grows, a small group of trusted contributors may be formalized to:
 
-### 4. Succession & Stewardship
+- Provide continuity and high-level guidance  
+- Review proposals affecting roadmap, policy, or governance  
+- Participate in steward succession discussions  
+- Help ensure adherence to the Longevity Pledge  
 
-To ensure the long-term survival of xyOps:
+This group is advisory rather than executive; final release authority remains with the Stewards unless governance evolves further.
 
-- If PixlCore LLC or Joseph Huckaby are unable to continue active stewardship, **a designated successor organization** (foundation or trusted nonprofit) will inherit responsibility for maintenance and governance.
-- The successor will be legally and publicly bound by the [Longevity Pledge](https://github.com/pixlcore/xyops/blob/main/LONGEVITY.md) and this charter.
-- The Steering Committee (once established) will have the authority to elect new stewards or reconstitute governance as needed, provided all changes honor the project's permanent MIT licensing and open-source commitments.
+### 4. Succession & Long-Term Stewardship
 
-### 5. Amendments
+To reduce single-maintainer or single-organization risk, xyOps is structured so the project can outlive any individual or entity.
 
-This document may be updated to reflect the project's growth, provided that:
+If PixlCore LLC or Joseph Huckaby are ever unable to continue active stewardship:
 
-- All changes are made through a public pull request and approved by maintainers or the Steering Committee.
-- No amendment may contradict or weaken the commitments in the [Longevity Pledge](https://github.com/pixlcore/xyops/blob/main/LONGEVITY.md).
+- The intention is to transfer stewardship to a suitable successor; ideally a foundation, nonprofit, or trusted maintainer group.  
+- Any transfer of stewardship will include clear expectations that xyOps remain openly developed under the BSD 3-Clause License.  
+- The community will be notified publicly before any transition is finalized.  
+
+This charter does not impose legal obligations but is a public commitment to transparent, community-respecting transitions.
+
+### 5. Governance Amendments
+
+This document may evolve as xyOps grows. Amendments require:
+
+- A public pull request  
+- Review and approval by current maintainers (and advisory members, once established)  
+- No changes that undermine the commitments expressed in the Longevity Pledge or reduce the openness of the project  
+
+Amendments will be documented and archived for transparency.
 
 ### 6. Acknowledgment
 
-This Governance Charter formalizes the commitment that xyOps will remain not just *open source*, but *well-governed*, transparent, and community-sustained.
+This charter affirms xyOps' commitment to being not only open source, but responsibly stewarded, transparent in direction, and built for long-term sustainability.
 
-- *Joseph Huckaby*  
+- **Joseph Huckaby**  
 - Founder & Steward, PixlCore LLC  
 - October 27, 2025
