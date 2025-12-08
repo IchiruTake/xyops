@@ -2211,7 +2211,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				break;
 			} // switch type
 			
-			if (param.caption) html += '<div class="info_caption">' + strip_html(param.caption) + '</div>';
+			if (param.caption) html += '<div class="info_caption">' + inline_marked( strip_html(param.caption) ) + '</div>';
 			
 			html += '</div>';
 		} ); // foreach param
@@ -4352,7 +4352,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				break;
 			} // switch type
 			
-			if (param.caption) html += '<div class="info_caption">' + strip_html(param.caption) + '</div>';
+			if (param.caption) html += '<div class="info_caption">' + inline_marked( strip_html(param.caption) ) + '</div>';
 			
 			html += '</div>';
 		} ); // foreach param
