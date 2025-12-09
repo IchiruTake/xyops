@@ -425,7 +425,7 @@ app.extend({
 			callback: function(value) {
 				var enabled = (value == 'enabled');
 				
-				app.api.post( 'app/update_master_state', { 'scheduler.enabled': enabled }, function(resp) {
+				app.api.post( 'app/update_global_state', { 'scheduler.enabled': enabled }, function(resp) {
 					self.state.scheduler.enabled = enabled;
 					self.updateHeaderClock();
 					if (enabled) self.showMessage(enabled ? 'success' : 'warning', "Scheduler has been " + (enabled ? 'resumed.' : 'paused.'), 8);

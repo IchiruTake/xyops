@@ -4651,10 +4651,10 @@ Example response:
 }
 ```
 
-### get_master_state
+### get_global_state
 
 ```
-GET /api/app/get_master_state/v1
+GET /api/app/get_global_state/v1
 ```
 
 Fetch the in-memory conductor [State](data.md#state) object. This includes runtime flags (e.g., scheduler enabled), watches, and other internal state used by the conductor. Admin session or API Key is required.
@@ -4677,10 +4677,10 @@ Example response:
 
 See [State](data.md#state) for more details.
 
-### update_master_state
+### update_global_state
 
 ```
-POST /api/app/update_master_state/v1
+POST /api/app/update_global_state/v1
 ```
 
 Update one or more conductor state values using "dot" property paths in the [State](data.md#state) object. Admin only. Useful for toggling system features without a restart (e.g., pausing the scheduler).
