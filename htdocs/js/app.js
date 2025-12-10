@@ -1415,6 +1415,11 @@ app.extend({
 		var nth = parseInt( event.key ) || 10;
 		var elem = page.div.find('div.box:visible')[ nth - 1 ];
 		if (elem && elem.scrollIntoView) elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	},
+	
+	focusSearchField(page, event) {
+		// focus primary search field, if one can be found
+		page.div.find('.search_box input[type="text"], .box_title_widget input[type="text"]').focus();
 	}
 	
 }); // app
