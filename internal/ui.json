@@ -57,6 +57,7 @@
 		{ "id": "delete_web_hooks", "title": "Delete Web Hooks", "icon": "webhook" },
 		
 		{ "id": "create_snapshots", "title": "Create Snapshots", "icon": "monitor-screenshot" },
+		{ "id": "delete_snapshots", "title": "Delete Snapshots", "icon": "monitor-screenshot" },
 		{ "id": "add_servers", "title": "Add Servers", "icon": "server-plus-outline" }
 	],
 	

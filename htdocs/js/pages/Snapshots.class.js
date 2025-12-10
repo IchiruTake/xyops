@@ -368,7 +368,7 @@ Page.Snapshots = class Snapshots extends Page.ServerUtils {
 					// row 1
 					html += '<div>';
 						html += '<div class="info_label">Snapshot ID</div>';
-						html += '<div class="info_value">' + this.getNiceCopyableID(snapshot.id) + '</div>';
+						html += '<div class="info_value monospace">' + this.getNiceCopyableID(snapshot.id) + '</div>';
 					html += '</div>';
 					
 					html += '<div>';

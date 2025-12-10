@@ -165,3 +165,6 @@ Add new servers on-demand in the UI, and also allow access to the API to dynamic
 
 ### create_snapshots
 Create on-demand server snapshots and set/cancel watches that take periodic snapshots.
+
+### delete_snapshots
+Delete server or group snapshots from the system.

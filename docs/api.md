@@ -3679,6 +3679,34 @@ In addition to the [Standard Response Format](#standard-response-format), this w
 
 See [Snapshots](snapshots.md) for more details.
 
+### delete_snapshot
+
+```
+POST /api/app/delete_snapshot/v1
+```
+
+Delete a single server or group snapshot given a [Snapshot.id](data.md#snapshot-id). Requires the [delete_snapshots](privileges.md#delete_snapshots) privilege and a valid user session or API Key. Supports HTTP POST with JSON, or HTTP GET with query parameters.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | **(Required)** The [Snapshot.id](data.md#snapshot-id) to delete. |
+
+Example request:
+
+```json
+{ "id": "snmhr6zkefh1" }
+```
+
+Example response:
+
+```json
+{ "code": 0 }
+```
+
+See [Snapshots](snapshots.md) for more details.
+
 
 
 ## Tags
