@@ -38,10 +38,15 @@ module.exports = {
 		try { Tools.rimraf.sync('test/temp'); } catch(e) {;}
 		
 		// load suites
-		this.tests = this.tests.concat( 
-			require('./suites/test-user-initial.js').tests,
-			require('./suites/test-alerts-api.js').tests
-		);
+			this.tests = this.tests.concat( 
+				require('./suites/test-user-initial.js').tests,
+				require('./suites/test-alerts-api.js').tests,
+				require('./suites/test-buckets-api.js').tests,
+				require('./suites/test-categories-api.js').tests,
+				require('./suites/test-channels-api.js').tests,
+				require('./suites/test-events-api.js').tests,
+				require('./suites/test-files-api.js').tests
+			);
 		
 		// start pixl-server
 		server.startup( function() {
