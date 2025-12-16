@@ -5173,3 +5173,136 @@ Example response:
 ```json
 { "code": 0 }
 ```
+
+## Miscellaneous
+
+### ping
+
+```
+GET /api/app/ping/v1
+```
+
+Simple health check endpoint. Returns success if the API is reachable.
+
+Notes:
+
+- Public endpoint; no authentication required.
+
+Example response:
+
+```json
+{ "code": 0 }
+```
+
+### echo
+
+```
+GET /api/app/echo/v1  or  POST /api/app/echo/v1
+```
+
+Diagnostic endpoint that echoes request details. Useful for testing connectivity, headers, cookies, parameter parsing, and multipart uploads. The response is pretty-printed and intentionally does not include the standard `code` field.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `sleep` | Number | Optional delay in milliseconds before responding. Defaults to `1`. |
+
+Notes:
+
+- Public endpoint; no authentication required.
+- Returns a JSON object with the following fields: `method`, `uri`, `ips`, `headers`, `cookies`, `params`, `files`.
+
+Example response (truncated):
+
+```json
+{
+  "method": "GET",
+  "uri": "/api/app/echo/v1?sleep=250",
+  "ips": ["203.0.113.10"],
+  "headers": { "host": "example.xyops.io", "user-agent": "curl/8.4.0" },
+  "cookies": {},
+  "params": { "sleep": 250 },
+  "files": {}
+}
+```
+
+### error
+
+```
+GET /api/app/error/v1
+```
+
+Simulate an error response for testing client error handling.
+
+Notes:
+
+- Public endpoint; no authentication required.
+- Always responds with a test error using the [Standard Response Format](#standard-response-format).
+
+Example error response:
+
+```json
+{
+  "code": "test",
+  "description": "This is a test error message."
+}
+```
+
+### dash_stats
+
+```
+GET /api/app/dash_stats/v1
+```
+
+Return live dashboard statistics from the primary conductor, including current-day activity counts, memory and CPU metrics, database (Unbase) engine stats, and optional storage cache stats.
+
+Notes:
+
+- Requires a valid user session or API Key.
+- Primary conductor only. If called on a secondary and redirects are enabled, a `302` redirect to the primary may be returned.
+- No input parameters.
+
+Example response:
+
+```json
+{
+  "code": 0,
+  "stats": {
+    "day": {
+      "timeStart": 1765913097,
+      "transactions": {
+        "server_add": 6,
+        "apikey_update": 4,
+        "role_create": 1,
+        "state_update": 6,
+        "internal_job": 2
+      },
+      "servers": {},
+      "groups": {},
+      "requests": 345,
+      "bytes_in": 191220,
+      "bytes_out": 4225720
+    },
+    "mem": 106430464,
+    "cpu": 0.469576446027293,
+    "unbase": {
+      "version": "3.2.8",
+      "engine": "Hybrid",
+      "concurrency": 32,
+      "transactions": true,
+      "last_second": {},
+      "last_minute": {
+        "get": { "min": 0.048, "max": 1.131, "total": 6.229, "count": 35, "avg": 0.177 },
+        "commit": { "min": 6.866, "max": 17.996, "total": 53.544, "count": 4, "avg": 13.386 },
+        "put": { "min": 0.37, "max": 9.712, "total": 23.038, "count": 9, "avg": 2.559 }
+      },
+      "recent_events": {},
+      "queue": { "active": 0, "pending": 0 },
+      "locks": {},
+      "jobs": {}
+    },
+    "cache": {}
+  }
+}
+```
