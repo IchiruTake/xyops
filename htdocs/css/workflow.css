@@ -472,6 +472,7 @@ body.dark .wf_condition {
 .wf_note {
 	width: 275px;
 	height: auto;
+	border-radius: 16px;
 	background-color: var(--box-background-color);
 	font-size: 13px;
 }
@@ -529,7 +530,7 @@ body.dark .wf_condition {
 	pointer-events: none;
 	
 	background: color-mix(in srgb, var(--theme-color) 6%, transparent);
-	border: 2px dashed var(--theme-color-highlight);
+	border: 1px dashed var(--theme-color-highlight);
 	z-index: 1;
 }
 
