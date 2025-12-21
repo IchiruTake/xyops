@@ -3216,7 +3216,14 @@ When a job starts, if the job is itself a workflow, or a sub-job inside a workfl
 				"files": []
 			}
 		]
-	}
+	},
+	"job": "jg80dllhd",
+	"event": "emjg80nybpf",
+	"node": "n58oqrxk",
+	"launcher": "n3s4kehz",
+	"params": {
+		"foo": "bar"
+	},
 }
 ```
 
@@ -3292,6 +3299,10 @@ If the job is a sub-job inside of a parent workflow, the `workflow.node` propert
 ### JobWorkflow.launcher
 
 If the job is a sub-job inside of a parent workflow, the `workflow.launcher` property will point to the [WorkflowNode.id](#workflownode-id) of the controller node which is governing the job.
+
+### JobWorkflow.params
+
+If the job is a sub-job inside of a parent workflow, the `workflow.params` property will contain all the user parameters provided at workflow launch (if any).
 
 ### Privileges
 
