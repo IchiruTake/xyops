@@ -171,6 +171,34 @@ Example:
 }
 ```
 
+### Magic Link
+
+This trigger type generates a unique URL to start a job from a web request (a.k.a. an "incoming web hook").  The authentication is built into the URL via a unique cryptographic token.  Two different links are provided to the user at trigger creation time:
+
+- A direct link to start a job via a simple URL request (the response is JSON).
+- A link to a standalone HTML landing page (no login required), where the user can provide event parameters, and upload files (if allowed).
+
+For the landing page presentation, when the job is started, progress is streamed back to the page for live updates.  When the job completes, the user is presented with the job results, including any output files, data, and other user-provided content in the job.
+
+Trigger Parameters:
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `key` | String | Yes | Upon creation, the client supplies the plain text key, which is then hashed into a token on the server side.  The plain key is never stored. |
+| `token` | String | n/a | Upon creation, the `key` is hashed (using salted SHA-256) to produce a cryptographic token that is stored in this property. |
+| `body` | String | Optional | Custom Markdown text to render onto the landing page. |
+
+Example:
+
+```json
+{
+  "type": "magic",
+  "enabled": true,
+  "token": "592b38cb583c1d028dde1dc7ec69a4865c321dd2e4ce09f4700f286ec7f18021",
+  "body": "Hello!  This is custom **markdown** content for the _landing page_!"
+}
+```
+
 ### Catch-Up
 
 Catch-up mode is an optional feature designed to ensure that an event always runs on schedule, even when certain situations arise that may temporarily prevent its execution. This can include scenarios such as:
