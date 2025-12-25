@@ -113,7 +113,7 @@ app.extend({
 		// allow visible app name to be changed in config
 		this.name = config.name;
 		
-		this.config.Page = [
+		if (!this.config.Page) this.config.Page = [
 			{ ID: 'Dashboard' },
 			{ ID: 'Docs' },
 			{ ID: 'Login' },
@@ -145,9 +145,10 @@ app.extend({
 			{ ID: 'GroupHist' },
 			{ ID: 'Snapshots' },
 			{ ID: 'Alerts' },
-			{ ID: 'System' }
+			{ ID: 'System' },
+			{ ID: 'Magic' }
 		];
-		this.config.DefaultPage = 'Dashboard';
+		if (!this.config.DefaultPage) this.config.DefaultPage = 'Dashboard';
 		
 		// did we try to init and fail?  if so, try again now
 		if (this.initReady) {
@@ -292,8 +293,8 @@ app.extend({
 		$head.find('link[hljs]').remove();
 		
 		switch (theme) {
-			case 'light': $head.append('<link rel="stylesheet" href="css/atom-one-light.css" hljs>'); break;
-			case 'dark': $head.append('<link rel="stylesheet" href="css/atom-one-dark.css" hljs>'); break;
+			case 'light': $head.append('<link rel="stylesheet" href="/css/atom-one-light.css" hljs>'); break;
+			case 'dark': $head.append('<link rel="stylesheet" href="/css/atom-one-dark.css" hljs>'); break;
 		}
 		
 		// clear css variable cache on theme change
@@ -565,25 +566,25 @@ app.extend({
 	setupDragDrop: function() {
 		// setup drag n' drop file upload for import
 		$(document).off('dragenter').on('dragenter', function(e) {
-			$(this).addClass('dragover');
+			$('body').addClass('dragover');
 			e.preventDefault();
 			e.stopPropagation();
 			return false;
 		})
 		.off('dragover').on('dragover', function(e) {
-			$(this).addClass('dragover');
+			$('body').addClass('dragover');
 			e.preventDefault();
 			e.stopPropagation();
 			return false;
 		})
 		.off('dragleave').on('dragleave', function(e) {
-			$(this).removeClass('dragover');
+			$('body').removeClass('dragover');
 			e.preventDefault();
 			e.stopPropagation();
 			return false;
 		})
 		.off('drop').on('drop', function(e) {
-			$(this).removeClass('dragover');
+			$('body').removeClass('dragover');
 			
 			if (e.originalEvent.dataTransfer.files.length) {
 				var files = e.originalEvent.dataTransfer.files;
