@@ -1973,16 +1973,221 @@ Page.Events = class Events extends Page.PageUtils {
 	}
 	
 	do_export() {
-		// show export dialog
+		// show multi-export dialog
+		var self = this;
+		
+		var getExportedItems = function(event) {
+			// compute exported data and all selected deps
+			var dep_list = $('#fe_ee_deps').val() || [];
+			var deps = array_to_hash_keys( dep_list, 1 );
+			var items = [ { type: 'event', data: event } ];
+			
+			var addAction = function(action) {
+				// add action deps
+				switch (action.type) {
+					case 'plugin':
+						if (deps.plugins) {
+							var plugin = find_object( app.plugins, { id: action.plugin_id } );
+							if (plugin) items.push({ type: 'plugin', data: plugin });
+						}
+					break;
+					
+					case 'web_hook':
+						if (deps.web_hooks) {
+							var web_hook = find_object( app.web_hooks, { id: action.web_hook } );
+							if (web_hook && (web_hook.id != 'example_hook')) items.push({ type: 'web_hook', data: web_hook });
+						}
+					break;
+					
+					case 'store':
+					case 'fetch':
+						if (deps.buckets) {
+							var bucket = find_object( app.buckets, { id: action.bucket_id } );
+							if (bucket) items.push({ type: 'bucket', data: bucket });
+						}
+					break;
+					
+					case 'tag':
+						if (deps.tags) {
+							var tag = find_object( app.tags, { id: action.tag_id } );
+							if (tag) items.push({ type: 'tag', data: tag });
+						}
+					break;
+				} // switch action.type
+			};
+			
+			if (event.workflow) {
+				var workflow = event.workflow;
+				
+				// events
+				if (deps.events) {
+					find_objects(workflow.nodes || [], { type: 'event' }).forEach( function(node) {
+						// recurse to add sub-event
+						var sub_event = find_object( app.events, { id: node.data.event } );
+						if (sub_event) items = items.concat( getExportedItems(sub_event) );
+					} );
+				}
+				
+				// ad-hoc jobs
+				if (deps.plugins) {
+					find_objects(workflow.nodes || [], { type: 'job' }).forEach( function(node) {
+						var plugin = find_object( app.plugins, { id: node.data.plugin } );
+						if (plugin && !plugin.command.match(/^\[[\w\-]+\]$/)) items.push({ type: 'plugin', data: plugin });
+					} );
+				}
+				
+				// actions
+				find_objects(workflow.nodes || [], { type: 'action' }).forEach( function(node) {
+					var action = node.data;
+					addAction(action);
+				} );
+			}
+			else {
+				// plugin (skip stock ones)
+				if (deps.plugins) {
+					var plugin = find_object( app.plugins, { id: event.plugin } );
+					if (plugin && !plugin.command.match(/^\[[\w\-]+\]$/)) items.push({ type: 'plugin', data: plugin });
+				}
+			}
+			
+			// category
+			if (deps.categories) {
+				var category = find_object( app.categories, { id: event.category } );
+				if (category && (category.id != 'general')) items.push({ type: 'category', data: category });
+			}
+			
+			// groups
+			if (deps.groups) {
+				(event.targets || []).forEach( function(target) {
+					var group = find_object( app.groups, { id: target } );
+					if (group) items.push({ type: 'group', data: group });
+				} );
+			}
+			
+			// tags
+			if (deps.tags) {
+				(event.tags || []).forEach( function(tag_id) {
+					var tag = find_object( app.tags, { id: tag_id } );
+					if (tag) items.push({ type: 'tag', data: tag });
+				} );
+			}
+			
+			// triggers (plugins)
+			if (deps.plugins) {
+				(event.triggers || []).forEach( function(trigger) {
+					if (trigger.type != 'plugin') return;
+					var plugin = find_object( app.plugins, { id: trigger.plugin_id } );
+					if (plugin) items.push({ type: 'plugin', data: plugin });
+				} );
+			}
+			
+			// actions (plugins, web hooks, buckets)
+			(event.actions || []).forEach( function(action) {
+				addAction(action);
+			} );
+			
+			// dedupe
+			var final_items = [];
+			var item_ids = {};
+			items.forEach( function(item) {
+				var id = item.type + '|' + item.data.id;
+				if (item_ids[id]) return;
+				item_ids[id] = 1;
+				
+				// make copy so we can prune unnecessary props
+				var final_item = deep_copy_object(item);
+				delete final_item.data.created;
+				delete final_item.data.modified;
+				delete final_item.data.revision;
+				delete final_item.data.sort_order;
+				delete final_item.data.username;
+				
+				final_items.push(final_item);
+			} );
+			
+			return final_items;
+		}; // getExportedItems
+		
 		app.clearError();
 		var event = this.get_event_form_json();
 		if (!event) return; // error
 		
-		this.showExportOptions({
-			name: 'event',
-			dataType: 'event',
-			api: this.args.id ? 'update_event' : 'create_event',
-			data: event
+		var getExportedPayload = function() {
+			var json = {
+				type: 'xypdf',
+				description: "xyOps Portable Data Object",
+				version: "1.0",
+				items: getExportedItems(event)
+			};
+			var payload = JSON.stringify(json, null, "\t") + "\n";
+			return payload;
+		};
+		
+		var title = this.workflow ? "Export Workflow" : "Export Event";
+		var btn = ['cloud-download-outline', 'Download File'];
+		
+		var html = '<div class="dialog_box_content scroll maximize">';
+		
+		// deps: events, plugins, web hooks, cateogries, groups, buckets, tags
+		html += this.getFormRow({
+			label: 'Dependencies:',
+			content: this.getFormMenuMulti({
+				id: 'fe_ee_deps',
+				title: 'Include dependencies',
+				placeholder: '(None)',
+				options: [
+					find_object( config.ui.list_list, { id: 'buckets' } ),
+					find_object( config.ui.list_list, { id: 'categories' } ),
+					find_object( config.ui.list_list, { id: 'events' } ),
+					find_object( config.ui.list_list, { id: 'groups' } ),
+					find_object( config.ui.list_list, { id: 'plugins' } ),
+					find_object( config.ui.list_list, { id: 'tags' } ),
+					find_object( config.ui.list_list, { id: 'web_hooks' } )
+				],
+				values: [],
+				'data-hold': 1,
+				'data-select-all': 1
+			}),
+			caption: 'Optionally include dependencies with your export.'
+		});
+		
+		// json
+		html += this.getFormRow({
+			label: 'View Export:',
+			content: `<div class="button small secondary" id="btn_ee_view_json"><i class="mdi mdi-code-json">&nbsp;</i>View JSON Data...</div>`,
+			caption: 'Click to view the raw JSON data for your export, and optionally copy it to your clipboard.'
+		});
+		
+		html += '</div>';
+		Dialog.confirm( title, html, btn, function(result) {
+			if (!result) return;
+			app.clearError();
+			
+			var payload = getExportedPayload();
+			var filename = 'xyops-' + (event.type || 'event') + '-' + event.id + '.json';
+			var blob = new Blob([payload], { type: "application/json" });
+			var url = URL.createObjectURL(blob);
+			
+			// create temp link element
+			var a = document.createElement("a");
+			a.href = url;
+			a.download = filename;
+			
+			// click it, the remove it
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			
+			// cleanup
+			URL.revokeObjectURL(url);
+			Dialog.hide();
+		}); // Dialog.confirm
+		
+		MultiSelect.init( $('#fe_ee_deps') );
+		Dialog.autoResize();
+		
+		$('#btn_ee_view_json').on('click', function() {
+			self.viewCodeAuto('Export JSON Data', getExportedPayload());
 		});
 	}
 	
