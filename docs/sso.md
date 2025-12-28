@@ -4,7 +4,7 @@
 
 Single Sign-On (SSO) is a mechanism for outsourcing the xyOps user authentication to a third party identity provider, such as Microsoft, Google, GitHub, Okta, Auth0, Cognito, etc.  This document outlines the SSO implementation in xyOps, including configuration, usage, and best practices.
 
-Configuring SSO is a complex, highly technical process that requires careful coordination between identity providers, certificates, middleware, and application settings.  It is easy to get things wrong and expose security holes in your system.  While we provide all necessary documentation here, we strongly recommend our [Enterprise Plan](https://xyops.io/enterprise). This gives you access to our white-glove onboarding service, where our team will guide you through every step, validate your configuration, and ensure your integration is both secure and reliable.  This also gets you priority ticket support, and live chat support from a xyOps engineer.
+Configuring SSO is a complex, highly technical process that requires careful coordination between identity providers, certificates, middleware, and application settings.  It is easy to get things wrong and expose security holes in your system.  While we provide all necessary documentation here, we strongly recommend our [Enterprise Plan](https://xyops.io/pricing). This gives you access to our white-glove onboarding service, where our team will guide you through every step, validate your configuration, and ensure your integration is both secure and reliable.  This also gets you priority ticket support, and live chat support from a xyOps engineer.
 
 xyOps uses the "trusted headers" implementation for SSO, allowing for easy integration with several authentication tools and middlewares.  These include [OAuth2-Proxy](https://github.com/oauth2-proxy/oauth2-proxy), [Vouch](https://github.com/vouch/vouch-proxy), [Authelia](https://github.com/authelia/authelia), and [Authentik](https://github.com/goauthentik/authentik), among others.  It also supports [Tailscale](https://tailscale.com/) (i.e. [Tailscale Serve](https://tailscale.com/kb/1312/serve)) which forwards headers in the same way.
 
@@ -348,7 +348,7 @@ In this case, since we are only running a single conductor server, we can route 
 
 ### Multi-Conductor with OAuth2-Proxy and TLS with Nginx
 
-For a load balanced multi-conductor setup with Nginx w/TLS and OAuth-Proxy for SSO, please read this section.  This is definitely the most complex setup, and requires advanced knowledge of all the components used.  Let me just plug our [Enterprise Plan](https://xyops.io/enterprise) one last time, as we can set all this up for you.  Now, the way this configuration works is as follows:
+For a load balanced multi-conductor setup with Nginx w/TLS and OAuth-Proxy for SSO, please read this section.  This is definitely the most complex setup, and requires advanced knowledge of all the components used.  Let me just plug our [Enterprise Plan](https://xyops.io/pricing) one last time, as we can set all this up for you.  Now, the way this configuration works is as follows:
 
 - [Nginx](https://nginx.org/) sits in front, and handles TLS termination, as well as routing requests to various backends.
 - [OAuth2-Proxy](https://github.com/oauth2-proxy/oauth2-proxy) handles SSO, and is integrated via Nginx using the [auth_request](https://nginx.org/en/docs/http/ngx_http_auth_request_module.html) directive.

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide covers self-hosting xyOps on your own infrastructure.  However, please note that for live production installs, it is dangerous to go alone.  While we provide all necessary documentation here, we strongly recommend our [Enterprise Plan](https://xyops.io/enterprise). This gives you access to our white-glove onboarding service, where our team will guide you through every step, validate your configuration, and ensure your integration is both secure and reliable.  This also gets you priority ticket support, and live chat support from a xyOps engineer.
+This guide covers self-hosting xyOps on your own infrastructure.  However, please note that for live production installs, it is dangerous to go alone.  While we provide all necessary documentation here, we strongly recommend our [Enterprise Plan](https://xyops.io/pricing). This gives you access to our white-glove onboarding service, where our team will guide you through every step, validate your configuration, and ensure your integration is both secure and reliable.  This also gets you priority ticket support, and live chat support from a xyOps engineer.
 
 ## Quick-Start
 
@@ -171,7 +171,7 @@ Alternatively, you can setup a proxy to sit in front of xyOps and handle TLS for
 
 ## Multi-Conductor with Nginx
 
-For a load balanced multi-conductor setup with Nginx w/TLS, please read this section.  This is a complex setup, and requires advanced knowledge of all the components used.  Let me recommend our [Enterprise Plan](https://xyops.io/enterprise) here, as we can set all this up for you.  Now, the way this configuration works is as follows:
+For a load balanced multi-conductor setup with Nginx w/TLS, please read this section.  This is a complex setup, and requires advanced knowledge of all the components used.  Let me recommend our [Enterprise Plan](https://xyops.io/pricing) here, as we can set all this up for you.  Now, the way this configuration works is as follows:
 
 - [Nginx](https://nginx.org/) sits in front, and handles TLS termination, as well as routing requests to various backends.
 - Nginx handles xyOps multi-conductor using an embedded [Health Check Daemon](https://github.com/pixlcore/xyops-healthcheck) which runs in the same container.
@@ -411,7 +411,7 @@ All xyOps documentation is available offline inside the xyOps app.
 
 xyOps supports fully air-gapped server installs and upgrades.  Here is how it works:
 
-1. As part of your [enterprise plan](https://xyops.io/enterprise), request a signed xySat software package from us.
+1. As part of your [enterprise plan](https://xyops.io/pricing), request a signed xySat software package from us.
 2. In your xyOps instance, create a [Storage Bucket](buckets.md) and note the Bucket ID.
 3. Upload the files you received into the bucket.  The filenames will be in this format: `satellite-OS-ARCH.tar.gz`.
 4. Edit your conductor config file, and set the `satellite.bucket` property to the Bucket ID.

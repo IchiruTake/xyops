@@ -31,9 +31,9 @@ Most automation platforms focus on workflow orchestration -- they run tasks, but
 
 # Installation
 
-- For production, we highly recommend our managed **[xyOps Cloud](https://xyops.io/cloud)** service.
-- For enterprise, including on-prem air-gapped installs, sign up for an **[Enterprise License](https://xyops.io/enterprise)**.
-- For development, testing and home labs, check out our **[Self-Hosting Guide](docs/hosting.md)**.
+- For production, we highly recommend our managed **[xyOps Cloud](https://xyops.io/pricing)** service.
+- For enterprise, including on-prem air-gapped installs, sign up for an **[Enterprise License](https://xyops.io/pricing)**.
+- For development, testing and home labs, check out our **[Self-Hosting Guide](https://github.com/pixlcore/xysat/blob/main/docs/hosting.md)**.
 
 Just want to test out xyOps locally really quick?  One-liner Docker command:
 
@@ -43,23 +43,23 @@ docker run --detach --init --restart unless-stopped -v xy-data:/opt/xyops/data -
 
 Then open http://localhost:5522 in your browser, and use username `admin` and password `admin`.
 
-See our **[Self-Hosting Guide](docs/hosting.md)** for more details.
+See our **[Self-Hosting Guide](https://github.com/pixlcore/xysat/blob/main/docs/hosting.md)** for more details.
 
 # Documentation
 
-Check out our docs here: **[xyOps Documentation Index](docs/index.md)**
+Check out our docs here: **[xyOps Documentation Index](https://github.com/pixlcore/xysat/blob/main/docs/index.md)**
 
 Full documentation is also provided inside the xyOps app.  Just click the "Documentation" link in the sidebar.
 
 # Contributing
 
-Please read our **[Contributing Guide](CONTRIBUTING.md)** before opening a pull request.
+Please read our **[Contributing Guide](https://github.com/pixlcore/xysat/blob/main/CONTRIBUTING.md)** before opening a pull request.
 
 TL;DR; we do not accept feature PRs, but there are **lots** of other ways you can contribute!  See the guide for details.
 
 # Development
 
-See our **[Development Guide](docs/dev.md)** for local dev setup.  In short, install [Node.js LTS](https://nodejs.org/en/download) and then:
+See our **[Development Guide](https://github.com/pixlcore/xysat/blob/main/docs/dev.md)** for local dev setup.  In short, install [Node.js LTS](https://nodejs.org/en/download) and then:
 
 ```sh
 git clone https://github.com/pixlcore/xyops.git
@@ -71,7 +71,7 @@ bin/debug.sh
 
 # Security
 
-Read our **[Security Guide](docs/security.md)** to learn how to report security vulnerabilities to the xyOps team.
+Read our **[Security Guide](https://github.com/pixlcore/xysat/blob/main/docs/security.md)** to learn how to report security vulnerabilities to the xyOps team.
 
 Please do **not** submit vulnerabilities as GitHub issues!
 
@@ -79,11 +79,11 @@ Please do **not** submit vulnerabilities as GitHub issues!
 
 The xyOps project exists to empower users and developers through openness, reliability, and fairness.
 
-Our **[Governance Model](docs/governance.md)** is designed to preserve these principles indefinitely.
+Our **[Governance Model](https://github.com/pixlcore/xysat/blob/main/docs/governance.md)** is designed to preserve these principles indefinitely.
 
 # Longevity
 
-Please read our open source **[Longevity Pledge](LONGEVITY.md)**.  The TL;DR; is:
+Please read our open source **[Longevity Pledge](https://github.com/pixlcore/xysat/blob/main/LONGEVITY.md)**.  The TL;DR; is:
 
 xyOps will always be open-licensed, and always OSI-approved. No rug pulls.
 
@@ -91,8 +91,4 @@ xyOps will always be open-licensed, and always OSI-approved. No rug pulls.
 
 xyOps™ is licensed under the **BSD-3-Clause** license.
 
-See [LICENSE.md](LICENSE.md) for full license text.
-
-# Legal
-
-"PixlCore", "xyOps", and "xySat" are all trademarks of PixlCore LLC.  You may fork and modify this software under the terms in the BSD-3-Clause license, but you may not use the names "PixlCore", "xyOps", or "xySat" to refer to your fork without written permission. You must use a distinct name and logo to distinguish your version from the original.
+See [LICENSE.md](https://github.com/pixlcore/xysat/blob/main/LICENSE.md) for full license text.
