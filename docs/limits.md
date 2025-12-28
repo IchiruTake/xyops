@@ -289,6 +289,33 @@ Example:
 }
 ```
 
+### Max Daily Limit
+
+This limit will quietly prevent additional job launches if a specific daily condition count has been reached for the event.  For example, to cap the total number of jobs allowed per day for the event, set the condition to `complete` (fired for every job completion regardless of outcome).  To put an e-brake on critical errors, set the condition to `critical` and then set the amount accordingly.
+
+Parameters:
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `type` | String | Yes | Set to `day` for max daily limit. |
+| `condition` | String | Yes | Which job [condition](data.md#action-condition) to track in the daily stats (e.g. `complete`). |
+| `amount` | Number | Yes | Maximum number of conditions allowed per day. |
+
+Example:
+
+```json
+{
+	"enabled": true,
+	"type": "day",
+	"condition": "complete",
+	"amount": 100
+}
+```
+
+The daily metrics can be reset on the "System" tab in the UI.
+
+Note that manual job runs (i.e. by user or API key) skip over this check.
+
 ## Universal Limits
 
 Set universal defaults in the server config under [job_universal_limits](config.md#job_universal_limits). You can define separate arrays for `default` (regular events) and `workflow` limits. These are appended after category and event limits, so event/workflow settings take precedence.

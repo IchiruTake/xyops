@@ -1279,6 +1279,13 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				}
 				icon = 'file-multiple-outline';
 			break;
+			
+			case 'day':
+				nice_title = "Max Daily";
+				nice_desc = "Up to " + commify(item.amount) + " &ldquo;" + item.condition + "&rdquo; " + pluralize("condition", item.amount);
+				short_desc = commify(item.amount) + " x " + item.condition;
+				icon = 'calendar-cursor-outline';
+			break;
 		} // switch item.type
 		
 		return { nice_title, nice_desc, short_desc, icon };
@@ -1300,12 +1307,9 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			data_type: 'limit',
 			class: 'data_grid c_limit_grid',
 			empty_msg: add_link,
-			grid_template_columns: '40px auto auto auto'
+			grid_template_columns: '40px auto auto auto',
+			always_append_empty_msg: true
 		};
-		
-		if (rows.length && (rows.length < 7)) {
-			targs.always_append_empty_msg = true;
-		}
 		
 		html += this.getCompactGrid(targs, function(item, idx) {
 			var actions = [];
@@ -1359,6 +1363,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			else if (!find_object(this.limits, { type: 'retry' })) limit = { type: 'retry' };
 			else if (!find_object(this.limits, { type: 'queue' })) limit = { type: 'queue' };
 			else if (!find_object(this.limits, { type: 'file' })) limit = { type: 'file' };
+			else limit = { type: 'day' };
 			limit.enabled = true;
 		}
 		
@@ -1542,6 +1547,33 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			caption: 'Optionally enter custom text to be appended to the end of the web hook system message.'
 		});
 		
+		// day max
+		html += this.getFormRow({
+			id: 'd_erl_day_condition',
+			label: 'Job Condition:',
+			content: this.getFormMenuSingle({
+				id: 'fe_erl_day_condition',
+				title: 'Select Condition',
+				options: config.ui.action_condition_menu.filter( function(item) { return item.id != 'continue'; } ),
+				value: limit.condition || 'complete',
+				'data-nudgeheight': 1
+			}),
+			caption: 'Select the desired job condition to track daily.'
+		});
+		html += this.getFormRow({
+			id: 'd_erl_day_amount',
+			label: 'Max Daily Amount:',
+			content: this.getFormText({
+				id: 'fe_erl_day_amount',
+				type: 'number',
+				spellcheck: 'false',
+				maxlength: 32,
+				min: 0,
+				value: limit.amount || 0
+			}),
+			caption: 'Enter the maximum number of job conditions allowed per day.'
+		});
+		
 		// additional actions (checkboxes)
 		html += this.getFormRow({
 			id: 'd_erl_actions',
@@ -1561,6 +1593,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			delete limit.amount;
 			delete limit.duration;
 			delete limit.accept;
+			delete limit.condition;
 			
 			if (limit.type.match(/^(time|mem|cpu|log)$/)) {
 				limit.tags = $('#fe_erl_tags').val();
@@ -1609,6 +1642,11 @@ Page.PageUtils = class PageUtils extends Page.Base {
 					limit.size = parseInt( $('#fe_erl_file_size').val() );
 					limit.accept = $('#fe_erl_file_types').val().replace(/[^\w\s\-\.\,]+/g, '').trim().toLowerCase();
 				break;
+				
+				case 'day':
+					limit.condition = $('#fe_erl_day_condition').val();
+					limit.amount = parseInt( $('#fe_erl_day_amount').val() );
+				break;
 			} // switch limit.type
 			
 			Dialog.hide();
@@ -1616,7 +1654,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		} ); // Dialog.confirm
 		
 		var change_limit_type = function(new_type) {
-			$('#d_erl_byte_amount, #d_erl_raw_amount, #d_erl_duration, #d_erl_file_size, #d_erl_file_types, #d_erl_tags, #d_erl_users, #d_erl_email, #d_erl_web_hook, #d_erl_web_hook_text, #d_erl_actions').hide();
+			$('#d_erl_byte_amount, #d_erl_raw_amount, #d_erl_duration, #d_erl_file_size, #d_erl_file_types, #d_erl_tags, #d_erl_users, #d_erl_email, #d_erl_web_hook, #d_erl_web_hook_text, #d_erl_day_condition, #d_erl_day_amount, #d_erl_actions').hide();
 			
 			if (new_type.match(/^(time|mem|cpu|log)$/)) {
 				$('#d_erl_tags, #d_erl_users, #d_erl_email, #d_erl_web_hook, #d_erl_web_hook_text, #d_erl_actions').show();
@@ -1668,6 +1706,11 @@ Page.PageUtils = class PageUtils extends Page.Base {
 					$('#d_erl_file_size').show();
 					$('#d_erl_file_types').show();
 				break;
+				
+				case 'day':
+					$('#d_erl_day_condition').show();
+					$('#d_erl_day_amount').show();
+				break;
 			} // switch new_type
 		}; // change_limit_type
 		
@@ -1680,9 +1723,12 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			$('#fe_erl_raw_amount').val(0);
 			$('#fe_erl_byte_amount').val(0);
 			$('#fe_erl_byte_amount_val').val(0);
+			$('#fe_erl_day_amount').val(0);
+			
+			Dialog.autoResize();
 		}); // type change
 		
-		SingleSelect.init( $('#fe_erl_type, #fe_erl_web_hook') );
+		SingleSelect.init( $('#fe_erl_type, #fe_erl_web_hook, #fe_erl_day_condition') );
 		MultiSelect.init( $('#fe_erl_tags, #fe_erl_users') );
 		RelativeTime.init( $('#fe_erl_duration') );
 		RelativeBytes.init( $('#fe_erl_byte_amount, #fe_erl_file_size') );
