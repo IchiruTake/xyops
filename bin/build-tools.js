@@ -16,6 +16,7 @@ var os = require('os');
 var cp = require('child_process');
 var async = require('async');
 var UglifyJS = require("uglify-js");
+var CleanCSS = require('clean-css');
 var Request = require("pixl-request");
 var Tools = require('pixl-tools');
 var mkdirp = Tools.mkdirp;
@@ -306,11 +307,30 @@ var bundleCompress = exports.bundleCompress = function bundleCompress( args, cal
 				raw_output += args.header.trim() + "\n";
 			}
 			
-			if (args.uglify) {
+			if (args.minify && args.dest_bundle.match(/\.js$/)) {
 				console.log("Running UglifyJS...");
-				var result = UglifyJS.minify( files );
-				if (!result || !result.code) return callback( new Error("Failed to bundle script: Uglify failure") );
+				
+				var sources = {};
+				files.forEach( function(file) {
+					sources[ file ] = fs.readFileSync( file, 'utf8' );
+				} );
+				
+				var result = UglifyJS.minify( sources, args.minify );
+				if (!result || !result.code) return callback( new Error("Failed to bundle script: UglifyJS failure") );
 				raw_output += result.code;
+			}
+			else if (args.minify && args.dest_bundle.match(/\.css$/)) {
+				console.log("Running clean-css...");
+				
+				var sources = '';
+				files.forEach( function(file) {
+					sources += fs.readFileSync( file, 'utf8' ) + "\n";
+				} );
+				
+				var result = new CleanCSS( args.minify ).minify(sources);
+				if (result && result.errors && result.errors.length) console.error( result.errors );
+				if (!result || !result.styles) return callback( new Error("Failed to bundle script: clean-css failure") );
+				raw_output += result.styles;
 			}
 			else {
 				for (var idx = 0, len = files.length; idx < len; idx++) {

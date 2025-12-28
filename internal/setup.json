@@ -786,6 +786,18 @@
 			[ "copyDir", "sample_conf", "conf", { "exclusive": true } ],
 			{
 				"action": "bundleCompress",
+				"minify": {
+					"level": {
+						"1": {
+							"all": false,
+							"removeWhitespace": true,
+							"removeComments": true
+						},
+						"2": {
+							"all": false
+						}
+					}
+				},
 				"strip_source_maps": true,
 				"dest_bundle": "htdocs/css/_combo.css",
 				"src_html_file": "htdocs/index-dev.html",
@@ -795,7 +807,14 @@
 			},
 			{
 				"action": "bundleCompress",
-				"uglify": false,
+				"minify": {
+					"compress": false,
+					"mangle": false,
+					"output": {
+						"comments": false,
+						"beautify": false
+					}
+				},
 				"header": "/* Copyright (c) PixlCore LLC. */",
 				"dest_bundle": "htdocs/js/_combo.js",
 				"src_html_file": "htdocs/index.html",

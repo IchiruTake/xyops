@@ -1,6 +1,6 @@
 {
 	"name": "xyops",
-	"version": "1.0.0",
+	"version": "0.9.0",
 	"private": true,
 	"description": "A complete task scheduler and server monitoring system.",
 	"author": "Joseph Huckaby <jhuckaby@pixlcore.com>",
@@ -67,7 +67,8 @@
 		"pixl-tools": "^2.0.0",
 		"pixl-xyapp": "^2.1.0",
 		"sqlite3": "5.1.7",
-		"uglify-js": "3.13.5",
+		"uglify-js": "3.19.3",
+		"clean-css": "5.3.3",
 		"useragent-ng": "2.4.5",
 		"ws": "7.5.10",
 		"ansi_up": "5.1.0",
