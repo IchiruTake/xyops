@@ -55,16 +55,14 @@ var logonly = function(msg) {
 	if (log_file) fs.appendFileSync(log_file, msg);
 };
 
-if (process.getuid() != 0) {
-	die( "The xyOps auto-installer must be run as root." );
-}
-
 // create base and log directories
-try { cp.execSync( "mkdir -p " + base_dir + " && chmod 775 " + base_dir ); }
-catch (err) { die("Failed to create base directory: " + base_dir + ": " + err); }
+if (!fs.existsSync(base_dir)) {
+	try { cp.execSync( "mkdir -p " + base_dir + " && chmod 775 " + base_dir ); }
+	catch (err) { die("Failed to create base directory: " + base_dir + ": " + err); }
 
-try { cp.execSync( "mkdir -p " + log_dir + " && chmod 777 " + log_dir ); }
-catch (err) { die("Failed to create log directory: " + log_dir + ": " + err); }
+	try { cp.execSync( "mkdir -p " + log_dir + " && chmod 777 " + log_dir ); }
+	catch (err) { die("Failed to create log directory: " + log_dir + ": " + err); }
+}
 
 // start logging from this point onward
 log_file = log_dir + '/install.log';

@@ -75,7 +75,7 @@ VOLUME /opt/xyops/data
 
 RUN mkdir -p logs
 RUN mkdir -p temp
-RUN chown node:node data logs conf temp test satellite
+RUN chown -R node:node .
 
 USER node
 
