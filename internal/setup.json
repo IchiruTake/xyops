@@ -41,9 +41,49 @@
 					"icon": "cloud-search-outline"
 				},
 				{
+					"name": "Successes",
+					"uri": "Search?result=success",
+					"icon": "check-circle-outline"
+				},
+				{
+					"name": "Errors",
+					"uri": "Search?result=error",
+					"icon": "alert-decagram-outline"
+				},
+				{
+					"name": "Warnings",
+					"uri": "Search?result=warning",
+					"icon": "alert-outline"
+				},
+				{
+					"name": "Criticals",
+					"uri": "Search?result=critical",
+					"icon": "fire-alert"
+				},
+				{
 					"name": "All Tickets",
 					"uri": "Tickets",
 					"icon": "text-box-multiple-outline"
+				},
+				{
+					"name": "Open Tickets",
+					"uri": "Tickets?status=open",
+					"icon": "label-variant-outline"
+				},
+				{
+					"name": "Overdue Tickets",
+					"uri": "Tickets?status=open&query=due%3A%3Ctoday",
+					"icon": "calendar-alert"
+				},
+				{
+					"name": "My InBox",
+					"uri": "Tickets?status=open&assignee=self",
+					"icon": "email-variant"
+				},
+				{
+					"name": "My Drafts",
+					"uri": "Tickets?status=draft&username=self",
+					"icon": "dots-horizontal"
 				}
 			]
 		} ],
