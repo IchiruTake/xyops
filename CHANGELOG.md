@@ -1,5 +1,13 @@
 # xyOps Changelog
 
+## Version v0.9.5
+
+> December 31, 2025
+
+- [3388e85](https://github.com/pixlcore/xyops/commit/3388e85c453db3ffbeced5b1acc4ff203ca39c3f): Version 0.9.5
+- [2ca5162](https://github.com/pixlcore/xyops/commit/2ca516247f8887d00045124a55ddb29e4b7bc54a): Fix issue where files could arrive without being uploaded.
+- [c23a075](https://github.com/pixlcore/xyops/commit/c23a0758af1e63ed37fdc6d9c44d37173382cf58): Reconfigure local satellite to connect to hostID, not "localhost" (breaks xyRun)
+
 ## Version v0.9.4
 
 > December 31, 2025
