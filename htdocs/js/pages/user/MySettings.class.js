@@ -37,7 +37,7 @@ Page.MySettings = class MySettings extends Page.Base {
 		html += '<div class="box">';
 		html += '<div class="box_title">';
 			html += 'Localization Settings';
-			html += '<div class="button right phone_collapse" onClick="$P().reset_loc()"><i class="mdi mdi-undo-variant">&nbsp;</i>Reset to Defaults</div>';
+			html += '<div class="button right phone_collapse" onClick="$P().reset_loc()"><i class="mdi mdi-undo-variant">&nbsp;</i><span>Reset to Defaults</span></div>';
 		html += '</div>';
 		html += '<div class="box_content" style="margin-bottom:30px">';
 		
@@ -141,7 +141,7 @@ Page.MySettings = class MySettings extends Page.Base {
 		html += '<div class="box">';
 		html += '<div class="box_title">';
 			html += 'User Interface Settings';
-			html += '<div class="button right phone_collapse" onClick="$P().reset_ui()"><i class="mdi mdi-undo-variant">&nbsp;</i>Reset to Defaults</div>';
+			html += '<div class="button right phone_collapse" onClick="$P().reset_ui()"><i class="mdi mdi-undo-variant">&nbsp;</i><span>Reset to Defaults</span></div>';
 		html += '</div>';
 		html += '<div class="box_content" style="margin-bottom:30px">';
 		
@@ -254,7 +254,7 @@ Page.MySettings = class MySettings extends Page.Base {
 		html += '<div class="box">';
 		html += '<div class="box_title">';
 			html += 'Audio / Visual Adjustments';
-			html += '<div class="button right phone_collapse" onClick="$P().reset_av()"><i class="mdi mdi-undo-variant">&nbsp;</i>Reset to Defaults</div>';
+			html += '<div class="button right phone_collapse" onClick="$P().reset_av()"><i class="mdi mdi-undo-variant">&nbsp;</i><span>Reset to Defaults</span></div>';
 			html += '<div class="box_subtitle" style="font-style:italic; color:var(--label-color)">(Press &ldquo;Escape&rdquo; key to reset these.)</div>';
 		html += '</div>';
 		html += '<div class="box_content" style="margin-bottom:30px">';
@@ -286,7 +286,7 @@ Page.MySettings = class MySettings extends Page.Base {
 				onInput: '$P().previewFilters()',
 				onChange: '$P().saveChanges()'
 			}),
-			suffix: '<div style="position:relative; left:-15px;">%</div>',
+			suffix: '<div class="form_suffix_symbol">%</div>',
 		});
 		
 		// contrast
@@ -301,7 +301,7 @@ Page.MySettings = class MySettings extends Page.Base {
 				onInput: '$P().previewFilters()',
 				onChange: '$P().saveChanges()'
 			}),
-			suffix: '<div style="position:relative; left:-15px;">%</div>',
+			suffix: '<div class="form_suffix_symbol">%</div>',
 		});
 		
 		// hue
@@ -316,7 +316,7 @@ Page.MySettings = class MySettings extends Page.Base {
 				onInput: '$P().previewFilters()',
 				onChange: '$P().saveChanges()'
 			}),
-			suffix: '<div style="position:relative; left:-15px;"><i class="mdi mdi-triangle-outline"></i></div>',
+			suffix: '<div class="form_suffix_symbol"><i class="mdi mdi-triangle-outline"></i></div>',
 		});
 		
 		// saturation
@@ -331,7 +331,7 @@ Page.MySettings = class MySettings extends Page.Base {
 				onInput: '$P().previewFilters()',
 				onChange: '$P().saveChanges()'
 			}),
-			suffix: '<div style="position:relative; left:-15px;">%</div>',
+			suffix: '<div class="form_suffix_symbol">%</div>',
 		});
 		
 		// sepia
@@ -346,7 +346,7 @@ Page.MySettings = class MySettings extends Page.Base {
 				onInput: '$P().previewFilters()',
 				onChange: '$P().saveChanges()'
 			}),
-			suffix: '<div style="position:relative; left:-15px;">%</div>',
+			suffix: '<div class="form_suffix_symbol">%</div>',
 		});
 		
 		// grayscale
@@ -361,7 +361,7 @@ Page.MySettings = class MySettings extends Page.Base {
 				onInput: '$P().previewFilters()',
 				onChange: '$P().saveChanges()'
 			}),
-			suffix: '<div style="position:relative; left:-15px;">%</div>',
+			suffix: '<div class="form_suffix_symbol">%</div>',
 		});
 		
 		html += '</div>'; // box_content
@@ -371,7 +371,7 @@ Page.MySettings = class MySettings extends Page.Base {
 		html += '<div class="box" id="d_hot_keys">';
 			html += '<div class="box_title">';
 				html += '<span>Keyboard Shortcuts</span>';
-				html += '<div class="button right phone_collapse" onClick="$P().reset_keys()"><i class="mdi mdi-undo-variant">&nbsp;</i>Reset to Defaults</div>';
+				html += '<div class="button right phone_collapse" onClick="$P().reset_keys()"><i class="mdi mdi-undo-variant">&nbsp;</i><span>Reset to Defaults</span></div>';
 			html += '</div>';
 			html += '<div class="box_content table">';
 				html += this.getHotKeyTable();
@@ -383,7 +383,7 @@ Page.MySettings = class MySettings extends Page.Base {
 			html += '<div class="box">';
 			html += '<div class="box_title">';
 				html += 'Administrator Settings';
-				html += '<div class="button right phone_collapse" onClick="$P().reset_admin()"><i class="mdi mdi-undo-variant">&nbsp;</i>Reset to Defaults</div>';
+				html += '<div class="button right phone_collapse" onClick="$P().reset_admin()"><i class="mdi mdi-undo-variant">&nbsp;</i><span>Reset to Defaults</span></div>';
 			html += '</div>';
 			html += '<div class="box_content" style="margin-bottom:30px">';
 			
