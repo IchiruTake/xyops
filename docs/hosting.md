@@ -24,6 +24,34 @@ docker run \
 	ghcr.io/pixlcore/xyops:latest
 ```
 
+Here it is as a docker compose file if you prefer that:
+
+```yaml
+services:
+  xyops01:
+    image: ghcr.io/pixlcore/xyops:latest
+    container_name: xyops01
+    hostname: xyops01
+
+    init: true
+    restart: unless-stopped
+
+    environment:
+      XYOPS_xysat_local: "true"
+      TZ: America/Los_Angeles
+
+    volumes:
+      - xy-data:/opt/xyops/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    ports:
+      - "5522:5522"
+      - "5523:5523"
+
+volumes:
+  xy-data:
+```
+
 Then hit http://localhost:5522/ in your browser for HTTP, or https://localhost:5523/ for HTTPS (note that this will have a self-signed cert -- see [TLS](#tls) below).  A default administrator account will be created with username `admin` and password `admin`.  This will create a Docker volume (`xy-data`) to persist the xyOps database, which by default is a hybrid of a SQLite DB and the filesystem itself for file storage.
 
 A few notes:
