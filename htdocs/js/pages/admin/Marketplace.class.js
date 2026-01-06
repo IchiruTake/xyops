@@ -653,11 +653,32 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 		var md = '';
 		md += `You are about to install **${product.title} ${ver}** from the xyOps Marketplace.  Please confirm the data is what you expect:` + "\n";
 		
-		if (find_object(all_objs, { id: obj.id })) {
+		var old_obj = find_object(all_objs, { id: obj.id });
+		if (old_obj) {
 			do_replace = true;
 			md += "\n" + `> [!WARNING]\n> This ${opts.name} already exists in your xyOps database.  If you proceed, it will be **replaced** with the selected version.` + "\n";
-		}
+			
+			if (product.type == 'plugin') {
+				var deps = this.get_plugin_dependants(old_obj);
+				if (deps) {
+					md += `\nPlease be advised that the following resources depend on this plugin:\n`;
+					md += this.get_plugin_deps_markdown(deps);
+					md += `\nIf you proceed, these items may require updating, particularly if any of the Plugin parameters changed.\n`;
+				}
+			}
+			
+			var pruned_old_obj = { ...old_obj, username: app.username, marketplace: obj.marketplace };
+			delete pruned_old_obj.created;
+			delete pruned_old_obj.modified;
+			delete pruned_old_obj.revision;
+			delete pruned_old_obj.sort_order;
+			
+			var diff_html = this.getDiffHTML( pruned_old_obj, obj ) || '(No changes)';
+			md += "\n### Diff to Current Version:\n\n";
+			md += '<div class="diff_content">' + diff_html + '</div>' + "\n";
+		} // do_replace
 		
+		md += `\n### ${thing} JSON:\n`;
 		md += "\n```json\n" + JSON.stringify(obj, null, "\t") + "\n```\n";
 		
 		var html = '';

@@ -5247,4 +5247,105 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		});
 	}
 	
+	get_plugin_deps_markdown(deps) {
+		// render plugin dep summary into markdown
+		var self = this;
+		var md = '';
+		
+		if (deps.events.length) {
+			// md += `\n#### Events:\n\n`;
+			deps.events.forEach( function(id) {
+				md += '- **' + self.getNiceEvent(id, true) + "**\n";
+			} );
+			md += "\n";
+		}
+		if (deps.workflows.length) {
+			// md += `\n#### Workflows:\n\n`;
+			deps.workflows.forEach( function(id) {
+				md += '- **' + self.getNiceEvent(id, true) + "**\n";
+			} );
+			md += "\n";
+		}
+		if (deps.categories.length) {
+			// md += `\n#### Categories:\n\n`;
+			deps.categories.forEach( function(id) {
+				md += '- **' + self.getNiceCategory(id, true) + "**\n";
+			} );
+			md += "\n";
+		}
+		if (deps.groups.length) {
+			// md += `\n#### Groups:\n\n`;
+			deps.groups.forEach( function(id) {
+				md += '- **' + self.getNiceGroup(id, true) + "**\n";
+			} );
+			md += "\n";
+		}
+		
+		return md;
+	}
+	
+	get_plugin_dependants(plugin) {
+		// get lists of things that depend on the current plugin
+		var self = this;
+		var flows = {};
+		var events = {};
+		var cats = {};
+		var groups = {};
+		
+		if (!plugin) plugin = this.plugin;
+		if (!plugin.type.match(/^(action|event|scheduler)$/)) return false;
+		
+		app.events.forEach( function(event) {
+			if ((plugin.type == 'event') && (event.plugin == plugin.id)) {
+				events[ event.id ] = 1;
+				return;
+			}
+			
+			if (plugin.type == 'scheduler') {
+				(event.triggers || []).forEach( function(trigger) {
+					if (trigger.enabled && (trigger.type == 'plugin') && (trigger.plugin_id == plugin.id)) events[ event.id ] = 1;
+				} );
+			}
+			
+			if (plugin.type == 'action') {
+				(event.actions || []).forEach( function(action) {
+					if (action.enabled && (action.type == 'plugin') && (action.plugin_id == plugin.id)) events[ event.id ] = 1;
+				} );
+			}
+			
+			if (event.workflow && event.workflow.nodes) event.workflow.nodes.forEach( function(node) {
+				if ((node.type == 'job') && node.data && node.data.plugin && (node.data.plugin == plugin.id)) flows[ event.id ] = 1;
+				if ((node.type == 'action') && node.data && node.data.plugin_id && (node.data.plugin_id == plugin.id)) flows[ event.id ] = 1;
+			} );
+		} ); // foreach event
+		
+		// categories
+		if (plugin.type == 'action') {
+			app.categories.forEach( function(cat) {
+				(cat.actions || []).forEach( function(action) {
+					if (action.enabled && (action.type == 'plugin') && (action.plugin_id == plugin.id)) cats[ cat.id ] = 1;
+				} );
+			} );
+		}
+		
+		// groups
+		if (plugin.type == 'action') {
+			app.groups.forEach( function(group) {
+				(group.alert_actions || []).forEach( function(action) {
+					if (action.enabled && (action.type == 'plugin') && (action.plugin_id == plugin.id)) groups[ group.id ] = 1;
+				} );
+			} );
+		}
+		
+		var info = {
+			events: Object.keys(events),
+			workflows: Object.keys(flows),
+			categories: Object.keys(cats),
+			groups: Object.keys(groups)
+		};
+		
+		if (!info.events.length && !info.workflows.length && !info.categories.length && !info.groups.length) return false;
+		else return info;
+	}
+	
 };
