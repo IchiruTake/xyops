@@ -730,6 +730,13 @@ body.dark div.maint_unit {
 	transform: scale(1.20);
 }
 
+.code_viewer .markdown-body li a i.mdi {
+	color: var(--blue);
+}
+.code_viewer .markdown-body li a:hover i.mdi {
+	color: var(--theme-color-highlight);
+}
+
 .markdown-body blockquote {
 	border-left: 2px solid var(--border-color);
 	margin-left: 0;

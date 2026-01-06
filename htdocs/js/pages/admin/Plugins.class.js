@@ -392,23 +392,178 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 		// Nav.go( 'Plugins?sub=list' );
 		this.triggerSaveComplete();
 		app.showMessage('success', "The plugin was saved successfully.");
+		
+		this.notify_plugin_dependants();
+	}
+	
+	notify_plugin_dependants() {
+		// notify user about external deps affected by plugin update
+		var self = this;
+		var title = `<span class="danger">Warning: Plugin Has Dependants</span>`;
+		var md = '';
+		
+		var deps = this.get_plugin_dependants();
+		if (!deps) return;
+		
+		md += `Your changes were saved successfully, but please be advised that the following resources depend on this plugin:\n`;
+		
+		md += this.get_plugin_deps_markdown(deps);
+		
+		md += `\nThese items may require updating, particularly if you changed any of the Plugin parameters they use.\n`;
+		
+		this.viewMarkdownAuto(title, md);
+	}
+	
+	get_plugin_deps_markdown(deps) {
+		// render plugin dep summary into markdown
+		var self = this;
+		var md = '';
+		
+		if (deps.events.length) {
+			md += `\n### Events:\n\n`;
+			deps.events.forEach( function(id) {
+				md += '- **' + self.getNiceEvent(id, true) + "**\n";
+			} );
+			md += "\n";
+		}
+		if (deps.workflows.length) {
+			md += `\n### Workflows:\n\n`;
+			deps.workflows.forEach( function(id) {
+				md += '- **' + self.getNiceEvent(id, true) + "**\n";
+			} );
+			md += "\n";
+		}
+		if (deps.categories.length) {
+			md += `\n### Categories:\n\n`;
+			deps.categories.forEach( function(id) {
+				md += '- **' + self.getNiceCategory(id, true) + "**\n";
+			} );
+			md += "\n";
+		}
+		if (deps.groups.length) {
+			md += `\n### Groups:\n\n`;
+			deps.groups.forEach( function(id) {
+				md += '- **' + self.getNiceGroup(id, true) + "**\n";
+			} );
+			md += "\n";
+		}
+		
+		return md;
+	}
+	
+	get_plugin_dependants() {
+		// get lists of things that depend on the current plugin
+		var self = this;
+		var plugin = this.plugin;
+		var flows = {};
+		var events = {};
+		var cats = {};
+		var groups = {};
+		
+		if (!plugin.type.match(/^(action|event|scheduler)$/)) return false;
+		
+		app.events.forEach( function(event) {
+			if ((plugin.type == 'event') && (event.plugin == plugin.id)) {
+				events[ event.id ] = 1;
+				return;
+			}
+			
+			if (plugin.type == 'scheduler') {
+				(event.triggers || []).forEach( function(trigger) {
+					if (trigger.enabled && (trigger.type == 'plugin') && (trigger.plugin_id == plugin.id)) events[ event.id ] = 1;
+				} );
+			}
+			
+			if (plugin.type == 'action') {
+				(event.actions || []).forEach( function(action) {
+					if (action.enabled && (action.type == 'plugin') && (action.plugin_id == plugin.id)) events[ event.id ] = 1;
+				} );
+			}
+			
+			if (event.workflow && event.workflow.nodes) event.workflow.nodes.forEach( function(node) {
+				if ((node.type == 'job') && node.data && node.data.plugin && (node.data.plugin == plugin.id)) flows[ event.id ] = 1;
+				if ((node.type == 'action') && node.data && node.data.plugin_id && (node.data.plugin_id == plugin.id)) flows[ event.id ] = 1;
+			} );
+		} ); // foreach event
+		
+		// categories
+		if (plugin.type == 'action') {
+			app.categories.forEach( function(cat) {
+				(cat.actions || []).forEach( function(action) {
+					if (action.enabled && (action.type == 'plugin') && (action.plugin_id == plugin.id)) cats[ cat.id ] = 1;
+				} );
+			} );
+		}
+		
+		// groups
+		if (plugin.type == 'action') {
+			app.groups.forEach( function(group) {
+				(group.alert_actions || []).forEach( function(action) {
+					if (action.enabled && (action.type == 'plugin') && (action.plugin_id == plugin.id)) groups[ group.id ] = 1;
+				} );
+			} );
+		}
+		
+		var info = {
+			events: Object.keys(events),
+			workflows: Object.keys(flows),
+			categories: Object.keys(cats),
+			groups: Object.keys(groups)
+		};
+		
+		if (!info.events.length && !info.workflows.length && !info.categories.length && !info.groups.length) return false;
+		else return info;
 	}
 	
 	show_delete_plugin_dialog() {
 		// show dialog confirming plugin delete action
 		var self = this;
+		var deps = this.get_plugin_dependants();
+		if (!deps) {
+			// no changes, show simple prompt
+			Dialog.confirmDanger( 'Delete Plugin', "Are you sure you want to <b>permanently delete</b> the " + this.plugin.type + " plugin &ldquo;" + this.plugin.title + "&rdquo;?  There is no way to undo this action.", ['trash-can', 'Delete'], function(result) {
+				if (result) {
+					Dialog.showProgress( 1.0, "Deleting Plugin..." );
+					app.api.post( 'app/delete_plugin', self.plugin, self.delete_plugin_finish.bind(self) );
+				}
+			} );
+			return;
+		}
 		
-		// check for events first
-		// var plugin_events = find_objects( app.events, { plugin: this.plugin.id } );
-		// var num_events = plugin_events.length;
-		// if (num_events) return app.doError("Sorry, you cannot delete a plugin that has events assigned to it.");
+		// show user a summary of plugin's dependants
+		var title = 'Delete Plugin';
+		var md = '';
+		var html = '';
 		
-		Dialog.confirmDanger( 'Delete Plugin', "Are you sure you want to <b>permanently delete</b> the " + this.plugin.type + " plugin &ldquo;" + this.plugin.title + "&rdquo;?  There is no way to undo this action.", ['trash-can', 'Delete'], function(result) {
-			if (result) {
-				Dialog.showProgress( 1.0, "Deleting Plugin..." );
-				app.api.post( 'app/delete_plugin', self.plugin, self.delete_plugin_finish.bind(self) );
-			}
-		} );
+		md += `Are you sure you want to **permanently delete** the ${this.plugin.type} plugin &ldquo;${this.plugin.title}&rdquo;?\n\nPlease note the following dependants that use the plugin:\n`;
+		
+		md += this.get_plugin_deps_markdown(deps);
+		
+		md += '\nIf you proceed, there is no way to undo this action.\n';
+		
+		html += '<div class="code_viewer scroll_shadows">';
+		html += '<div class="markdown-body">';
+		
+		html += marked.parse(md, config.ui.marked_config);
+		
+		html += '</div>'; // markdown-body
+		html += '</div>'; // code_viewer
+		
+		var buttons_html = "";
+		buttons_html += '<div class="button mobile_collapse" onClick="Dialog.hide()"><i class="mdi mdi-close-circle-outline">&nbsp;</i><span>Cancel</span></div>';
+		buttons_html += '<div class="button delete" onClick="Dialog.confirm_click(true)"><i class="mdi mdi-trash-can">&nbsp;</i>Confirm Delete</div>';
+		
+		Dialog.showSimpleDialog('<span class="danger">' + title + '</span>', html, buttons_html);
+		
+		// special mode for key capture
+		Dialog.active = 'editor';
+		Dialog.confirm_callback = function(result) { 
+			if (!result) return;
+			Dialog.showProgress( 1.0, "Deleting Plugin..." );
+			app.api.post( 'app/delete_plugin', self.plugin, self.delete_plugin_finish.bind(self) );
+		};
+		
+		self.highlightCodeBlocks('#dialog .markdown-body');
 	}
 	
 	delete_plugin_finish(resp) {
