@@ -217,7 +217,7 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 		if (type) args.type = type;
 		
 		var sort = this.div.find('#fe_s_sort').val();
-		if (sort != 'date_desc') args.sort = sort;
+		if (sort != 'title_asc') args.sort = sort;
 		
 		if (!num_keys(args)) return null;
 		
