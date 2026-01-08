@@ -904,7 +904,7 @@ Page.System = class System extends Page.PageUtils {
 					title = '<span class="danger"><i class="mdi mdi-alert-decagram">&nbsp;</i>Failed To Send Email</span>';
 				}
 				else {
-					title = '<i class="mdi mdi-check-circle-outline">&nbsp;</i>Email Sent Successfully';
+					title = '<span style="color:var(--green)"><i class="mdi mdi-check-circle-outline">&nbsp;</i>Email Sent Successfully</span>';
 				}
 				
 				md += "**Result:** " + resp.description + "\n\n" + resp.details;
