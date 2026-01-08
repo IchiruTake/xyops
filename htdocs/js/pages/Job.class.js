@@ -196,7 +196,9 @@ Page.Job = class Job extends Page.PageUtils {
 					}
 					
 					// html += '<div class="button icon right secondary sm_hide" title="View JSON..." onClick="$P().do_view_job_data()"><i class="mdi mdi-code-json"></i></div>';
-					html += '<div class="button icon right" title="Run Again..." onClick="$P().do_confirm_run_again()"><i class="mdi mdi-run-fast"></i></div>';
+					if (job.event && find_object(app.events, { id: job.event })) {
+						html += '<div class="button icon right" title="Run Again..." onClick="$P().do_confirm_run_again()"><i class="mdi mdi-run-fast"></i></div>';
+					}
 					
 					html += '<div class="clear"></div>';
 				}
