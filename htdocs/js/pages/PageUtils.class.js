@@ -336,10 +336,10 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		
 		// summary
 		md += "### Summary\n\n";
-		md += '- **Description:** <i class="mdi mdi-' + item._type.icon + '">&nbsp;</i>' + item._desc + "\n";
-		md += '- **Date/Time:** ' + this.getRelativeDateTime(item.epoch) + "\n";
+		md += '- **Description:** <i class="mdi mdi-' + item._type.icon + '"></i>' + item._desc + "\n";
+		md += '- **Date/Time:** ' + this.getRelativeDateTime(item.epoch).replace(/\&nbsp\;/g, '') + "\n";
 		md += '- **User:** ' + this.getNiceUser(item.username, true) + "\n";
-		md += '- **Revision:** <i class="mdi mdi-file-compare">&nbsp;</i>' + (obj.revision || 'n/a') + (is_cur_rev ? ' (Current)' : '') + "\n";
+		md += '- **Revision:** <i class="mdi mdi-file-compare"></i>' + (obj.revision || 'n/a') + (is_cur_rev ? ' (Current)' : '') + "\n";
 		
 		// find prev rev for diff'ing
 		var prev_rev = this.revisions.find( function(rev) {
