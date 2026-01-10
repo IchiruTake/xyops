@@ -6,7 +6,7 @@
 # Support NODE_MAX_MEMORY
 
 # add some common path locations
-PATH=$PATH:/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin
+export PATH=$PATH:/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin:$HOME/.local/bin
 
 # home directory
 HOMEDIR="$(dirname "$(cd -- "$(dirname "$0")" && (pwd -P 2>/dev/null || pwd))")"

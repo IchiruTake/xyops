@@ -19,7 +19,7 @@
 # --------------------                              --------------------
 #
 # add some common path locations
-PATH=$PATH:/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin
+export PATH=$PATH:/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin
 # 
 # the name of your binary
 NAME="xyOps Server"
