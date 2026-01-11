@@ -233,6 +233,7 @@ Make a pull request, and add your Plugin metadata to the `marketplace.json` file
 	"description": "An AI-powered browser automation framework for xyOps.  Drive a headless browser with simple English instructions, take actions, extract data, capture network requests, and even record a video of the whole session.",
 	"versions": ["v1.0.9", "v1.0.8", "v1.0.7"],
 	"type": "plugin",
+	"plugin_type": "event",
 	"license": "MIT",
 	"tags": ["Stagehand", "Playwright"],
 	"requires": [ "docker" ],
@@ -251,6 +252,7 @@ Here are descriptions of the properties:
 | `description` | String | A short description of your Plugin.  Displayed under the title in the marketplace. |
 | `versions` | Array | A sorted array of strings containing all the available versions (git tags) of your Plugin.  The latest release should be listed first. |
 | `type` | String | What type of item you are publishing.  Set this to `plugin` for v1 (will be expanded in the future). |
+| `plugin_type` | String | If submitting a plugin, this specifies the plugin type.  Should be one of: `event`, `action`, `monitor` or `scheduler`.  You can find this value inside your Plugin's export data. |
 | `license` | String | The [SPDX Identifier](https://spdx.org/licenses/) for the open-source license your Plugin uses (must be OSI-approved). |
 | `tags` | Array | An array of keyword strings, used for searching. |
 | `requires` | Array | List the CLI requirements to launch your Plugin, e.g. `npx`, `uvx`, `go run` and/or `docker`. |
