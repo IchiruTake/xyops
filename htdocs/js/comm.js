@@ -77,10 +77,6 @@ app.comm = {
 			
 			Debug.trace('comm', "WebSocket connected successfully");
 			
-			if (Dialog.progress) {
-				Dialog.hideProgress();
-			}
-			
 			// authenticate websocket now
 			socket.emit( 'authenticate', {} );
 		};
@@ -141,6 +137,7 @@ app.comm = {
 			
 			case 'auth_failure':
 				// authentiation failure (should never happen)
+				if (Dialog.progress) Dialog.hideProgress();
 				var msg = data.description;
 				app.doError(msg);
 				app.doUserLogout(true);
@@ -155,6 +152,8 @@ app.comm = {
 			
 			case 'login':
 				// auth successful
+				if (Dialog.progress) Dialog.hideProgress();
+				
 				Debug.trace('user', "WebSocket auth successful!");
 				socket.auth = true;
 				
