@@ -256,6 +256,7 @@
 	
 	"client": {
 		"name": "xyOps",
+		"company": "PixlCore LLC",
 		"logo_url": "/images/logotype.png",
 		
 		"items_per_page": 50,

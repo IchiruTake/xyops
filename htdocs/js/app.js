@@ -188,8 +188,8 @@ app.extend({
 		this.ipAddressStrip = new RegExp( config.ip_display_strip );
 		
 		// pop version into footer
+		$('#d_footer_copyright').html( '&copy; ' + (new Date()).getFullYear() + ' ' + (this.config.company || 'PixlCore LLC') + '.' );
 		$('#d_footer_version').html( "Version " + this.version || 0 );
-		// $('#d_footer_version').html( get_inner_window_size().width );
 		
 		// some css munging for browser weirdness
 		var ua = navigator.userAgent;
