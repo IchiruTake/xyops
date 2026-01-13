@@ -229,8 +229,9 @@
 		"^role": { "icon": "account-group", "label": "Role" },
 		
 		"^error": { "icon": "alert-decagram", "label": "Error" },
-		"^warning": { "icon": "alert", "label": "Warning" },
+		"^warning": { "icon": "alert-rhombus", "label": "Warning" },
 		"^notice": { "icon": "information-outline", "label": "Notice" },
+		"^critical": { "icon": "fire-alert", "label": "Critical" },
 		"^group": { "icon": "server-network", "label": "Group" },
 		"^server": { "icon": "router-network", "label": "Server" },
 		"^master": { "icon": "database", "label": "Conductor" },
