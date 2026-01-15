@@ -302,7 +302,10 @@ Page.Events = class Events extends Page.PageUtils {
 			var cat = cat_map[ item.category ] || { title: item.category };
 			
 			var actions = [];
-			actions.push( '<button class="link" onClick="$P().do_run_event_from_list('+idx+')"><b>Run Now</b></button>' );
+			actions.push( '<button class="link" onClick="$P().do_run_event_from_list('+idx+')"><b>Run</b></button>' );
+			actions.push( '<button class="link" onClick="$P().edit_event('+idx+')"><b>Edit</b></button>' );
+			actions.push( '<button class="link" onClick="$P().do_clone_from_list('+idx+')"><b>Clone</b></button>' );
+			actions.push( '<button class="link danger" onClick="$P().delete_event('+idx+')"><b>Delete</b></button>' );
 			
 			var tds = [
 				'<div class="td_drag_handle" style="cursor:default">' + self.getFormCheckbox({
@@ -628,13 +631,37 @@ Page.Events = class Events extends Page.PageUtils {
 	
 	edit_event(idx) {
 		// jump to edit sub
-		if (idx > -1) Nav.go( '#Events?sub=edit&id=' + this.events[idx].id );
+		if (idx > -1) {
+			if (this.events[idx].type == 'workflow') Nav.go( '#Workflows?sub=edit&id=' + this.events[idx].id );
+			else Nav.go( '#Events?sub=edit&id=' + this.events[idx].id );
+		}
 		else Nav.go( '#Events?sub=new' );
+	}
+	
+	do_clone_from_list(idx) {
+		// make copy of event and jump over to new
+		var clone = deep_copy_object( this.events[idx] );
+		clone.title = "Copy of " + clone.title;
+		delete clone.id;
+		delete clone.created;
+		delete clone.modified;
+		delete clone.revision;
+		delete clone.username;
+		
+		if (clone.type == 'workflow') {
+			$P('Workflows').clone = clone;
+			Nav.go('Workflows?sub=new');
+		}
+		else {
+			this.clone = clone;
+			Nav.go('Events?sub=new');
+		}
 	}
 	
 	delete_event(idx) {
 		// delete event from search results
 		this.event = this.events[idx];
+		this.workflow = this.event.workflow || undefined;
 		this.show_delete_event_dialog();
 	}
 	
@@ -2506,7 +2533,7 @@ Page.Events = class Events extends Page.PageUtils {
 		var event_jobs = find_objects( app.activeJobs, { event: this.event.id } );
 		if (event_jobs.length) return app.doError("Sorry, you cannot delete a event that has active jobs running.");
 		
-		Dialog.confirmDanger( 'Delete Event', "Are you sure you want to <b>permanently delete</b> the " + thing + " &ldquo;<b>" + this.event.title + "</b>&rdquo;?  This will also delete all job history for the event.  There is no way to undo this action.", ['trash-can', 'Delete'], function(result) {
+		Dialog.confirmDanger( 'Delete ' + ucfirst(thing), "Are you sure you want to <b>permanently delete</b> the " + thing + " &ldquo;<b>" + this.event.title + "</b>&rdquo;?  This will also delete all job history for the event.  There is no way to undo this action.", ['trash-can', 'Delete'], function(result) {
 			if (result) {
 				Dialog.showProgress( 1.0, self.workflow ? "Deleting Workflow..." : "Deleting Event..." );
 				app.api.post( 'app/delete_event', { id: self.event.id, delete_jobs: true }, self.delete_event_finish.bind(self) );
