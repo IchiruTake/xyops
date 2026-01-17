@@ -1,5 +1,13 @@
 # xyOps Changelog
 
+## Version v0.9.31
+
+> January 16, 2026
+
+- [`085918f`](https://github.com/pixlcore/xyops/commit/085918f0a014d5f7957983ccbe5682913010d6c1): Version 0.9.31
+- [`f977427`](https://github.com/pixlcore/xyops/commit/f977427c54f1258569dc55e1566053fad70c9bdb): Workflow UI: Fix display issue with trigger plugins (title not showing).
+- [`1b3df7c`](https://github.com/pixlcore/xyops/commit/1b3df7cb236a7430cb693e76882112ad761f83cd): Workflow UI: Set a fixed max height for event/job nodes and enable auto-scroll inside them.
+
 ## Version v0.9.30
 
 > January 16, 2026
