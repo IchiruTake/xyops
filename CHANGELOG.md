@@ -1,5 +1,16 @@
 # xyOps Changelog
 
+## Version v0.9.30
+
+> January 16, 2026
+
+- [`29008d5`](https://github.com/pixlcore/xyops/commit/29008d5d457a23d993a985a901531a165b28f2fc): Version 0.9.30
+- [`89b74e6`](https://github.com/pixlcore/xyops/commit/89b74e660862545bc8d346457d8fc3bfb438fe35): Fix: Workflow nodes were not properly rendering JSON and Toolset params in the UI.
+- [`2bcf02b`](https://github.com/pixlcore/xyops/commit/2bcf02b96658db04aedd138b0685a6d035696b29): Event/Job UI: Tweak height of workflow map preview.
+- [`76eea07`](https://github.com/pixlcore/xyops/commit/76eea0708c6aa18bcb5f77cdf6d68c1b2209240f): Workflow Doc: Clarified behavior of workflow user field params passing to sub-jobs.
+- [`2e429ba`](https://github.com/pixlcore/xyops/commit/2e429bab8c45265d06861ffb825d418c3eac3e9a): Marketplace UI: General cleanup, remove console.log, add confetti.
+- [`25d236d`](https://github.com/pixlcore/xyops/commit/25d236d277a02d7a1663fccf537e700a05b04ef4): Event List: Change "History" action link to go to job history search, not revision history.
+
 ## Version v0.9.29
 
 > January 15, 2026
