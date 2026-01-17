@@ -161,6 +161,8 @@ body.dark .wf_event_title {
 }
 .wf_body {
 	padding: 8px;
+	max-height: 250px;
+	overflow-y: auto;
 }
 
 .wf_fallback_icon {
