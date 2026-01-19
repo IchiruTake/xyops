@@ -2709,6 +2709,11 @@ Page.Base = class Base extends Page {
 			}
 		}));
 		
+		this.editor.on('blur', function(cm) {
+			const cursor = cm.getCursor('head');
+			cm.setSelection(cursor, cursor);
+		});
+		
 		if (auto_mode) this.setupEditorAutoDetect();
 		
 		// required for auto-sizing to fit width
