@@ -1,5 +1,14 @@
 # xyOps Changelog
 
+## Version v0.9.33
+
+> January 19, 2026
+
+- [`e5d07a5`](https://github.com/pixlcore/xyops/commit/e5d07a579fa06c67201d9c8f09fc8733732d4f6c): Version 0.9.33
+- [`c0edb6e`](https://github.com/pixlcore/xyops/commit/c0edb6e7d0709d3624c295c4b840a40fd1b12323): Remove: Legacy Job Comments feature (replaced by tickets).
+- [`c6c7f62`](https://github.com/pixlcore/xyops/commit/c6c7f62c2bf3a0737b7a6cf0e1b5f015a93b7050): Feature: Implement log archive auto-delete via `log_archive_keep` config property.
+- [`5b53e42`](https://github.com/pixlcore/xyops/commit/5b53e4254ef815cf6a52ca55f9b21fd716e1395a): Config Doc: Add `client.company` property description.
+
 ## Version v0.9.32
 
 > January 19, 2026
