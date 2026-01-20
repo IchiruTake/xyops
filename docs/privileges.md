@@ -91,9 +91,6 @@ Delete jobs and their associated files or logs (where applicable).
 ### tag_jobs
 Add or update tags on completed jobs.
 
-### comment_jobs
-Add, edit, or delete comments on completed jobs.
-
 ## Monitors
 
 ### create_monitors

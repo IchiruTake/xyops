@@ -199,8 +199,7 @@ When users are first created via SSO, a default set of privileges is applied.  T
 	"create_events": true,
 	"edit_events": true,
 	"run_jobs": true,
-	"tag_jobs": true,
-	"comment_jobs": true
+	"tag_jobs": true
 }
 ```
 

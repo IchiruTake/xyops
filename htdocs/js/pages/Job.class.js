@@ -188,7 +188,6 @@ Page.Job = class Job extends Page.PageUtils {
 					
 					html += '<div class="button icon right danger" title="Delete Job..." onClick="$P().do_delete_job()"><i class="mdi mdi-trash-can-outline"></i></div>';
 					
-					// html += '<div class="button icon right secondary sm_hide" title="Add Comment..." onClick="$P().do_edit_comment(-1)"><i class="mdi mdi-comment-processing-outline"></i></div>';
 					html += '<div class="button icon right secondary" title="Update Tags..." onClick="$P().do_update_tags(this)"><i class="mdi mdi-tag-plus-outline"></i></div>';
 					
 					if (app.hasPrivilege('edit_tickets')) {
@@ -350,16 +349,6 @@ Page.Job = class Job extends Page.PageUtils {
 				html += '</div>'; // box_content
 			html += '</div>'; // box
 		} // workflow
-		
-		// comments (hidden unless needed)
-		html += '<div class="box toggle" id="d_job_comments" style="display:none">';
-			html += '<div class="box_title">';
-				html += '<i></i><span>Comments</span>';
-			html += '</div>';
-			html += '<div class="box_content table">';
-				// html += '<div class="loading_container"><div class="loading"></div></div>';
-			html += '</div>'; // box_content
-		html += '</div>'; // box
 		
 		// actions (hidden unless needed)
 		html += '<div class="box toggle" id="d_job_actions" style="display:none">';
@@ -571,7 +560,6 @@ Page.Job = class Job extends Page.PageUtils {
 			this.renderEventParams();
 			this.renderJobActions();
 			this.renderJobTags();
-			this.renderJobComments();
 			this.renderMediaSlideshow();
 		}
 		
@@ -1334,111 +1322,6 @@ Page.Job = class Job extends Page.PageUtils {
 				} ); // api.post
 			} // callback
 		}); // popupQuickMenu
-	}
-	
-	renderJobComments() {
-		// show job comments if any, otherwise hide
-		var self = this;
-		var job = this.job;
-		
-		var $box = this.div.find('#d_job_comments');
-		if (!job.comments || !job.comments.length) {
-			$box.hide();
-			return;
-		}
-		
-		var cols = [ 'User', 'Comment', 'Date/Time', 'Actions' ];
-		var html = '';
-		
-		html += this.getBasicTable({
-			attribs: { class: 'data_table' },
-			compact: false,
-			cols: cols,
-			rows: sort_by( job.comments, 'date', { type: 'number', dir: -1 } ),
-			data_type: 'comment',
-			
-			callback: function(comment, idx) {
-				var actions = [];
-				if ((comment.username == app.username) || app.isAdmin()) {
-					actions.push('<button class="link" onClick="$P().do_edit_comment(' + idx + ')"><b>Edit</b></button>');
-					actions.push('<button class="link danger" onClick="$P().do_delete_comment(' + idx + ')"><b>Delete</b></button>');
-				}
-				return [
-					self.getNiceUser(comment.username, app.isAdmin()),
-					'<div style="line-height:16px;">' + comment.msg.replace(/\n/g, '<br>') + '</div>',
-					'<span style="white-space:nowrap;">' + self.getRelativeDateTime(comment.date) + (comment.edited ? ' (Edited)' : '') + '</span>',
-					'<span class="nowrap">' + actions.join(' | ') + '</span>'
-				];
-			}
-		});
-		
-		$box.show();
-		$box.find('div.box_content').html( html );
-	}
-	
-	do_edit_comment(idx) {
-		// show dialog to edit or add comment
-		var self = this;
-		var job = this.job;
-		if (!app.requirePrivilege('comment_jobs')) return;
-		if (!job.comments) job.comments = [];
-		
-		var comment = (idx > -1) ? job.comments[idx] : { msg: '' };
-		var title = (idx > -1) ? "Editing Comment" : "New Comment";
-		var btn = (idx > -1) ? ['floppy', "Save Changes"] : ['comment-plus', "Add Comment"];
-		
-		var html = '<div class="dialog_box_content maximize" style="max-height:75vh; overflow-x:hidden; overflow-y:auto;">';
-		
-		html += this.getFormRow({
-			label: 'Comment:',
-			content: this.getFormTextarea({
-				id: 'fe_ej_comment',
-				rows: 5,
-				autocomplete: 'off',
-				maxlength: 8192,
-				value: comment.msg
-			}),
-			caption: 'Enter a comment to attach to the current job.'
-		});
-		
-		html += '</div>';
-		Dialog.confirm( title, html, btn, function(result) {
-			if (!result) return;
-			app.clearError();
-			
-			comment.msg = $('#fe_ej_comment').val().trim();
-			Dialog.hide();
-			
-			if (!comment.msg.length) return;
-			
-			Dialog.showProgress( 1.0, "Saving Comments..." );
-			
-			app.api.post( 'app/manage_job_comments', { id: job.id, comments: [comment] }, function(resp) {
-				Dialog.hideProgress();
-				app.showMessage('success', (idx > -1) ? "The comment was updated successfully." : "Your comment was added successfully.");
-			} ); // api.post
-		}); // Dialog.confirm
-		
-		$('#fe_ej_comment').focus();
-	}
-	
-	do_delete_comment(idx) {
-		// delete single comment
-		var self = this;
-		var job = this.job;
-		if (!app.requirePrivilege('comment_jobs')) return;
-		
-		var comment = {
-			id: job.comments[idx].id,
-			delete: true
-		};
-		
-		Dialog.showProgress( 1.0, "Deleting Comment..." );
-		
-		app.api.post( 'app/manage_job_comments', { id: job.id, comments: [comment] }, function(resp) {
-			Dialog.hideProgress();
-			app.showMessage('success', "The comment was deleted successfully.");
-		} ); // api.post
 	}
 	
 	renderJobLimits() {
@@ -3328,7 +3211,6 @@ Page.Job = class Job extends Page.PageUtils {
 			case 'job_updated':
 				merge_hash_into(this.job, pdata);
 				this.renderJobTags();
-				this.renderJobComments();
 				this.updateLiveMetaLog();
 			break;
 			

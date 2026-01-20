@@ -2822,8 +2822,7 @@ Example response:
                 "create_events": true,
                 "edit_events": true,
                 "run_jobs": true,
-                "tag_jobs": true,
-                "comment_jobs": true
+                "tag_jobs": true
             }
         }
     ],
@@ -2873,8 +2872,7 @@ Example response:
             "create_events": true,
             "edit_events": true,
             "run_jobs": true,
-            "tag_jobs": true,
-            "comment_jobs": true
+            "tag_jobs": true
         }
     }
 }

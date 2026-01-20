@@ -98,8 +98,7 @@ An API Key is a unique identifier used to authenticate requests.  Here is an API
 		"create_events": 1,
 		"edit_events": 1,
 		"run_jobs": 1,
-		"tag_jobs": 1,
-		"comment_jobs": 1
+		"tag_jobs": 1
 	},
 	"roles": [],
 	"title": "Test App",
@@ -1098,8 +1097,7 @@ A user role is a set of privileges assigned to a user within the system.  A user
 		"create_events": true,
 		"edit_events": true,
 		"run_jobs": true,
-		"tag_jobs": true,
-		"comment_jobs": true
+		"tag_jobs": true
 	}
 }
 ```
@@ -1609,7 +1607,6 @@ A user account is a representation of an individual user within the system.  The
 	"password": "$2a$10$gB1MOjFZErSRJFI0nYtw/OH9DIJ1LAj6EsEIizSVfSkwclh7oKjJi",
 	"privacy_mode": false,
 	"privileges": {
-		"comment_jobs": 1,
 		"create_events": 1,
 		"edit_events": 1,
 		"run_jobs": 1,
@@ -3333,7 +3330,6 @@ The Privileges object describes which actions are allowed for a [User](#user), a
 	"edit_events": true,
 	"run_jobs": true,
 	"tag_jobs": true,
-	"comment_jobs": true,
 	"create_tickets": true,
 	"edit_tickets": true
 }
