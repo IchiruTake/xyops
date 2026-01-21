@@ -1,5 +1,15 @@
 # xyOps Changelog
 
+## Version v0.9.35
+
+> January 21, 2026
+
+- [`a2c2bf2`](https://github.com/pixlcore/xyops/commit/a2c2bf27fca7dde87782bdd60851b277eb573c09): Version 0.9.35
+- [`37b17ae`](https://github.com/pixlcore/xyops/commit/37b17aee9877f5d9c9971b984c73357dc3416ca4): Events / Workflows: When switching Plugins, retain the user's previous param selections (temporarily during edits).
+- [`43eea0a`](https://github.com/pixlcore/xyops/commit/43eea0a49094758384b3517e19daa84372593d40): Keyboard Shortcuts: Add "E" hot key on job detail page, to jump straight into editing event.
+- [`75f72ee`](https://github.com/pixlcore/xyops/commit/75f72eed115d2503a31b4887eee6340438addbb9): Feature: Add "Edit Event" button to job detail page.  Collapse the two tickets buttons into one, with drop-down menu.
+- [`bc1a580`](https://github.com/pixlcore/xyops/commit/bc1a58089aa60028cf9fef5ce63b6ea2c0f6bfa4): Hosting Doc: Added section on default SQLite daily backups.
+
 ## Version v0.9.34
 
 > January 20, 2026
