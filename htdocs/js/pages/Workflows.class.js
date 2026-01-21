@@ -1790,12 +1790,25 @@ Page.Workflows = class Workflows extends Page.Events {
 		SingleSelect.init( $('#fe_wfdj_cat, #fe_wfdj_plugin, #fe_wfdj_algo') );
 		
 		// handle plugin change
+		var initial_plugin_id = $('#fe_wfdj_plugin').val();
+		var old_plugin_id = '';
+		var plugin_param_cache = {};
+		plugin_param_cache[ initial_plugin_id ] = node.data.params || {};
+		
 		var do_change_plugin = function() {
 			// refresh plugin param editor
+			if (old_plugin_id) {
+				var old_params = self.getPluginParamValues( old_plugin_id, true );
+				if (old_params) plugin_param_cache[old_plugin_id] = old_params;
+			}
+			
 			var plugin_id = $('#fe_wfdj_plugin').val();
-			var plugin = find_object( app.plugins, { id: plugin_id } );
-			$('#d_wfdj_param_editor').html( self.getPluginParamEditor( plugin_id, node.data.params, true ) ).buttonize();
+			var new_params = plugin_param_cache[plugin_id] || {};
+			
+			$('#d_wfdj_param_editor').html( self.getPluginParamEditor( plugin_id, new_params, true ) ).buttonize();
 			Dialog.autoResize();
+			
+			old_plugin_id = plugin_id;
 		}
 		
 		$('#fe_wfdj_plugin').on('change', do_change_plugin);

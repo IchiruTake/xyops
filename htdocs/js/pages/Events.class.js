@@ -1865,6 +1865,8 @@ Page.Events = class Events extends Page.PageUtils {
 		this.limits = this.event.limits; // for res limit editor
 		this.actions = this.event.actions; // for job action editor
 		
+		this.pluginParamCache = {}; // for saving params when changing plugins
+		
 		// render form
 		html += this.get_event_edit_html();
 		
@@ -1965,6 +1967,8 @@ Page.Events = class Events extends Page.PageUtils {
 		this.params = this.event.fields; // for user form param editor
 		this.limits = this.event.limits; // for res limit editor
 		this.actions = this.event.actions; // for job action editor
+		
+		this.pluginParamCache = {}; // for saving params when changing plugins
 		
 		app.setHeaderNav([
 			{ icon: 'calendar-clock', loc: '#Events?sub=list', title: 'Events' },
@@ -3916,8 +3920,15 @@ Page.Events = class Events extends Page.PageUtils {
 	}
 	
 	changePlugin() {
-		// change plugin, clear out event params and redraw param editor
-		this.event.params = {};
+		// change plugin, switch event params and redraw param editor
+		var event = this.event;
+		
+		var old_params = this.getPluginParamValues( event.plugin, true );
+		if (old_params) this.pluginParamCache[event.plugin] = old_params;
+		
+		event.plugin = this.div.find('#fe_ee_plugin').val();
+		this.event.params = this.pluginParamCache[event.plugin] || {};
+		
 		this.renderPluginParamEditor();
 	}
 	
@@ -4007,6 +4018,8 @@ Page.Events = class Events extends Page.PageUtils {
 		delete this.wfScroll;
 		delete this.wfZoom;
 		delete this.wfSelection;
+		
+		delete this.pluginParamCache;
 		
 		// destroy charts if applicable (view page)
 		if (this.charts) {
