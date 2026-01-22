@@ -2829,6 +2829,7 @@ Page.Job = class Job extends Page.PageUtils {
 		if (job.files) files = files.concat( job.files.map( function(file) { return { ...file, source: 'output' }; } ) );
 		
 		files = files.filter( function(file) { return !!file.filename; } );
+		this.files = files;
 		
 		html += this.getBasicGrid( files, cols, 'file', function(file, idx) {
 			var url = '/' + file.path;
@@ -2836,8 +2837,8 @@ Page.Job = class Job extends Page.PageUtils {
 			var actions = [
 				'<a href="' + url + '" target="_blank"><b>View</b></a>',
 				'<a href="' + url + '?download=' + encodeURIComponent(file.filename) + '"><b>Download</b></a>',
-				'<button class="link danger" onClick="$P().do_delete_file(' + idx + ')"><b>Delete</b></button>'
 			];
+			if (file.source == 'output') actions.push( '<button class="link danger" onClick="$P().do_delete_file(' + idx + ')"><b>Delete</b></button>' );
 			
 			var nice_source = '';
 			if (file.source == 'input') {
@@ -2870,7 +2871,7 @@ Page.Job = class Job extends Page.PageUtils {
 		// delete file from job
 		var self = this;
 		var job = this.job;
-		var file = job.files[idx];
+		var file = this.files[idx];
 		var filename = basename(file.filename || '(Unknown)');
 		
 		Dialog.confirmDanger( 'Delete File', "Are you sure you want to permanently delete the job file &ldquo;<b>" + filename + "</b>&rdquo;?  There is no way to undo this operation.", ['trash-can', 'Delete'], function(result) {
@@ -2884,7 +2885,7 @@ Page.Job = class Job extends Page.PageUtils {
 				
 				if (!self.active) return; // sanity
 				
-				job.files.splice( idx, 1 );
+				delete_object( job.files, { path: file.path } );
 				self.div.find('#d_job_files > .box_content').html( self.getFileTable() );
 				self.renderMediaSlideshow();
 			} ); // api.post
@@ -3296,6 +3297,7 @@ Page.Job = class Job extends Page.PageUtils {
 		delete this.wfJobRows;
 		delete this.slides;
 		delete this.slideIdx;
+		delete this.files;
 		
 		// destroy charts if applicable
 		if (this.charts) {
