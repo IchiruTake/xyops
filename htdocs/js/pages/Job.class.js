@@ -3035,7 +3035,7 @@ Page.Job = class Job extends Page.PageUtils {
 		// clense new job of previous running context
 		var new_job = deep_copy_object(job);
 		for (var key in new_job) {
-			if (!key.match(/^(type|event|category|plugin|targets|algo|workflow|input|params|parent|source|username|api_key|actions|limits|icon|label|test|retry_count|tags)$/)) delete new_job[key];
+			if (!key.match(/^(type|event|category|plugin|targets|algo|workflow|input|params|parent|source|username|api_key|actions|limits|icon|label|test|retry_count|tags|now)$/)) delete new_job[key];
 		}
 		
 		// run_event API expects event ID in "id" prop
