@@ -1,5 +1,17 @@
 # xyOps Changelog
 
+## Version v0.9.38
+
+> January 24, 2026
+
+- [`a651832`](https://github.com/pixlcore/xyops/commit/a651832dcded8d0a36e5067baa47d9145073c9cf): Version 0.9.38
+- [`111e1a0`](https://github.com/pixlcore/xyops/commit/111e1a0502ed60f5f757a433c320216122c70588): Web Hooks: Improve test API to better handle text inside inline JEXL function macros.
+- [`a63f175`](https://github.com/pixlcore/xyops/commit/a63f175d4c1c72d8fe943423699ecdd23dc489a5): Web Hooks: Properly display core request errors (e.g. "Socket hang up") in markdown details.
+- [`51a1d9c`](https://github.com/pixlcore/xyops/commit/51a1d9cccdb84a4f17bf62edc883b8993b0ffb4c): Setup: Add new "pass" checkbox to stock Shell Plugin.
+- [`e9791cd`](https://github.com/pixlcore/xyops/commit/e9791cdea9558a4ad1d5455705518841f9c3bda2): Job Detail Page: On delete job, nav to previous page if one is on the stack.
+- [`082a592`](https://github.com/pixlcore/xyops/commit/082a5921d4fdfe2d6beb62f40763f6280169c472): Doc Viewer: Add click on nav to scroll to top, and copy-to-clipboard icons on code blocks.
+- [`9e2c2a2`](https://github.com/pixlcore/xyops/commit/9e2c2a29e0274ec898ef26bf90a83719ade1a230): Web Hooks Doc: Improve instructions for setting up Pushover.
+
 ## Version v0.9.37
 
 > January 23, 2026
