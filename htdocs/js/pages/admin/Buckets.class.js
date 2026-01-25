@@ -342,7 +342,7 @@ Page.Buckets = class Buckets extends Page.PageUtils {
 		if (!this.active) return; // sanity
 		
 		// flush local cache
-		delete app.bucketMenuItemCache[ this.bucket.id ];
+		if (app.bucketMenuItemCache) delete app.bucketMenuItemCache[ this.bucket.id ];
 		
 		// Nav.go( 'Buckets?sub=list' );
 		this.triggerSaveComplete();
@@ -364,7 +364,7 @@ Page.Buckets = class Buckets extends Page.PageUtils {
 	delete_bucket_finish(resp) {
 		// finished deleting bucket
 		app.cacheBust = hires_time_now();
-		delete app.bucketMenuItemCache[ this.bucket.id ];
+		if (app.bucketMenuItemCache) delete app.bucketMenuItemCache[ this.bucket.id ];
 		Dialog.hideProgress();
 		if (!this.active) return; // sanity
 		
