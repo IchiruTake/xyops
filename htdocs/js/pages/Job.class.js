@@ -2166,7 +2166,7 @@ Page.Job = class Job extends Page.PageUtils {
 		if (chart._procLayers) {
 			// layers for each proc
 			timeline.forEach( function(item) {
-				var x = item.epoch;
+				var x = Math.floor(item.epoch);
 				
 				for (var pid in item.procs) {
 					var proc = item.procs[pid];
@@ -2184,7 +2184,7 @@ Page.Job = class Job extends Page.PageUtils {
 			var layer = { title: "Total", data: [], color: this.colors[ color_keys[pkey] ], fill: 0.5 };
 			
 			timeline.forEach( function(item) {
-				var x = item.epoch;
+				var x = Math.floor(item.epoch);
 				var y = 0;
 				
 				for (var pid in item.procs) {
@@ -2216,6 +2216,47 @@ Page.Job = class Job extends Page.PageUtils {
 		
 		if (!timelines.minute) timelines.minute = [];
 		if (!timelines.second) timelines.second = [];
+		
+		// if job is complete, pad second timeline with fake entries to show full job time range
+		if (job.final && job.pid && job.started && job.completed && timelines.second.length) {
+			var job_start = Math.floor( job.started );
+			var first_sec = timelines.second[0];
+			
+			if ((Math.floor(first_sec.epoch) > job_start) && first_sec.procs && first_sec.procs[job.pid]) {
+				var job_proc = deep_copy_object( first_sec.procs[job.pid] );
+				job_proc.cpu = 0;
+				job_proc.memRss = 0;
+				job_proc.net = 0;
+				// deliberately not zeroing out disk, because it's a delta
+				
+				var epoch = Math.floor(first_sec.epoch);
+				while (epoch > job_start) {
+					epoch--;
+					var item = { epoch, procs: {} };
+					item.procs[ job.pid ] = deep_copy_object(job_proc);
+					timelines.second.unshift(item);
+				}
+			}
+			
+			var job_end = Math.floor( job.completed );
+			var last_sec = timelines.second[ timelines.second.length - 1 ];
+			
+			if ((Math.floor(last_sec.epoch) < job_end) && last_sec.procs && last_sec.procs[job.pid]) {
+				var job_proc = deep_copy_object( last_sec.procs[job.pid] );
+				job_proc.cpu = 0;
+				job_proc.memRss = 0;
+				job_proc.net = 0;
+				// deliberately not zeroing out disk, because it's a delta
+				
+				var epoch = Math.floor(last_sec.epoch);
+				while (epoch < job_end) {
+					epoch++;
+					var item = { epoch, procs: {} };
+					item.procs[ job.pid ] = deep_copy_object(job_proc);
+					timelines.second.push(item);
+				}
+			}
+		}
 		
 		this.charts.cpu = this.createChart({
 			"canvas": '#c_live_cpu',
