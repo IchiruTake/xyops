@@ -828,6 +828,10 @@
 	.data_grid.wf_meta_grid > ul > div:nth-child(2) { visibility: hidden; }
 	.data_grid.wf_meta_grid > ul > div:nth-child(3) { visibility: hidden; }
 	
+	/* 'Enabled', 'Description', 'Type', 'Tags', 'Actions' */
+	.data_grid.c_trigger_grid { grid-template-columns: 40px auto auto 0px auto !important; }
+	.data_grid.c_trigger_grid > ul > div:nth-child(4) { visibility: hidden; }
+	
 	/* '#', 'Subject', 'Type', 'Status', 'Assignees', 'Tags', 'Created', 'Actions' */
 	.data_grid.ticket_grid { grid-template-columns: min-content auto auto auto 0px 0px 0px auto !important; }
 	.data_grid.ticket_grid > ul > div:nth-child(5) { visibility: hidden; }
@@ -1425,9 +1429,10 @@
 	.data_grid.wf_meta_grid > ul > div:nth-child(2) { visibility: hidden; }
 	.data_grid.wf_meta_grid > ul > div:nth-child(3) { visibility: hidden; }
 	
-	/* 'Enabled', 'Description', 'Type', 'Actions' */
-	.data_grid.c_trigger_grid { grid-template-columns: 40px auto 0px auto !important; }
+	/* 'Enabled', 'Description', 'Type', 'Tags', 'Actions' */
+	.data_grid.c_trigger_grid { grid-template-columns: 40px auto 0px 0px auto !important; }
 	.data_grid.c_trigger_grid > ul > div:nth-child(3) { visibility: hidden; }
+	.data_grid.c_trigger_grid > ul > div:nth-child(4) { visibility: hidden; }
 	
 	/* 'Drag', 'Label', 'Type', 'Description', 'Actions' */
 	.data_grid.c_param_grid { grid-template-columns: 40px auto auto 0px auto !important; }
@@ -1929,9 +1934,10 @@
 	.data_grid.wf_meta_grid > ul > div:nth-child(3) { visibility: hidden; }
 	.data_grid.wf_meta_grid > ul > div:nth-child(4) { visibility: hidden; }
 	
-	/* 'Enabled', 'Description', 'Type', 'Actions' */
-	.data_grid.c_trigger_grid { grid-template-columns: 40px auto 0px auto !important; }
+	/* 'Enabled', 'Description', 'Type', 'Tags', 'Actions' */
+	.data_grid.c_trigger_grid { grid-template-columns: 40px auto 0px 0px auto !important; }
 	.data_grid.c_trigger_grid > ul > div:nth-child(3) { visibility: hidden; }
+	.data_grid.c_trigger_grid > ul > div:nth-child(4) { visibility: hidden; }
 	
 	/* 'Drag', 'Label', 'Type', 'Description', 'Actions' */
 	.data_grid.c_param_grid { grid-template-columns: 40px auto auto 0px 0px !important; }
