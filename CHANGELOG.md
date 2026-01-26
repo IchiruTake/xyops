@@ -1,5 +1,21 @@
 # xyOps Changelog
 
+## Version v0.9.40
+
+> January 25, 2026
+
+- [`b46abb6`](https://github.com/pixlcore/xyops/commit/b46abb6cfa2cbf03f739b170f96ca7311ba2fd7e): Version 0.9.40
+- [`d35f397`](https://github.com/pixlcore/xyops/commit/d35f3977ce5e57c2c0fb1051daf8e39754540034): Doc Index: Add link to contrib guide.
+- [`f2576b2`](https://github.com/pixlcore/xyops/commit/f2576b2e6d233319925c701d2fc1f5feebf5f5dc): Satellite Install/Upgrade: Redesign Linux install/upgrade scripts to be first-class systemd citizens.
+- [`53ec3a8`](https://github.com/pixlcore/xyops/commit/53ec3a87753bd9e0a7e422f19c890a4d38974c4e): Bug Fix: For fetching storage bucket actions, handle case where bucket data is a top-level array (merge in as "items" property).
+- [`f3589c2`](https://github.com/pixlcore/xyops/commit/f3589c26d7b7e3f90b585a2b465505f7e6098d54): UI: Fix bucket header icon
+- [`d592cb2`](https://github.com/pixlcore/xyops/commit/d592cb288b147e705722a39a94f7ec34d6af6370): CSS: Adjust repsonsive classes for compact trigger grid, for new tags column
+- [`6542d44`](https://github.com/pixlcore/xyops/commit/6542d44f921105d19e26ece1af1752e56ddde280): UI: Tweak icon for New Ticket (change to outline version)
+- [`7d8267e`](https://github.com/pixlcore/xyops/commit/7d8267e942915bec234ca05d992c4a0100be5804): Feature: Add optional tags and user params to all schedule triggers, for passing onto jobs.
+- [`c09c45c`](https://github.com/pixlcore/xyops/commit/c09c45cd8ff2e9af2e8f1f6d83f4339ba925ba45): Job Details: Pad chart second timeline to match full job start/end range.
+- [`e120494`](https://github.com/pixlcore/xyops/commit/e1204943e26343eba74bc1edddab3735bc0d985b): Bug Fix: Do not allow category to be deleted if workflow job nodes are assigned.  Also, include these nodes in the counts on the category list page.  Fixes #82.
+- [`c46e006`](https://github.com/pixlcore/xyops/commit/c46e0065a03bd0f4f0ad94318206d2e3436ea2d5): Bug fix: UI crash when saving a bucket without having used the "bucket menu" feature.
+
 ## Version v0.9.39
 
 > January 24, 2026
