@@ -1,5 +1,12 @@
 # xyOps Changelog
 
+## Version v0.9.42
+
+> January 26, 2026
+
+- [`d095f91`](https://github.com/pixlcore/xyops/commit/d095f91191a0b6d0f0eba6f6c37f0bf6df6787d6): Version 0.9.42
+- [`6af4f4f`](https://github.com/pixlcore/xyops/commit/6af4f4f22de003e3fe9621fe9bd97c490a96bb10): Install / Upgrade Script: Improve behavior with systemd on Linux.  Fixes #86.
+
 ## Version v0.9.41
 
 > January 26, 2026
