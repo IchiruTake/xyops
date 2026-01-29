@@ -141,9 +141,10 @@ Page.Config = class Config extends Page.PageUtils {
 		html += '</div>'; // box
 		
 		this.div.html( html ).buttonize();
-		this.setupBoxButtonFloater();
+		
 		this.setupEditTriggers( this.div.find('.box_content') );
 		this.applyFilters();
+		this.setupBoxButtonFloater();
 		
 		setTimeout( function() {
 			$('#fe_cfgh_search').keypress( function(event) {
