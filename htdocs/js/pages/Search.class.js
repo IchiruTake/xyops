@@ -126,7 +126,7 @@ Page.Search = class Search extends Page.PageUtils {
 							id: 'fe_s_tags',
 							title: 'Select Tags',
 							placeholder: 'Any Tag',
-							options: [['', 'Any Tag']].concat( app.tags, [ 
+							options: [].concat( app.tags, [ 
 								{ id: '_retried', title: "Retried", icon: 'refresh', group: "System Tags:" },
 								{ id: '_last', title: "Last in Set", icon: 'page-last' },
 								{ id: '_files', title: "Has Files", icon: 'file-multiple-outline' },
