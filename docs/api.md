@@ -505,9 +505,9 @@ This API allows you to upload files into a storage bucket.  Unlike most of the o
 
 | Property Name | Type | Description |
 |---------------|------|-------------|
-| `bucket` | String | **(Required)** The alphanumeric ID of the bucket to upload files to. |
+| `id` | String | **(Required)** The alphanumeric ID of the bucket to upload files to. |
 
-The file properties are automatically set based on the user files themselves, including the filename, file size, etc.  The `bucket` parameter is used to specify the target bucket for the upload.
+The file properties are automatically set based on the user files themselves, including the filename, file size, etc.  The `id` parameter is used to specify the target bucket for the upload.
 
 Note that bucket files are automatically added or replaced based on their normalized filenames.  Normalization involves converting anything other than alphanumerics, dashes and periods to underscores, and converting the filename to lowercase.
 
