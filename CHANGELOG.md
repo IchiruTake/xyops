@@ -1,5 +1,14 @@
 # xyOps Changelog
 
+## Version v0.9.48
+
+> January 31, 2026
+
+- [`65d1016`](https://github.com/pixlcore/xyops/commit/65d1016de238618837ac52c6528010760b58f6be): Version 0.9.48
+- [`b7cd176`](https://github.com/pixlcore/xyops/commit/b7cd1761a81ae73e5cf0ad33e358e9ce2393a6b0): API: upload_bucket_files: Rename bucket param to "id" and support both query string and HTTP POST params.
+- [`de178d6`](https://github.com/pixlcore/xyops/commit/de178d6d2637649e74c17b67569e08f4ad05a774): API Doc: Typo Fix: Incorrect parameter name in write_bucket_data.  Fixes #98.
+- [`890285d`](https://github.com/pixlcore/xyops/commit/890285daa2882abe0e75b2eba2af0708f510b131): UI Bug Fix: Secret key names revert to previous versions when saving.  Fixes #97.
+
 ## Version v0.9.47
 
 > January 31, 2026
