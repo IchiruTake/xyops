@@ -5602,6 +5602,7 @@ Parameters:
 | Property Name | Type | Description |
 |---------------|------|-------------|
 | `sleep` | Number | Optional delay in milliseconds before responding. Defaults to `1`. |
+| `pretty` | Number | Optional. If set to `1` will pretty-print the JSON response. |
 
 Notes:
 
