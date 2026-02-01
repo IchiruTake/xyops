@@ -2618,7 +2618,7 @@ Page.Base = class Base extends Page {
 		
 		var buttons_html = "";
 		if (btn) buttons_html += btn;
-		else buttons_html += '<div class="button" title="Copy to Clipboard" onClick="$P().copyCodeToClipboard()"><i class="mdi mdi-clipboard-text-outline">&nbsp;</i>Copy</div>';
+		else buttons_html += '<div class="button" title="Copy to Clipboard" onClick="$P().copyMarkdownToClipboard()"><i class="mdi mdi-clipboard-text-outline">&nbsp;</i>Copy</div>';
 		buttons_html += '<div class="button primary" onClick="CodeEditor.hide()"><i class="mdi mdi-close-circle-outline">&nbsp;</i>Close</div>';
 		
 		CodeEditor.showSimpleDialog(title, html, buttons_html);
@@ -2629,6 +2629,14 @@ Page.Base = class Base extends Page {
 		
 		this.highlightCodeBlocks('#ceditor .markdown-body');
 		this.expandInlineImages('#ceditor .markdown-body');
+	}
+	
+	copyMarkdownToClipboard() {
+		// copy markdown code from dialog to clipboard
+		if (this._temp_code) {
+			copyToClipboard( strip_html(this._temp_code) );
+			app.showMessage('info', "The markdown was copied to your clipboard.");
+		}
 	}
 	
 	copyCodeToClipboard() {
