@@ -1025,7 +1025,7 @@ Page.Events = class Events extends Page.PageUtils {
 		// add universal actions (not hidden)
 		var temp_event_type = this.workflow ? 'workflow' : 'default';
 		config.job_universal_actions[temp_event_type].forEach( function(action) {
-			if (action.enabled && !action.hidden) rows.push({ ...action, source: 'universal' });
+			if (action.enabled && action.condition && !action.hidden) rows.push({ ...action, source: 'universal' });
 		} );
 		
 		html += this.getCompactGrid(targs, function(item, idx) {
@@ -1076,7 +1076,7 @@ Page.Events = class Events extends Page.PageUtils {
 		// add universal limits (not hidden)
 		var temp_event_type = this.workflow ? 'workflow' : 'default';
 		config.job_universal_limits[temp_event_type].forEach( function(limit) {
-			if (limit.enabled && !limit.hidden) rows.push({ ...limit, source: 'universal' });
+			if (limit.enabled && limit.type && !limit.hidden) rows.push({ ...limit, source: 'universal' });
 		} );
 		
 		html += this.getCompactGrid(targs, function(item, idx) {
