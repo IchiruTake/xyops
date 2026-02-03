@@ -39,11 +39,13 @@ Page.Events = class Events extends Page.PageUtils {
 			app.setWindowTitle( "Workflows" );
 			app.setHeaderTitle( '<i class="mdi mdi-clipboard-flow-outline">&nbsp;</i>Workflows' );
 			app.highlightTab( 'Workflows' );
+			this.originTab = 'Workflows';
 		}
 		else {
 			app.setWindowTitle( "Events" );
 			app.setHeaderTitle( '<i class="mdi mdi-calendar-clock">&nbsp;</i>Events' );
 			app.highlightTab( 'Events' );
+			this.originTab = 'Events';
 		}
 		
 		var event_plugins = app.plugins.filter( function(plugin) { return plugin.type == 'event'; } );
@@ -472,8 +474,8 @@ Page.Events = class Events extends Page.PageUtils {
 			Nav.loc = url.replace(/^\#/, '');
 			// Nav.go(url);
 			
-			// magic trick: replace link in sidebar for Events
-			// $('#tab_Events').attr( 'href', url );
+			// magic trick: replace link in sidebar for Events / Workflows
+			$('#tab_' + this.originTab).attr( 'href', url );
 		}
 	}
 	
@@ -4070,6 +4072,7 @@ Page.Events = class Events extends Page.PageUtils {
 		delete this.wfSelection;
 		
 		delete this.pluginParamCache;
+		delete this.originTab;
 		
 		// destroy charts if applicable (view page)
 		if (this.charts) {
