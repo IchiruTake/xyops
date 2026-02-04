@@ -546,7 +546,7 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 				id: 'fe_epd_result',
 				options: [
 					{ id: 'success', title: 'Success', icon: 'check-circle-outline' },
-					{ id: 'error', title: 'Failure', icon: 'alert-decagram-outline' },
+					{ id: 'error', title: 'Error', icon: 'alert-decagram-outline' },
 					{ id: 'warning', title: 'Warning', icon: 'alert-outline' },
 					{ id: 'critical', title: 'Critical', icon: 'fire-alert' },
 					{ id: 'abort', title: 'Abort', icon: 'cancel' }
