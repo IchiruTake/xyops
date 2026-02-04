@@ -950,7 +950,7 @@
 			"clickSaveButton": { "keys": ["Meta+KeyS", "Control+KeyS"], "title": "Save Changes" },
 			"clickCloseButton": { "keys": ["Escape"], "title": "Close Editor" },
 			"scrollToPageBox": { "keys": ["Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0"], "title": "Scroll to Section" },
-			"focusSearchField": { "keys": ["Slash"], "title": "Focus Search Field" }
+			"focusSearchField": { "keys": ["Slash", "Meta+KeyK", "Control+KeyK"], "title": "Focus Search Field" }
 		},
 		"Events": {
 			"do_edit_from_view": { "sub": "view", "keys": ["KeyE"], "title": "Edit Event or Workflow" },
