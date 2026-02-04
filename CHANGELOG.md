@@ -1,5 +1,16 @@
 # xyOps Changelog
 
+## Version v0.9.52
+
+> February 4, 2026
+
+- [`f80a0e6`](https://github.com/pixlcore/xyops/commit/f80a0e69bd9fa5d24eda0527b6a545db7bf4df64): Version 0.9.52
+- [`adf424a`](https://github.com/pixlcore/xyops/commit/adf424a60a9fe185a4b63b7ca3be9a56435f5bc9): Dashboard: Set click behaviors on some dash units (cards), for e.g. conductors, servers, alerts, jobs today, jobs failed today.  Fixes #113.
+- [`4f1c446`](https://github.com/pixlcore/xyops/commit/4f1c4464599d814a2c7d2339c62c94f570330480): New Features: Add optional rate limiting to API Keys, as well as display a "Last Used" date, as well as display the API "Key ID" on the edit screen (not used for auth).
+- [`3965f8b`](https://github.com/pixlcore/xyops/commit/3965f8ba611606c51d3b85d5321f357ba6f1d8ab): Feature: Job File Search: Also search job description, input / output data, user content (text, markdown, html), and display all results separately.
+- [`c353383`](https://github.com/pixlcore/xyops/commit/c3533838e13b7a870f1198c6b7410105c64e2bce): Search Jobs UI: Change name of result "Failure" menu item to "Error", to be more consistent with rest of app.
+- [`e3e7f83`](https://github.com/pixlcore/xyops/commit/e3e7f83dfdc4ab77b8034e027a1a1d89b64b9356): Feature: Allow configuration to set default event category, plugin, and targets.  Fixes #110
+
 ## Version v0.9.51
 
 > February 3, 2026
