@@ -51,7 +51,7 @@ function summarize_event_timings(event) {
 	// summarize all event triggers from event into human-readable string
 	// separate schedule items and options
 	var triggers = event.triggers.filter( function(trigger) { return trigger.enabled; } );
-	var schedules = triggers.filter( function(trigger) { return !!(trigger.type || '').match(/^(schedule|interval|single)$/); } );
+	var schedules = triggers.filter( function(trigger) { return !!(trigger.type || '').match(/^(schedule|interval|single|startup)$/); } );
 	var parts = (schedules.length == 1) ? [summarize_event_timing(schedules[0])] : schedules.map( summarize_event_timing );
 	if (!parts.length) {
 		if (find_object(triggers, { type: 'manual', enabled: true })) return "On Demand";
@@ -82,7 +82,7 @@ function summarize_event_timings(event) {
 
 function summarize_event_timing(trigger, idx) {
 	// summarize event trigger into human-readable string
-	if (trigger.type == 'continuous') return "Continuously";
+	if (trigger.type == 'startup') return "On Startup";
 	if (trigger.type == 'plugin') return "Plugin";
 	if (trigger.type == 'single') {
 		var text = app.formatDate(trigger.epoch, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });

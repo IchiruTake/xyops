@@ -93,6 +93,8 @@ Parameters:
 | `hours` | Array(Number) | Optional | Hours 0-23 (24-hour clock). |
 | `minutes` | Array(Number) | Optional | Minutes 0-59. |
 | `timezone` | String | Optional | IANA timezone for evaluating the schedule (defaults to server timezone). |
+| `params` | Object | Optional | Optionally include parameter overrides for the event / plugin. |
+| `tags` | Array | Optional | Optionally include a set of [Tag.id](data.md#tag-id)s to add to the job as it starts. |
 
 Notes:
 
@@ -134,6 +136,8 @@ Parameters:
 |------|------|----------|-------------|
 | `start` | Number | Yes | Start time as Unix timestamp (seconds). First launch occurs on or after this time aligned to the interval. |
 | `duration` | Number | Yes | Interval length in seconds. Must be > 0. |
+| `params` | Object | Optional | Optionally include parameter overrides for the event / plugin. |
+| `tags` | Array | Optional | Optionally include a set of [Tag.id](data.md#tag-id)s to add to the job as it starts. |
 
 Notes:
 
@@ -160,6 +164,8 @@ Parameters:
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `epoch` | Number | Yes | Exact Unix timestamp (seconds) when to run. |
+| `params` | Object | Optional | Optionally include parameter overrides for the event / plugin. |
+| `tags` | Array | Optional | Optionally include a set of [Tag.id](data.md#tag-id)s to add to the job as it starts. |
 
 Example:
 
@@ -202,6 +208,19 @@ Example:
   "body": "Hello!  This is custom **markdown** content for the _landing page_!"
 }
 ```
+
+### Startup
+
+This trigger will automatically run a job for the event on xyOps startup.  Specifically, this happens when the xyOps service first starts up and becomes the primary conductor, the scheduler master switch is enabled, and the process uptime is less than 5 minutes (avoids running upon failover to a backup conductor).
+
+It is **highly recommended** that you also add a [Max Queue Limit](limits.md#max-queue-limit) to the event when this trigger is used.  This ensures that if no target servers are available (very common on initial startup), the job will be queued up until at least one server in the target set is available.  Then it will automatically dequeue and run proper.
+
+Parameters:
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `params` | Object | Optional | Optionally include parameter overrides for the event / plugin. |
+| `tags` | Array | Optional | Optionally include a set of [Tag.id](data.md#tag-id)s to add to the job as it starts. |
 
 ### Catch-Up
 

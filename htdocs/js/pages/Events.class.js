@@ -165,7 +165,8 @@ Page.Events = class Events extends Page.PageUtils {
 								{ id: 'schedule', title: 'Schedule', icon: 'update' },
 								{ id: 'single', title: "Single Shot", icon: 'alarm-check' },
 								{ id: 'interval', title: "Interval", icon: 'timer-sand' },
-								{ id: 'catchup', title: "Catch-Up", icon: 'calendar-refresh-outline' },
+								{ id: 'startup', title: "Startup", icon: 'desktop-classic' },
+								{ id: 'catchup', title: "Catch-Up", icon: 'calendar-refresh-outline', group: "Modifiers" },
 								{ id: 'range', title: "Range", icon: 'calendar-range-outline' },
 								{ id: 'blackout', title: "Blackout", icon: 'circle' },
 								{ id: 'delay', title: "Delay", icon: 'chat-sleep-outline' },
@@ -556,7 +557,7 @@ Page.Events = class Events extends Page.PageUtils {
 		
 		// trigger
 		if ('trigger' in args) {
-			// types: manual, schedule, interval, continuous, single, plugin, catchup, range, blackout, delay, precision
+			// types: manual, schedule, interval, startup, single, plugin, catchup, range, blackout, delay, precision
 			var types = {};
 			(item.triggers || []).filter( function(trigger) { return trigger.enabled; } ).forEach( function(trigger) { 
 				types[trigger.type || 'N/A'] = 1; 
@@ -2888,9 +2889,9 @@ Page.Events = class Events extends Page.PageUtils {
 			this.event.triggers.filter( function(row) { return row.type == 'schedule'; } ),
 			this.event.triggers.filter( function(row) { return row.type == 'single'; } ),
 			this.event.triggers.filter( function(row) { return row.type == 'interval'; } ),
-			this.event.triggers.filter( function(row) { return row.type == 'continuous'; } ),
+			this.event.triggers.filter( function(row) { return row.type == 'startup'; } ),
 			this.event.triggers.filter( function(row) { return row.type == 'plugin'; } ),
-			this.event.triggers.filter( function(row) { return !(row.type || '').match(/^(schedule|continuous|interval|single|manual|magic|plugin)$/); } )
+			this.event.triggers.filter( function(row) { return !(row.type || '').match(/^(schedule|startup|interval|single|manual|magic|plugin)$/); } )
 		);
 	}
 	
@@ -3137,11 +3138,11 @@ Page.Events = class Events extends Page.PageUtils {
 			caption: 'Use this to import event trigger settings from a <a href="https://en.wikipedia.org/wiki/Cron#CRON_expression" target="_blank">Crontab expression</a>.  This is a string comprising five (or six) fields separated by white space that represents a set of dates/times.  Example: <b>30 4 1 * *</b> (First day of every month at 4:30 AM)'
 		});
 		
-		// continuous
+		// startup
 		html += this.getFormRow({
-			id: 'd_et_continuous_desc',
+			id: 'd_et_startup_desc',
 			label: 'Description:',
-			content: 'Add this trigger to keep your job running continuously.  If it exits or crashes for any reason (besides a manual user abort), xyOps will immediately start it up again.'
+			content: inline_marked('Add this trigger to automatically run your job at ' + config.name + ' startup.  It is also highly recommended you add a [Max Queue Limit](#Docs/limits/max-queue-limit) to allow for queuing while servers connect.')
 		});
 		
 		// interval
@@ -3477,10 +3478,10 @@ Page.Events = class Events extends Page.PageUtils {
 					if ($('#fe_et_tz').val().length) trigger.timezone = $('#fe_et_tz').val();
 				break;
 				
-				case 'continuous':
-					// continuous mode (no options)
-					if ((idx == -1) && trigger.enabled && find_object(self.event.triggers, { type: 'continuous', enabled: true })) {
-						return app.doError("Sorry, you can only have one continuous trigger defined per event.");
+				case 'startup':
+					// startup mode (no options)
+					if ((idx == -1) && trigger.enabled && find_object(self.event.triggers, { type: 'startup', enabled: true })) {
+						return app.doError("Sorry, you can only have one startup trigger defined per event.");
 					}
 				break;
 				
@@ -3592,7 +3593,7 @@ Page.Events = class Events extends Page.PageUtils {
 				break;
 			} // switch trigger.type
 			
-			if (trigger.type.match(/^(schedule|single|interval)$/)) {
+			if (trigger.type.match(/^(schedule|single|interval|startup)$/)) {
 				trigger.tags = $('#fe_et_tags').val();
 				trigger.params = self.getParamValues(self.event.fields || []);
 				if (!trigger.params) return; // invalid
@@ -3679,8 +3680,10 @@ Page.Events = class Events extends Page.PageUtils {
 					$('#d_et_params').show();
 				break;
 				
-				case 'continuous':
-					$('#d_et_continuous_desc').show();
+				case 'startup':
+					$('#d_et_startup_desc').show();
+					$('#d_et_tags').show();
+					$('#d_et_params').show();
 				break;
 				
 				case 'interval':

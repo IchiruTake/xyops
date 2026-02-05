@@ -509,7 +509,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		var hasEnabledTriggers = function(event) {
 			return (event.triggers || []).find( function(trigger) {
 				if (!trigger.enabled) return false;
-				return !!trigger.type.match(/^(schedule|interval|single|plugin)$/);
+				return !!trigger.type.match(/^(schedule|interval|single|startup)$/);
 			} );
 		};
 		
@@ -3829,7 +3829,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		
 		// massage titles
 		if (!trigger.enabled) short_desc = '(Disabled)';
-		if (trigger.type.match(/^(interval|single)$/)) nice_title = alt_type;
+		if (trigger.type.match(/^(interval|single|startup)$/)) nice_title = alt_type;
 		
 		if (trigger.type.match(/^(catchup|range|blackout|delay|precision|plugin)$/)) {
 			// option triggers are rendered as pure circles with no pole
@@ -4974,11 +4974,12 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				nice_desc = '<i class="mdi mdi-timer-sand">&nbsp;</i><b>Interval:</b> ' + get_text_from_seconds(item.duration || 0, false, false);
 			break;
 			
-			case 'continuous':
+			case 'startup':
 				nice_icon = '<i class="mdi mdi-calendar-clock"></i>';
 				nice_type = 'Schedule';
-				nice_desc = '<i class="mdi mdi-all-inclusive">&nbsp;</i>Run Continuously';
-				short_desc = "Continuous";
+				alt_type = 'System';
+				nice_desc = '<i class="mdi mdi-desktop-classic">&nbsp;</i>Run at Startup';
+				short_desc = "Run at Startup";
 			break;
 			
 			case 'single':
@@ -5005,14 +5006,14 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			
 			case 'catchup':
 				nice_icon = '<i class="mdi mdi-cog-outline"></i>';
-				nice_type = alt_type = 'Option';
+				nice_type = alt_type = 'Modifier';
 				nice_desc = '<i class="mdi mdi-calendar-refresh-outline">&nbsp;</i>Catch-Up';
 				short_desc = "Catch-Up";
 			break;
 			
 			case 'range':
 				nice_icon = '<i class="mdi mdi-cog-outline"></i>';
-				nice_type = 'Option';
+				nice_type = 'Modifier';
 				alt_type = 'Range';
 				short_desc = (item.start && item.end) ? get_text_from_seconds( item.end - item.start, true, true ) : this.summarizeTimingRange(item);
 				nice_desc = '<i class="mdi mdi-calendar-range-outline">&nbsp;</i><b>Range:</b> ' + this.summarizeTimingRange(item);
@@ -5020,7 +5021,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			
 			case 'blackout':
 				nice_icon = '<i class="mdi mdi-cog-outline"></i>';
-				nice_type = 'Option';
+				nice_type = 'Modifier';
 				alt_type = 'Blackout';
 				short_desc = (item.start && item.end) ? get_text_from_seconds( item.end - item.start, true, true ) : this.summarizeTimingRange(item);
 				nice_desc = '<i class="mdi mdi-circle">&nbsp;</i><b>Blackout:</b> ' + this.summarizeTimingRange(item);
@@ -5028,7 +5029,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			
 			case 'delay':
 				nice_icon = '<i class="mdi mdi-cog-outline"></i>';
-				nice_type = 'Option';
+				nice_type = 'Modifier';
 				alt_type = 'Delay';
 				short_desc = get_text_from_seconds(item.duration || 0, false, true);
 				nice_desc = '<i class="mdi mdi-chat-sleep-outline">&nbsp;</i><b>Delay:</b> ' + short_desc;

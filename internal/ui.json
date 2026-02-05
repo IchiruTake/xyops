@@ -1127,6 +1127,7 @@
 		{ "id": "magic", "title": "Magic Link", "icon": "link-variant" },
 		{ "id": "single", "title": "Single Shot", "icon": "alarm-check" },
 		{ "id": "interval", "title": "Interval", "icon": "timer-sand" },
+		{ "id": "startup", "title": "Startup", "icon": "desktop-classic" },
 		{ "id": "catchup", "title": "Catch-Up", "icon": "calendar-refresh-outline", "group": "Modifiers" },
 		{ "id": "range", "title": "Range", "icon": "calendar-range-outline" },
 		{ "id": "blackout", "title": "Blackout", "icon": "circle" },
