@@ -222,6 +222,8 @@ Parameters:
 | `params` | Object | Optional | Optionally include parameter overrides for the event / plugin. |
 | `tags` | Array | Optional | Optionally include a set of [Tag.id](data.md#tag-id)s to add to the job as it starts. |
 
+This is a special-case trigger, and thus it skips over modifiers like [Catch-Up](#catch-up), [Range](#range), [Blackout](#blackout), [Delay](#delay), [Precision](#precision) and [Plugin](#plugin).
+
 Note that the startup trigger will not activate if the xyOps service was manually restarted due to a user-requested upgrade, restart or shutdown action from the UI.
 
 ### Catch-Up
