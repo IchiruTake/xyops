@@ -1,5 +1,15 @@
 # xyOps Changelog
 
+## Version v0.9.56
+
+> February 5, 2026
+
+- [`e272a8e`](https://github.com/pixlcore/xyops/commit/e272a8e9bbde99ab5927ea3c889ba7a3a546c622): Version 0.9.56
+- [`fa8fda1`](https://github.com/pixlcore/xyops/commit/fa8fda11f0b50e8235acc2f89664d4bef055112b): Plugin Editor: Change inline editor to popup code dialog editor, with line numbers and accidental outside click protection (and accidental ESC key protection too).
+- [`bd281a5`](https://github.com/pixlcore/xyops/commit/bd281a52d9b4dd1470cb25a50b353eccb5361a98): Change default ping freq to 5 sec, and ping timeout to 30 sec, for "troublesome" networks (packet loss, etc.).
+- [`ea1edc7`](https://github.com/pixlcore/xyops/commit/ea1edc7b49b7c84e4676b956a9dbc5da8f36c783): Triggers Doc: Added note about startup triggers skipping modifiers.
+- [`c945d32`](https://github.com/pixlcore/xyops/commit/c945d3202484cd4ebd6c2fabdb1a295a9c7007f6): Triggers Doc: Add note about startup trigger behavior WRT self-initiated upgrades, restarts, and shutdowns.
+
 ## Version v0.9.55
 
 > February 4, 2026
