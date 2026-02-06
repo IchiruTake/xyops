@@ -2736,7 +2736,7 @@ Page.Base = class Base extends Page {
 		$(elem).closest('div').attr('aria-label', config.ui.labels.code_editor);
 		
 		if (!mode && elem.value.length) {
-			mode = this.defaultEditorMode || app.detectCodemirrorMode(elem.value) || null;
+			mode = app.detectCodemirrorMode(elem.value) || null;
 			Debug.trace('debug', "Detected initial language: " + mode);
 		}
 		
@@ -2776,7 +2776,7 @@ Page.Base = class Base extends Page {
 			if (value.length < 4096) {
 				var old_mode = self.editor.getOption('mode');
 				if (old_mode.backdrop) old_mode = old_mode.backdrop;
-				var mode = self.defaultEditorMode || app.detectCodemirrorMode(value) || null;
+				var mode = app.detectCodemirrorMode(value) || null;
 				
 				if (mode != old_mode) {
 					Debug.trace('debug', "Detected language: " + mode);
@@ -2792,7 +2792,7 @@ Page.Base = class Base extends Page {
 				var value = self.editor.getValue();
 				var old_mode = self.editor.getOption('mode');
 				if (old_mode.backdrop) old_mode = old_mode.backdrop;
-				var mode = self.defaultEditorMode || app.detectCodemirrorMode(value) || null;
+				var mode = app.detectCodemirrorMode(value) || null;
 				
 				if (mode != old_mode) {
 					Debug.trace('debug', "Detected language: " + mode);
@@ -2992,9 +2992,6 @@ Page.Base = class Base extends Page {
 		var old_editor = this.editor || null;
 		delete this.editor;
 		
-		var old_default_mode = this.defaultEditorMode || null;
-		delete this.defaultEditorMode;
-		
 		// start with a "fake" codemirror element so the dialog can auto-size itself
 		html += '<div id="fe_dialog_editor" aria-label="' + config.ui.labels.code_editor + '">';
 			if (format == 'gfm') html += this.getEditToolbar();
@@ -3021,7 +3018,6 @@ Page.Base = class Base extends Page {
 			if (old_editor) {
 				// restore original editor
 				self.editor = old_editor;
-				if (old_default_mode) self.defaultEditorMode = old_default_mode;
 				self.handleEditorResize(); // in case window resized while in dialog
 			}
 			else delete self.editor;
@@ -3070,6 +3066,7 @@ Page.Base = class Base extends Page {
 		var mode = null;
 		var editor_config = {};
 		var error_line = null;
+		var clicks_blocked = false;
 		
 		if (format) {
 			if (format == 'gfm') {
@@ -3096,9 +3093,11 @@ Page.Base = class Base extends Page {
 			else mode = app.cmLangMap[format] || format;
 		}
 		else if (code.length) {
-			mode = app.detectCodemirrorMode(code) || this.defaultEditorMode || null;
+			mode = app.detectCodemirrorMode(code) || null;
 			Debug.trace('debug', "Detected initial language: " + mode);
 		}
+		
+		if (opts.editor_config) merge_hash_into(editor_config, opts.editor_config);
 		
 		this.editor = CodeMirror(
 			function(cm_elem) {
@@ -3115,16 +3114,21 @@ Page.Base = class Base extends Page {
 		);
 		
 		if (!format) this.setupEditorAutoDetect();
-		else if (format == 'json') {
-			this.editor.on('change', function() {
-				// clear error state on input
-				if (error_line) {
-					self.editor.removeLineClass(error_line, "background", "cm-error-line");
-					app.clearError();
-					error_line = null;
-				}
-			});
-		}
+		
+		this.editor.on('change', function() {
+			// clear error state on input
+			if (error_line) {
+				self.editor.removeLineClass(error_line, "background", "cm-error-line");
+				app.clearError();
+				error_line = null;
+			}
+			
+			// and block clicks outside to prevent data loss
+			if (!clicks_blocked) {
+				$('#ceditor_overlay').off('click');
+				clicks_blocked = true;
+			}
+		});
 		
 		// handle apply button
 		$('#btn_ceditor_confirm').on('click', function() {

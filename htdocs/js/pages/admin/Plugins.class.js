@@ -238,7 +238,6 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 		$('#fe_ep_title').focus();
 		this.setPluginType();
 		this.setupBoxButtonFloater();
-		this.setupEditor();
 		this.renderParamEditor();
 	}
 	
@@ -327,8 +326,6 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 		MultiSelect.init( this.div.find('select[multiple]') );
 		// this.updateAddRemoveMe('#fe_ep_email');
 		this.setPluginType();
-		this.setDefaultEditorMode();
-		this.setupEditor();
 		this.setupBoxButtonFloater();
 		this.renderParamEditor();
 		this.setupEditTriggers();
@@ -1057,22 +1054,20 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 				id: 'fe_ep_command',
 				class: 'monospace',
 				spellcheck: 'false',
-				value: plugin.command || '',
-				onChange: '$P().setDefaultEditorMode()'
+				value: plugin.command || ''
 			}),
 			caption: 'Enter the filesystem path to your executable, including any command-line arguments you require.  This can be an interpreter like <code>/bin/sh</code> or <code>/usr/bin/python</code>, or your own custom binary.  Do not include any pipes or redirects here.'
 		});
 		
-		// script (codemirror)
+		// script
 		html += this.getFormRow({
-			id: 'd_editor',
 			label: 'Script:',
-			content: '<div onClick="$P().editor.focus()">' + this.getFormTextarea({
-				id: 'fe_editor',
-				class: 'monospace',
-				rows: 5,
-				value: (plugin.script || '') + "\n"
-			}) + '</div>',
+			content: this.getFormTextarea({
+				id: 'fe_ep_script',
+				rows: 1,
+				value: plugin.script || '',
+				style: 'display:none'
+			}) + '<div class="button small secondary" onClick="$P().editScript()"><i class="mdi mdi-text-box-edit-outline">&nbsp;</i>Edit Script...</div>',
 			caption: 'Optionally enter your Plugin source code here, which will be written to a temporary file and passed as an argument to your executable.  Leave this blank if your Plugin executable should run standalone.'
 		});
 		
@@ -1182,6 +1177,25 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 		return html;
 	}
 	
+	editScript() {
+		// popup code editor
+		var self = this;
+		var mode = app.getCodemirrorModeFromBinary( $('#fe_ep_command').val() );
+		
+		this.editCodeAuto({
+			title: "Edit Plugin Script", 
+			code: $('#fe_ep_script').val().trim(), 
+			format: mode,
+			editor_config: {
+				lineNumbers: true
+			},
+			callback: function(new_value) {
+				$('#fe_ep_script').val( new_value );
+				self.triggerEditChange();
+			}
+		});
+	}
+	
 	setPluginType() {
 		// swap out the plugin type dynamic caption
 		var plugin_type = $('#fe_ep_type').val();
@@ -1217,7 +1231,7 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 		plugin.type = $('#fe_ep_type').val();
 		plugin.icon = $('#fe_ep_icon').val();
 		plugin.command = $('#fe_ep_command').val().trim();
-		plugin.script = this.editor.getValue().trim();
+		plugin.script = $('#fe_ep_script').val().trim();
 		plugin.uid = $('#fe_ep_uid').val();
 		plugin.gid = $('#fe_ep_gid').val();
 		plugin.notes = $('#fe_ep_notes').val();
@@ -1254,57 +1268,6 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 		return plugin;
 	}
 	
-	setDefaultEditorMode() {
-		// set default editor mode from command text field
-		this.defaultEditorMode = app.getCodemirrorModeFromBinary( $('#fe_ep_command').val() );
-		
-		if (this.defaultEditorMode && this.editor && this.editor.options && (this.editor.options.mode === null)) {
-			Debug.trace('debug', "Setting default language: " + this.defaultEditorMode);
-			this.editor.setOption('mode', { name: 'mustache', backdrop: this.defaultEditorMode });
-			this.editor.refresh();
-		}
-	}
-	
-	onDragDrop(files) {
-		// intercept drag-drop event and upload files to code editor
-		var self = this;
-		
-		if (this.editor) {
-			// plop file into editor
-			var reader = new FileReader();
-			
-			reader.onload = function(e) {
-				self.editor.setValue( e.target.result );
-				self.editor.focus();
-				
-				var old_mode = self.editor.getOption('mode');
-				if (old_mode.backdrop) old_mode = old_mode.backdrop;
-				var mode = self.defaultEditorMode || app.detectCodemirrorMode(e.target.result) || null;
-				
-				if (mode != old_mode) {
-					Debug.trace('debug', "Detected language: " + mode);
-					self.editor.setOption('mode', { name: 'mustache', backdrop: mode });
-					self.editor.refresh();
-				}
-				
-				self.triggerEditChange();
-			};
-			
-			reader.readAsText( files[0] );
-		}
-		else this.doPrepImportFile( files[0] );
-	}
-	
-	onResize() {
-		// resize codemirror to match
-		this.handleEditorResize();
-	}
-	
-	onThemeChange(theme) {
-		// change codemirror theme too
-		this.handleEditorThemeChange(theme);
-	}
-	
 	onDataUpdate(key, data) {
 		// refresh list if plugins were updated
 		if ((key == 'plugins') && (this.args.sub == 'list')) this.gosub_list(this.args);
@@ -1315,10 +1278,8 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 		delete this.plugins;
 		delete this.plugin;
 		delete this.params;
-		delete this.defaultEditorMode;
 		this.cleanupRevHistory();
 		this.cleanupBoxButtonFloater();
-		this.killEditor();
 		this.div.html( '' );
 		return true;
 	}
