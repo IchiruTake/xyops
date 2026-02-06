@@ -1,5 +1,12 @@
 # xyOps Changelog
 
+## Version v0.9.57
+
+> February 5, 2026
+
+- [`d0d461e`](https://github.com/pixlcore/xyops/commit/d0d461ea8837f8a283202973485941a450351bc7): Version 0.9.57
+- [`81caf3d`](https://github.com/pixlcore/xyops/commit/81caf3d7490c1ce0d05a903b6bcf09099c926cc9): Popup Code Editor Params: Show line numbers by default.
+
 ## Version v0.9.56
 
 > February 5, 2026
