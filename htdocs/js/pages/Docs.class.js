@@ -65,7 +65,7 @@ Page.Docs = class Docs extends Page.PageUtils {
 			app.setWindowTitle( title + ' | Documentation' );
 			app.setHeaderNav([
 				{ icon: 'file-document-multiple-outline', loc: '#Docs', title: 'Docs' },
-				{ icon: 'file-document-outline', title: `<span class="link" onClick="window.scrollTo(0,0)">${title}</span>` }
+				{ icon: 'file-document-outline', loc: '#Docs/' + args.doc, title: title }
 			]);
 			app.highlightTab( 'Docs' );
 		}
@@ -153,6 +153,7 @@ Page.Docs = class Docs extends Page.PageUtils {
 				args.anchor = anchor;
 			}
 		}
+		else window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
 	}
 	
 	getTableOfContents(text) {
