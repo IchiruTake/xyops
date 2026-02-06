@@ -1,5 +1,11 @@
 # xyOps Changelog
 
+## Version v0.9.58
+
+> February 5, 2026
+
+- [`e7a7ba4`](https://github.com/pixlcore/xyops/commit/e7a7ba4124e533309c3937f20e2e49e614482c0e): Version 0.9.58
+
 ## Version v0.9.57
 
 > February 5, 2026
