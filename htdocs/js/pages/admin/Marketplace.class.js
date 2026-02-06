@@ -407,6 +407,13 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 	gosub_view(args) {
 		// view marketplace product
 		this.loading();
+		
+		// look for inline page anchor
+		if (args.id.match(/^(.+?)\/(.+?)\/(.+?)$/)) {
+			args.id = RegExp.$1 + '/' + RegExp.$2;
+			args.anchor = RegExp.$3;
+		}
+		
 		app.api.get( 'app/marketplace', { id: args.id, readme: 1 }, this.receive_product.bind(this), this.fullPageError.bind(this) );
 	}
 	
@@ -422,7 +429,7 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 		app.setWindowTitle( product.title );
 		app.setHeaderNav([
 			{ icon: 'cart-outline', loc: '#Marketplace?sub=search', title: 'Marketplace' },
-			{ icon: type_def.icon, title: product.title }
+			{ icon: type_def.icon, loc: '#' + Nav.loc, title: product.title }
 		]);
 		
 		var install_btn_text = installed ? `Upgrade ${ucfirst(product.type)}...` : `Install ${ucfirst(product.type)}...`;
@@ -521,19 +528,41 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 		this.fixMarketDocumentLinks();
 	}
 	
+	gosub(sub) {
+		// scroll to sub-anchor
+		if (!sub) {
+			window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+			return;
+		}
+		var id = 'h_' + sub;
+		var $heading = this.div.find('div.markdown-body').find('#' + id);
+		if ($heading.length) {
+			$heading[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+			this.args.anchor = sub;
+		}
+	}
+	
 	fixMarketDocumentLinks(elem) {
 		// fix all local hash links to point back to remote repo
+		var args = this.args;
+		var anchor = args.anchor || '';
+		
 		if (!elem) elem = this.div;
 		else if (typeof(elem) == 'string') elem = $(elem);
 		
-		// future-proofing, default to github for v1
-		var repo_base_url = this.product.repo_url || `https://github.com/${this.product.id}`;
+		elem.find('div.markdown-body').find('h1, h2, h3, h4, h5, h6').each( function() {
+			var $this = $(this);
+			// create github-style slug
+			var id = $this.text().trim().toLowerCase().replace(/[\s]+/g, '-').replace(/[^\p{L}\p{N}-]+/gu, '');
+			$this.attr('id', 'h_' + id);
+			if (anchor && (id == anchor)) this.scrollIntoView(true);
+		});
 		
 		elem.find('div.markdown-body').find('a[href]').each( function() {
 			var $this = $(this);
 			var href = $this.attr('href');
 			if (href.match(/^\#/)) {
-				$this.attr({ 'href': repo_base_url + href, 'target': '_blank' }).append('<i style="padding-left:3px" class="mdi mdi-open-in-new"></i>');
+				$this.attr({ 'href': '#' + Nav.loc + '/' + href.replace(/\#/, '') });
 			}
 		} );
 	}
