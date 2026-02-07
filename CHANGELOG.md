@@ -1,5 +1,18 @@
 # xyOps Changelog
 
+## Version v0.9.61
+
+> February 7, 2026
+
+- [`cb3a762`](https://github.com/pixlcore/xyops/commit/cb3a762f91f0c1d77d4d36812c57a8ccd4ea95aa): Version 0.9.61
+- [`308a91b`](https://github.com/pixlcore/xyops/commit/308a91b01205ead68b02663d3126f525a08ce0bc): Job Detail View Improvements: Configurable max output size, and lock job final output viewer to 80% window height with overflow scroll.  Fixes #125.
+- [`28c1f23`](https://github.com/pixlcore/xyops/commit/28c1f23c0356c12105d5c9e6f58080cba4a0961d): Bug Fix: Skip Upcoming Job for workflows was failing to create a blackout node on the map.  Fixes #127.
+- [`5ccd3d9`](https://github.com/pixlcore/xyops/commit/5ccd3d9d9e053bd927dd9d5fecdbac66182b4631): System Upgrade DIalogs: Include links to xyOps / xySat changelogs.  Fixes #124.
+- [`f841e5e`](https://github.com/pixlcore/xyops/commit/f841e5e12540443c9db6e7912dabe31467834cba): Feature: Show IDs for plugin and event params in tables.  Adjust margins a bit to compensate.  Fixes #123.
+- [`dca1d4f`](https://github.com/pixlcore/xyops/commit/dca1d4f9ca700bf5eacaa05f9db6b8042625ca99): Events: Typo fix in comment
+- [`14e2326`](https://github.com/pixlcore/xyops/commit/14e232616209cb71edce2e201c24321246d30947): Bug Fix / Feature: Prevent unknown tag from being added to jobs, and log warning in job meta log.  Also, allow tags to be specified by title (exact match only).  Fixes #122.
+- [`c6344f8`](https://github.com/pixlcore/xyops/commit/c6344f8c6fffba25c6b6b885a41019e66edd684c): CSS: Fix coloring of HR line breaks in markdown documents.
+
 ## Version v0.9.60
 
 > February 6, 2026
