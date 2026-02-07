@@ -2268,6 +2268,11 @@ div.box_code_none {
 	color: var(--theme-color-highlight);
 }
 
+.markdown-body hr {
+	border: 0;
+	border-top: 2px solid var(--border-color);
+}
+
 /* Icon Overrides */
 
 i.mdi.mdi-moon-waning-crescent:before {
