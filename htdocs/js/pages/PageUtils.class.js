@@ -4150,7 +4150,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		var self = this;
 		var html = '';
 		var rows = this.params;
-		var cols = ['<i class="mdi mdi-menu"></i>', 'Label', 'Type', 'Description', 'Actions'];
+		var cols = ['<i class="mdi mdi-menu"></i>', 'Label', 'ID', 'Type', 'Description', 'Actions'];
 		var add_link = '<div class="button small secondary" onClick="$P().editParam(-1)"><i class="mdi mdi-plus-circle-outline">&nbsp;</i>New Param...</div>';
 		
 		if (!rows.length) return add_link;
@@ -4162,7 +4162,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			class: 'data_grid c_param_grid',
 			empty_msg: add_link,
 			always_append_empty_msg: true,
-			grid_template_columns: '40px auto auto auto auto'
+			grid_template_columns: '40px auto auto auto auto auto'
 		};
 		
 		html += this.getCompactGrid(targs, function(item, idx) {
@@ -4232,9 +4232,9 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			}
 			
 			return [
-				// '<div class="td_big mono">' + item.id + '</div>',
 				'<div class="td_drag_handle" draggable="true" title="Drag to reorder"><i class="mdi mdi-menu"></i></div>',
-				'<div class="td_big ellip" title="ID: ' + item.id + '"><i class="mdi mdi-' + nice_label_icon + '">&nbsp;</i><button class="link" onClick="$P().editParam('+idx+')">' + item.title + '</button></div>',
+				'<div class="td_big nowrap"><button class="link" onClick="$P().editParam('+idx+')"><i class="mdi mdi-' + nice_label_icon + '"></i>' + item.title + '</button></div>',
+				'<div class="ellip mono">' + item.id + '</div>',
 				'<div class="ellip"><i class="mdi mdi-' + nice_icon + '">&nbsp;</i>' + nice_type + '</div>',
 				'<div class="ellip">' + pairs.join(', ') + '</div>',
 				'<div class="">' + actions.join(' | ') + '</div>'

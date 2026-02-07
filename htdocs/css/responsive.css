@@ -1,5 +1,17 @@
 /* Basic Responsive Overrides */
 
+@media only screen and (min-width: 1701px) and (max-width: 1800px) {
+	.form_row {
+		grid-template-columns: 1fr 4fr 1fr;
+	}
+}
+
+@media only screen and (min-width: 1601px) and (max-width: 1700px) {
+	.form_row {
+		grid-template-columns: 1fr 5fr 1fr;
+	}
+}
+
 @media only screen and (min-width: 1451px) and (max-width: 1600px) {
 	.form_row {
 		grid-template-columns: 1fr 6fr 1fr;
@@ -67,6 +79,10 @@
 	.button.early_collapse span {
 		display: none;
 	}
+	
+	/* 'Drag', 'Label', 'ID', 'Type', 'Description', 'Actions' */
+	.data_grid.c_param_grid { grid-template-columns: 40px auto 0px auto auto auto !important; }
+	.data_grid.c_param_grid > ul > div:nth-child(3) { visibility: hidden; }
 	
 	/* 'Enabled', 'Event Title', 'Category', 'Tags', 'Plugin', 'Target', 'Trigger', 'Status', 'Actions' */
 	.data_grid.event_grid { grid-template-columns: 40px auto auto auto 0px 0px auto auto auto !important; }
@@ -374,6 +390,10 @@
 	/* 'Date/Time', 'Server', 'Node ID', 'Type', 'Message' */
 	.data_grid.wf_meta_grid { grid-template-columns: auto auto 0px auto auto !important; }
 	.data_grid.wf_meta_grid > ul > div:nth-child(3) { visibility: hidden; }
+	
+	/* 'Drag', 'Label', 'ID', 'Type', 'Description', 'Actions' */
+	.data_grid.c_param_grid { grid-template-columns: 40px auto 0px auto auto auto !important; }
+	.data_grid.c_param_grid > ul > div:nth-child(3) { visibility: hidden; }
 	
 	/* '#', 'Subject', 'Type', 'Status', 'Assignees', 'Tags', 'Created', 'Actions' */
 	.data_grid.ticket_grid { grid-template-columns: min-content auto auto auto auto auto 0px auto !important; }
@@ -833,6 +853,10 @@
 	/* 'Enabled', 'Description', 'Type', 'Tags', 'Actions' */
 	.data_grid.c_trigger_grid { grid-template-columns: 40px auto auto 0px auto !important; }
 	.data_grid.c_trigger_grid > ul > div:nth-child(4) { visibility: hidden; }
+	
+	/* 'Drag', 'Label', 'ID', 'Type', 'Description', 'Actions' */
+	.data_grid.c_param_grid { grid-template-columns: 40px auto 0px auto auto auto !important; }
+	.data_grid.c_param_grid > ul > div:nth-child(3) { visibility: hidden; }
 	
 	/* '#', 'Subject', 'Type', 'Status', 'Assignees', 'Tags', 'Created', 'Actions' */
 	.data_grid.ticket_grid { grid-template-columns: min-content auto auto auto 0px 0px 0px auto !important; }
@@ -1437,9 +1461,10 @@
 	.data_grid.c_trigger_grid > ul > div:nth-child(3) { visibility: hidden; }
 	.data_grid.c_trigger_grid > ul > div:nth-child(4) { visibility: hidden; }
 	
-	/* 'Drag', 'Label', 'Type', 'Description', 'Actions' */
-	.data_grid.c_param_grid { grid-template-columns: 40px auto auto 0px auto !important; }
-	.data_grid.c_param_grid > ul > div:nth-child(4) { visibility: hidden; }
+	/* 'Drag', 'Label', 'ID', 'Type', 'Description', 'Actions' */
+	.data_grid.c_param_grid { grid-template-columns: 40px auto 0px auto 0px auto !important; }
+	.data_grid.c_param_grid > ul > div:nth-child(3) { visibility: hidden; }
+	.data_grid.c_param_grid > ul > div:nth-child(5) { visibility: hidden; }
 	
 	/* 'Enabled', 'Limit', 'Description', 'Actions' */
 	.data_grid.c_limit_grid { grid-template-columns: 40px auto 0px auto !important; }
@@ -1943,10 +1968,11 @@
 	.data_grid.c_trigger_grid > ul > div:nth-child(3) { visibility: hidden; }
 	.data_grid.c_trigger_grid > ul > div:nth-child(4) { visibility: hidden; }
 	
-	/* 'Drag', 'Label', 'Type', 'Description', 'Actions' */
-	.data_grid.c_param_grid { grid-template-columns: 40px auto auto 0px 0px !important; }
-	.data_grid.c_param_grid > ul > div:nth-child(4) { visibility: hidden; }
+	/* 'Drag', 'Label', 'ID', 'Type', 'Description', 'Actions' */
+	.data_grid.c_param_grid { grid-template-columns: 40px auto 0px auto 0px 0px !important; }
+	.data_grid.c_param_grid > ul > div:nth-child(3) { visibility: hidden; }
 	.data_grid.c_param_grid > ul > div:nth-child(5) { visibility: hidden; }
+	.data_grid.c_param_grid > ul > div:nth-child(6) { visibility: hidden; }
 	
 	/* 'Enabled', 'Limit', 'Description', 'Actions' */
 	.data_grid.c_limit_grid { grid-template-columns: 40px auto 0px auto !important; }
