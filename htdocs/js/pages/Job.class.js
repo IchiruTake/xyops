@@ -1849,8 +1849,10 @@ Page.Job = class Job extends Page.PageUtils {
 			$cont.html('<div class="log_message">(Job output is empty.)</div>');
 			return;
 		}
-		if (job.log_file_size > 1024 * 1024 * 10) {
-			$cont.html('<div class="log_message">(Job output is over 10 MB.)</div>');
+		
+		var max_disp_bytes = get_bytes_from_text( config.max_job_output || '5 MB' );
+		if (job.log_file_size > max_disp_bytes) {
+			$cont.html('<div class="log_message">(Job output is over ' + get_text_from_bytes(max_disp_bytes) + '.)</div>');
 			return;
 		}
 		
@@ -1987,12 +1989,6 @@ Page.Job = class Job extends Page.PageUtils {
 			if ($children.length > 1000) {
 				$children.slice( 0, $children.length - 1000 ).remove();
 			}
-		}
-		
-		// auto-size
-		if (!$cont.hasClass('active')) {
-			var size = get_inner_window_size();
-			if ($cont.prop('scrollHeight') > size.height * 0.8) $cont.addClass('active');
 		}
 		
 		if (need_scroll) $cont.scrollTop( $cont.prop('scrollHeight') );

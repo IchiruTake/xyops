@@ -264,6 +264,7 @@
 		"events_per_page": 500,
 		"max_table_rows": 500,
 		"max_menu_items": 1000,
+		"max_job_output": "5 MB",
 		"alt_to_toggle": false,
 		
 		"new_event_template": { 

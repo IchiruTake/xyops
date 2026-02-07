@@ -609,6 +609,11 @@ This number caps the number of rendered table rows client-side to keep the UI re
 
 Upper bound for items shown in menus and dropdowns (default: `1000`).
 
+### client.max_job_output
+<!-- Title: Max Job Output Display -->
+
+Maximum size of job output to display inline on the details page (default: `5 MB`).
+
 ### client.alt_to_toggle
 <!-- Title: Hold Alt to Toggle -->
 

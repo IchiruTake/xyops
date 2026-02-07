@@ -1802,9 +1802,7 @@ body.dark .pxc_tt_content {
 	position: relative;
 	overflow-x: hidden;
 	overflow-y: scroll;
-}
-#d_live_job_log.active {
-	height: 80vh;
+	max-height: 80vh;
 }
 
 #d_live_job_log > p {
