@@ -1639,13 +1639,26 @@ Page.Workflows = class Workflows extends Page.Events {
 				data: { params: {}, targets: [], algo: 'random', label: '' } 
 			};
 			
-			if (find_object(app.categories, { id: 'general' })) node.data.category = 'general';
-			else if (!app.categories.length) return app.doError('wfdj_no_cats');
-			else node.data.category = app.categories[0].id;
+			var cat_id = '';
+			if (app.config.new_event_template.category) cat_id = app.config.new_event_template.category;
+			else if (find_object(app.categories, { id: 'general' })) cat_id = 'general';
+			else if (!app.categories.length) return this.doFullPageError(config.ui.errors.new_wf_no_cats);
+			else cat_id = app.categories[0].id;
+			node.data.category = cat_id;
 			
-			if (find_object(app.plugins, { id: 'shellplug' })) node.data.plugin = 'shellplug';
-			else if (!app.plugins.length) return app.doError('wfdj_no_plugins');
-			else node.data.plugin = app.plugins[0].id;
+			var plug_id = '';
+			if (app.config.new_event_template.plugin) plug_id = app.config.new_event_template.plugin;
+			else if (find_object(app.plugins, { id: 'shellplug' })) plug_id = 'shellplug';
+			else if (!app.plugins.length) return this.doFullPageError(config.ui.errors.new_wf_no_plugins);
+			else plug_id = app.plugins[0].id;
+			node.data.plugin = plug_id;
+			
+			var target_ids = [];
+			if (app.config.new_event_template.targets && app.config.new_event_template.targets.length) target_ids = [ ...app.config.new_event_template.targets ];
+			else if (find_object(app.groups, { id: 'main' })) target_ids = ['main'];
+			else if (!app.groups.length) return this.doFullPageError(config.ui.errors.new_wf_no_groups);
+			else target_ids = [ app.groups[0].id ];
+			node.data.targets = target_ids;
 		} // do_create
 		
 		var plugin = find_object( app.plugins, { id: node.data.plugin } );
