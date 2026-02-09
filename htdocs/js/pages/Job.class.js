@@ -1482,7 +1482,7 @@ Page.Job = class Job extends Page.PageUtils {
 		header += `- **Source:** ${ucfirst(action.source || 'event')}\n`;
 		header += `- **Date/Time:** ${nice_date}\n`;
 		header += `- **Result:** ${action.description || 'OK'}\n`;
-		// header += `\n`;
+		header += `\n`;
 		
 		details = header + details;
 		
