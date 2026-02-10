@@ -960,7 +960,7 @@
 			"cancelSolder": { "keys": ["Escape"], "title": "Cancel Solder" },
 			"selectAll": { "keys": ["Meta+KeyA", "Control+KeyA"], "title": "Select All" },
 			"deselectAll": { "keys": ["Meta+KeyD", "Control+KeyD"], "title": "Select None" },
-			"doDeleteSelection": { "keys": ["Backspace"], "title": "Delete Selection" },
+			"doDeleteSelection": { "keys": ["Backspace", "Delete"], "title": "Remove Selection" },
 			"doDetachSelection": { "keys": [], "title": "Detach Selection" },
 			"doDuplicateSelection": { "keys": [], "title": "Duplicate Selection" },
 			"doUndo": { "keys": ["Meta+KeyZ", "Control+KeyZ"], "title": "Undo", "repeatable": true },
@@ -983,7 +983,7 @@
 			"do_edit_event": { "keys": ["KeyE"], "title": "Edit Event" },
 			"doAddToTicket": { "keys": ["KeyA"], "title": "Add Job to Ticket" },
 			"doCreateTicket": { "keys": ["KeyC"], "title": "Create Job Ticket" },
-			"do_delete_job": { "keys": ["Backspace"], "title": "Delete Job" },
+			"do_delete_job": { "keys": ["Backspace", "Delete"], "title": "Delete Job" },
 			"prevSlide": { "keys": ["ArrowLeft"], "title": "Previous Media Slide" },
 			"nextSlide": { "keys": ["ArrowRight"], "title": "Next Media Slide" }
 		},
