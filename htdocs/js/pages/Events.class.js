@@ -2203,6 +2203,7 @@ Page.Events = class Events extends Page.PageUtils {
 				type: 'xypdf',
 				description: "xyOps Portable Data Object",
 				version: "1.0",
+				xyops: app.version,
 				items: getExportedItems(event)
 			};
 			var payload = JSON.stringify(json, null, "\t") + "\n";

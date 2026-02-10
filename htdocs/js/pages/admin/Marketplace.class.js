@@ -672,6 +672,9 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 		if (!json.version || (json.version !== '1.0') || !json.type || (json.type !== 'xypdf') || !json.items || !json.items[0]) {
 			return app.doError("Unknown Format: Marketplace file is not an xyOps Portable Data Object.");
 		}
+		if (json.xyops && (get_int_version(json.xyops) > get_int_version(app.version))) {
+			return app.doError(`Unsupported Version: This marketplace product requires xyOps v${json.xyops} or higher.`);
+		}
 		
 		// prompt user to confirm importing a single item
 		var item = json.items[0];

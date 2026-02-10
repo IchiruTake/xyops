@@ -6,8 +6,8 @@ This document describes the **xyOps Portable Data Format** (XYPDF) v1.0, which i
 
 - **Title**: xyOps Portable Data Format
 - **ID**: XYPDF
-- **Version**: 1.0
-- **Date**: November 16, 2025
+- **Version**: 1.1
+- **Date**: February 10, 2025
 - **Authors**: Joseph Huckaby (PixlCore)
 
 XYPDF is a [JSON](https://en.wikipedia.org/wiki/JSON) formatted text file with a specific layout.  The file can be plain text (with a `.json` file extension), or [Gzip](https://en.wikipedia.org/wiki/Gzip)-compressed (with a `.json.gz` file extension).  The JSON itself may be compacted or pretty-printed.
@@ -24,6 +24,7 @@ The top-level JSON properties in the XYPDF file are defined as follows:
 |---------------|------|-------------|
 | `type` | String | File format identifier, should be set to `xypdf`. |
 | `version` | String | File format version, should be set to `1.0` |
+| `xyops` | String | Minimum supported xyOps version in semver format, e.g. `1.0.0`. Added in XYPDF v1.1. |
 | `description` | String | Optional human-readable description of file, will be `xyOps Portable Data` if present. |
 | `items` | Array | An array of sub-objects that define each item in the file.  See below for more. |
 
@@ -61,6 +62,7 @@ Here is an example XYPDF file containing one item, in pretty-printed plain text 
 {
 	"type": "xypdf",
 	"version": "1.0",
+	"xyops": "1.0.0",
 	"description": "xyOps Portable Data",
 	"items": [
 		{

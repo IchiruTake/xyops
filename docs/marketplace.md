@@ -108,6 +108,7 @@ On the Plugin Edit screen, xyOps provides a "**Export...**" button.  Click this 
 {
 	"type": "xypdf",
 	"version": "1.0",
+	"xyops": "0.9.0",
 	"description": "xyOps Portable Data",
 	"items": [
 		{

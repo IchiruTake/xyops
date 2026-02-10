@@ -461,6 +461,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			type: 'xypdf',
 			description: "xyOps Portable Data Object",
 			version: "1.0",
+			xyops: app.version,
 			items: [{ // FUTURE: Support multiple
 				type: opts.dataType,
 				data: opts.data
@@ -697,6 +698,9 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			
 			if (!json.version || (json.version !== '1.0') || !json.type || (json.type !== 'xypdf') || !json.items || !json.items[0]) {
 				return app.doError("Unknown Format: Uploaded file is not an xyOps Portable Data Object.");
+			}
+			if (json.xyops && (get_int_version(json.xyops) > get_int_version(app.version))) {
+				return app.doError(`Unsupported Version: This import requires xyOps v${json.xyops} or higher.`);
 			}
 			
 			if (json.items.length > 1) doImportMultiple(json);
