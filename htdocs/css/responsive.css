@@ -93,10 +93,10 @@
 	.data_grid.group_grid { grid-template-columns: min-content auto 0px auto auto auto auto auto !important; }
 	.data_grid.group_grid > ul > div:nth-child(3) { visibility: hidden; }
 	
-	/* 'Server', 'IP Address', 'Groups', '# CPUs', 'RAM', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts' */
-	.data_grid.server_grid { grid-template-columns: auto auto auto auto auto auto 0px 0px auto auto !important; }
-	.data_grid.server_grid > ul > div:nth-child(7) { visibility: hidden; }
+	/* 'Server', 'IP Address', 'Groups', '# CPUs', 'RAM', 'Arch', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts' */
+	.data_grid.server_grid { grid-template-columns: auto auto auto auto auto auto auto 0px 0px auto auto !important; }
 	.data_grid.server_grid > ul > div:nth-child(8) { visibility: hidden; }
+	.data_grid.server_grid > ul > div:nth-child(9) { visibility: hidden; }
 }
 
 @media only screen and (min-width: 1025px) and (max-width: 1280px) {
@@ -317,11 +317,12 @@
 	.data_grid.job_history_grid { grid-template-columns: auto auto auto auto 0px auto auto !important; }
 	.data_grid.job_history_grid > ul > div:nth-child(5) { visibility: hidden; }
 	
-	/* 'Server', 'IP Address', 'Groups', '# CPUs', 'RAM', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts' */
-	.data_grid.server_grid { grid-template-columns: auto auto auto auto auto 0px 0px 0px auto auto !important; }
+	/* 'Server', 'IP Address', 'Groups', '# CPUs', 'RAM', 'Arch', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts' */
+	.data_grid.server_grid { grid-template-columns: auto auto auto auto auto 0px 0px 0px 0px auto auto !important; }
 	.data_grid.server_grid > ul > div:nth-child(6) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(7) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(8) { visibility: hidden; }
+	.data_grid.server_grid > ul > div:nth-child(9) { visibility: hidden; }
 	
 	/* 'Hostname', 'IP Address', 'Group', '# CPUs', 'RAM', 'OS', 'Created', 'Modified' */
 	.data_grid.server_search_grid { grid-template-columns: auto auto auto auto auto 0px auto auto !important; }
@@ -748,13 +749,14 @@
 	.data_grid.job_history_grid > ul > div:nth-child(4) { visibility: hidden; }
 	.data_grid.job_history_grid > ul > div:nth-child(5) { visibility: hidden; }
 	
-	/* 'Server', 'IP Address', 'Groups', '# CPUs', 'RAM', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts' */
-	.data_grid.server_grid { grid-template-columns: auto auto auto 0px 0px 0px 0px 0px auto auto !important; }
+	/* 'Server', 'IP Address', 'Groups', '# CPUs', 'RAM', 'Arch', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts' */
+	.data_grid.server_grid { grid-template-columns: auto auto auto 0px 0px 0px 0px 0px 0px auto auto !important; }
 	.data_grid.server_grid > ul > div:nth-child(4) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(5) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(6) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(7) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(8) { visibility: hidden; }
+	.data_grid.server_grid > ul > div:nth-child(9) { visibility: hidden; }
 	
 	/* 'Hostname', 'IP Address', 'Group', '# CPUs', 'RAM', 'OS', 'Created', 'Modified' */
 	.data_grid.server_search_grid { grid-template-columns: auto auto auto 0px 0px 0px auto auto !important; }
@@ -1336,13 +1338,15 @@
 	.data_grid.job_history_grid > ul > div:nth-child(5) { visibility: hidden; }
 	.data_grid.job_history_grid > ul > div:nth-child(6) { visibility: hidden; }
 	
-	/* 'Server', 'IP Address', 'Groups', '# CPUs', 'RAM', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts' */
-	.data_grid.server_grid { grid-template-columns: auto auto auto 0px 0px 0px 0px 0px auto auto !important; }
+	/* 'Server', 'IP Address', 'Groups', '# CPUs', 'RAM', 'Arch', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts' */
+	.data_grid.server_grid { grid-template-columns: auto auto 0px 0px 0px 0px 0px 0px 0px auto auto !important; }
+	.data_grid.server_grid > ul > div:nth-child(3) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(4) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(5) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(6) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(7) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(8) { visibility: hidden; }
+	.data_grid.server_grid > ul > div:nth-child(9) { visibility: hidden; }
 	
 	/* 'Hostname', 'IP Address', 'Group', '# CPUs', 'RAM', 'OS', 'Created', 'Modified' */
 	.data_grid.server_search_grid { grid-template-columns: auto auto auto 0px 0px 0px 0px 0px !important; }
@@ -1823,8 +1827,8 @@
 	.data_grid.job_history_grid > ul > div:nth-child(5) { visibility: hidden; }
 	.data_grid.job_history_grid > ul > div:nth-child(6) { visibility: hidden; }
 	
-	/* 'Server', 'IP Address', 'Groups', '# CPUs', 'RAM', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts' */
-	.data_grid.server_grid { grid-template-columns: auto auto 0px 0px 0px 0px 0px 0px 0px 0px !important; }
+	/* 'Server', 'IP Address', 'Groups', '# CPUs', 'RAM', 'Arch', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts' */
+	.data_grid.server_grid { grid-template-columns: auto auto 0px 0px 0px 0px 0px 0px 0px 0px 0px !important; }
 	.data_grid.server_grid > ul > div:nth-child(3) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(4) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(5) { visibility: hidden; }
@@ -1833,6 +1837,7 @@
 	.data_grid.server_grid > ul > div:nth-child(8) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(9) { visibility: hidden; }
 	.data_grid.server_grid > ul > div:nth-child(10) { visibility: hidden; }
+	.data_grid.server_grid > ul > div:nth-child(11) { visibility: hidden; }
 	
 	/* 'Hostname', 'IP Address', 'Group', '# CPUs', 'RAM', 'OS', 'Created', 'Modified' */
 	.data_grid.server_search_grid { grid-template-columns: auto auto 0px 0px 0px 0px 0px 0px !important; }

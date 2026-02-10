@@ -128,6 +128,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				mem_total: item.info.memory.total || 0,
 				os: item.info.os,
 				os_label: item.info.os.distro + ' ' + item.info.os.release, // for sorting
+				arch_label: item.info.arch, // for sorting
 				sat_ver: get_int_version( item.info.satellite || '0.0.0' ),
 				uptime: item.info.booted ? (now - item.info.booted) : 0,
 				num_jobs: find_objects( app.activeJobs, { server: item.id } ).length,
@@ -142,8 +143,8 @@ Page.Servers = class Servers extends Page.ServerUtils {
 			sort_by: 'label',
 			sort_dir: 1,
 			filter: this.isRowVisible.bind(this),
-			column_ids: ['label', 'ip', 'grp_labels', 'cpu_cores', 'mem_total', 'os_label', 'sat_ver', 'uptime', 'num_jobs', 'num_alerts' ],
-			column_labels: ['Label', 'IP Address', 'Groups', '# CPUs', 'RAM', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts']
+			column_ids: ['label', 'ip', 'grp_labels', 'cpu_cores', 'mem_total', 'arch_label', 'os_label', 'sat_ver', 'uptime', 'num_jobs', 'num_alerts' ],
+			column_labels: ['Label', 'IP Address', 'Groups', '# CPUs', 'RAM', 'Arch', 'OS', 'xySat', 'Uptime', '# Jobs', '# Alerts']
 		};
 		
 		html += '<div class="box">';
@@ -181,6 +182,7 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				self.getNiceGroupList(item.groups),
 				'<i class="mdi mdi-chip">&nbsp;</i>' + (item.info.cpu.cores || 0),
 				'<i class="mdi mdi-memory">&nbsp;</i>' + get_text_from_bytes(item.info.memory.total || 0),
+				self.getNiceArch(item.info.arch),
 				self.getNiceShortOS(item.info.os),
 				'<i class="mdi mdi-tag-text-outline">&nbsp;</i>v' + (item.info.satellite || '0.0.0'),
 				item.info.booted ? self.getNiceUptime( now - item.info.booted ) : 'n/a',
