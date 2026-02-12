@@ -167,3 +167,8 @@ Create on-demand server snapshots and set/cancel watches that take periodic snap
 
 ### delete_snapshots
 Delete server or group snapshots from the system.
+
+## Misc
+
+### send_emails
+Send custom emails using the [send_email](api.md#send_email) API.

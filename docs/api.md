@@ -5869,3 +5869,79 @@ The response is a custom JavaScript function call that cannot be changed:
 ```js
 app.receiveConfig({ code: 0, /* other data */ });
 ```
+
+### send_email
+
+```
+POST /api/app/send_email/v1
+```
+
+Send a custom email on demand with optional attachments. Requires the [send_emails](privileges.md#send_emails) privilege, plus a valid user session or API Key.
+
+When the global [email_format](config.md#email_format) configuration property is set to `html` (the default), this sends an email using the official xyOps HTML stationary (with header, logo image, title, button, footer, copyright, version, border).  In this case the `body` text you specify should be in [GitHub-flavored Markdown](https://github.github.com/gfm/) format, and is rendered into HTML inside the main stationary presentation box.  However, when [email_format](config.md#email_format) is set to `text`, your body text is sent verbatim (with a one-line text footer containing the version, copyright, etc.).
+
+Emails are always sent from the [email_from](config.md#email_from) global configuration property.
+
+**Input formats:**
+
+- Pure JSON: Send `Content-Type: application/json` with a JSON body.
+- Multipart form-data (for file uploads): Send `Content-Type: multipart/form-data` and include a `json` field containing the full JSON payload (as a string), plus one or more file fields. All uploaded files are attached to the email.
+
+**Parameters:**
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `to` | String | **(Required)** The email addresses to send to, comma-separated. |
+| `subject` | String | **(Required)** The email subject line. |
+| `body` | String | **(Required)** The email body text, in markdown format. |
+| `cc` | String | Optional `Cc` carbon-copy address list, comma-separated. |
+| `bcc` | String | Optional `Bcc` blind-carbon-copy address list, comma-separated. |
+| `title` | String | Optional "title" shown in large bold font next to the logo (HTML emails only). |
+| `button` | String | Optional clickable button shown in the top-right corner (HTML emails only). |
+| `headers` | Object | Optional MIME headers to send along with the email, e.g. `{ "Importance": "High" }`. |
+
+For the optional `button` parameter please use this syntax: `LABEL | URL`.  So for example: `Visit Disney | https://disney.com`.
+
+**Example:** Pure JSON POST (no files)
+
+```json
+{
+    "to": "test@example.com",
+    "subject": "This is a test email",
+	"body": "Hello this is *markdown*.\n\nBye!"
+}
+```
+
+**Example:** multipart/form-data with attachments
+
+```
+POST /api/app/send_email/v1
+Content-Type: multipart/form-data; boundary=----XYZ
+
+------XYZ
+Content-Disposition: form-data; name="json"
+
+{ "to": "test@example.com", "subject": "This is a test email", "body": "Hello this is *markdown*.\n\nBye!" }
+------XYZ
+Content-Disposition: form-data; name="file1"; filename="input.csv"
+Content-Type: text/csv
+
+id,value\n1,alpha\n2,beta\n
+------XYZ
+Content-Disposition: form-data; name="file2"; filename="notes.txt"
+Content-Type: text/plain
+
+hello world
+------XYZ--
+```
+
+**Example response:**
+
+```json
+{
+    "code": 0,
+    "details": "Mailer debug log contents..." 
+}
+```
+
+In addition to the [Standard Response Format](#standard-response-format), this will include a `details` property containing the mailer debug log (useful for troubleshooting).
