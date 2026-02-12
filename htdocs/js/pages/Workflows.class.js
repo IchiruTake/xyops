@@ -33,7 +33,6 @@ Page.Workflows = class Workflows extends Page.Events {
 	gosub_new(args) {
 		// create new event
 		var html = '';
-		var do_snap = true;
 		
 		app.setHeaderNav([ 'workflow_list', 'new_workflow' ]);
 		app.setWindowTitle( config.ui.titles.new_workflow );
@@ -51,12 +50,6 @@ Page.Workflows = class Workflows extends Page.Events {
 			this.workflow = this.event.workflow;
 			delete this.clone;
 			app.showMessage('info', "The workflow has been cloned as an unsaved draft.", 8);
-		}
-		else if (this.getPageDraft()) {
-			// restore draft
-			this.event = this.checkRestorePageDraft();
-			this.workflow = this.event.workflow;
-			do_snap = false;
 		}
 		else {
 			this.event = deep_copy_object( app.config.new_event_template );
@@ -162,16 +155,10 @@ Page.Workflows = class Workflows extends Page.Events {
 		// this.setupBoxButtonFloater();
 		
 		this.setupWorkflowEditor();
-		
-		if (do_snap) this.savePageSnapshot( this.get_event_form_json(true) );
 	}
 	
 	cancel_workflow_edit() {
 		// cancel editing wf and return to list
-		// delete draft + snap
-		this.deletePageDraft();
-		this.deletePageSnapshot();
-		
 		if (this.event.id) Nav.go( '#Events?sub=view&id=' + this.event.id );
 		else Nav.go( '#Events?plugin=_workflow' );
 	}
@@ -193,9 +180,6 @@ Page.Workflows = class Workflows extends Page.Events {
 		Dialog.hideProgress();
 		if (!this.active) return; // sanity
 		
-		this.deletePageSnapshot();
-		this.deletePageDraft();
-		
 		// create in-memory copy, but prevent race condition as server blasts update at same time
 		var idx = find_object_idx(app.events, { id: resp.event.id });
 		if (idx == -1) app.events.push(resp.event);
@@ -208,7 +192,7 @@ Page.Workflows = class Workflows extends Page.Events {
 	
 	gosub_edit(args) {
 		// edit workflow subpage
-		this.loading();
+		// this.loading();
 		
 		var event = find_object( app.events, { id: args.id } );
 		if (!event) return this.doFullPageError("Workflow not found: " + args.id);
@@ -226,16 +210,8 @@ Page.Workflows = class Workflows extends Page.Events {
 	receive_workflow(resp) {
 		// edit existing workflow
 		var html = '';
-		var do_snap = true;
 		
-		if (this.getPageDraft()) {
-			this.event = this.checkRestorePageDraft();
-			do_snap = false;
-			app.showMessage('info', config.ui.messages.draft_restored);
-		}
-		else {
-			this.event = resp.event;
-		}
+		this.event = resp.event;
 		
 		if (!this.event.fields) this.event.fields = [];
 		this.params = this.event.fields; // for user form param editor
@@ -285,7 +261,6 @@ Page.Workflows = class Workflows extends Page.Events {
 		this.setupWorkflowEditor();
 		this.setupEditTriggers();
 		
-		if (do_snap) this.savePageSnapshot( this.get_event_form_json(true) );
 		if (this.args.scroll == 'bottom') app.scrollToBottom();
 	}
 	
@@ -314,9 +289,10 @@ Page.Workflows = class Workflows extends Page.Events {
 		if (!event) return; // error
 		
 		this.event = event;
+		this.saving = true;
 		
 		Dialog.showProgress( 1.0, config.ui.progress.wf_edit_save );
-		app.api.post( 'app/update_event', event, this.save_workflow_finish.bind(this) );
+		app.api.post( 'app/update_event', event, this.save_workflow_finish.bind(this), this.save_event_error.bind(this) );
 	}
 	
 	save_workflow_finish(resp) {
@@ -325,18 +301,16 @@ Page.Workflows = class Workflows extends Page.Events {
 		Dialog.hideProgress();
 		if (!this.active) return; // sanity
 		
-		this.deletePageSnapshot();
-		this.deletePageDraft();
+		// update in-memory copy and remove saving flag
+		this.event = resp.event;
+		if (!this.event.fields) this.event.fields = [];
+		this.params = this.event.fields; // for user form param editor
+		this.limits = this.event.limits; // for res limit editor
+		this.actions = this.event.actions; // for job action editor
+		this.workflow = this.event.workflow;
 		
-		// update in-memory copy, to prevent race condition on view page
-		var idx = find_object_idx(app.events, { id: this.event.id });
-		if (idx > -1) {
-			this.event.modified = app.epoch;
-			this.event.revision++;
-			merge_hash_into( app.events[idx], this.event );
-		}
+		delete this.saving;
 		
-		// Nav.go( 'Events?sub=view&id=' + this.event.id );
 		this.triggerSaveComplete();
 		app.showMessage('success', config.ui.messages.wf_edit_save);
 	}
@@ -2873,9 +2847,6 @@ Page.Workflows = class Workflows extends Page.Events {
 	
 	onDeactivate() {
 		// called when page is deactivated
-		if ((this.args.sub == 'new') || (this.args.sub == 'edit')) {
-			this.checkSavePageDraft( this.get_event_form_json(true) );
-		}
 		if (this.confetti) {
 			this.confetti.reset();
 			delete this.confetti;
@@ -2897,6 +2868,7 @@ Page.Workflows = class Workflows extends Page.Events {
 		delete this.wfPausedSolder;
 		delete this.wfTool;
 		delete this.wfDrawSelection;
+		delete this.saving;
 		
 		this.div.html('');
 		return true;

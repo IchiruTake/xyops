@@ -1894,63 +1894,6 @@ Page.Base = class Base extends Page {
 		return this.buildOptGroup( servers, title || "Servers:", default_icon || 'router-network' );
 	}
 	
-	// Page State/Draft System
-	
-	savePageSnapshot(data) {
-		// save page data as initial state for comparison
-		var loc = Nav.currentAnchor();
-		app.pageSnapshots[ loc ] = stableSerialize(data);
-	}
-	
-	deletePageSnapshot() {
-		// delete page snapshot
-		var loc = Nav.currentAnchor();
-		delete app.pageSnapshots[ loc ];
-	}
-	
-	checkSavePageDraft(data) {
-		// if current data state has changed, save draft (in memory)
-		// (called as user is leaving page)
-		// (have to use Nav.loc here, as Nav.currentAnchor() will already reflect new destination page)
-		var snap = app.pageSnapshots[ Nav.loc ];
-		if (!snap) return false;
-		
-		// now do the compare
-		var curr = stableSerialize(data);
-		if (snap != curr) {
-			// user made changes, save a draft -- keep snap as well
-			app.pageDrafts[ Nav.loc ] = curr;
-			return true;
-		}
-		else {
-			// no changes, discard snap
-			delete app.pageSnapshots[ Nav.loc ];
-		}
-		
-		return false;
-	}
-	
-	getPageDraft() {
-		// see if we have a draft for the current page
-		var loc = Nav.currentAnchor();
-		return app.pageDrafts[ loc ];
-	}
-	
-	checkRestorePageDraft() {
-		// see if user has a saved draft for the current page
-		// if so, parse and return it as an object
-		var draft = this.getPageDraft();
-		if (!draft) return false;
-		
-		return JSON.parse(draft);
-	}
-	
-	deletePageDraft() {
-		// delete page draft, if any
-		var loc = Nav.currentAnchor();
-		delete app.pageDrafts[ loc ];
-	}
-	
 	// Upcoming Job Prediction
 	
 	predictUpcomingJobs(opts) {

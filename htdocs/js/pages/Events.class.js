@@ -1826,7 +1826,6 @@ Page.Events = class Events extends Page.PageUtils {
 	gosub_new(args) {
 		// create new event
 		var html = '';
-		var do_snap = true;
 		
 		app.setHeaderNav([
 			{ icon: 'calendar-clock', loc: '#Events?sub=list', title: 'Events' },
@@ -1848,10 +1847,6 @@ Page.Events = class Events extends Page.PageUtils {
 			this.event = this.clone;
 			delete this.clone;
 			app.showMessage('info', "The event has been cloned as an unsaved draft.", 8);
-		}
-		else if (this.getPageDraft()) {
-			this.event = this.checkRestorePageDraft();
-			do_snap = false;
 		}
 		else {
 			this.event = deep_copy_object( app.config.new_event_template );
@@ -1904,16 +1899,10 @@ Page.Events = class Events extends Page.PageUtils {
 		// this.updateAddRemoveMe('#fe_ee_email');
 		$('#fe_ee_title').focus();
 		this.setupBoxButtonFloater();
-		
-		if (do_snap) this.savePageSnapshot( this.get_event_form_json(true) );
 	}
 	
 	cancel_event_new() {
 		// cancel editing event and return to list
-		// delete draft + snap
-		this.deletePageDraft();
-		this.deletePageSnapshot();
-		
 		if (this.event.id) Nav.go( '#Events?sub=view&id=' + this.event.id );
 		else Nav.go( '#Events?sub=list' );
 	}
@@ -1935,9 +1924,6 @@ Page.Events = class Events extends Page.PageUtils {
 		Dialog.hideProgress();
 		if (!this.active) return; // sanity
 		
-		this.deletePageSnapshot();
-		this.deletePageDraft();
-		
 		// create in-memory copy, but prevent race condition as server blasts update at same time
 		var idx = find_object_idx(app.events, { id: resp.event.id });
 		if (idx == -1) app.events.push(resp.event);
@@ -1948,7 +1934,7 @@ Page.Events = class Events extends Page.PageUtils {
 	
 	gosub_edit(args) {
 		// edit event subpage
-		this.loading();
+		// this.loading();
 		
 		// app.api.post( 'app/get_event', { id: args.id }, this.receive_event.bind(this), this.fullPageError.bind(this) );
 		var event = find_object( app.events, { id: args.id } );
@@ -1966,16 +1952,8 @@ Page.Events = class Events extends Page.PageUtils {
 	receive_event(resp) {
 		// edit existing event
 		var html = '';
-		var do_snap = true;
 		
-		if (this.getPageDraft()) {
-			this.event = this.checkRestorePageDraft();
-			do_snap = false;
-			app.showMessage('info', "Your previous unsaved edits were restored.  Click the 'Cancel' button to discard them.");
-		}
-		else {
-			this.event = resp.event;
-		}
+		this.event = resp.event;
 		
 		if (!this.event.fields) this.event.fields = [];
 		this.params = this.event.fields; // for user form param editor
@@ -2010,9 +1988,9 @@ Page.Events = class Events extends Page.PageUtils {
 			html += '<div class="button danger mobile_collapse" onClick="$P().show_delete_event_dialog()"><i class="mdi mdi-trash-can-outline">&nbsp;</i><span>Delete...</span></div>';
 			html += '<div class="button secondary mobile_collapse" onClick="$P().do_clone()"><i class="mdi mdi-content-copy">&nbsp;</i><span>Clone...</span></div>';
 			html += '<div class="button secondary mobile_collapse" onClick="$P().do_test_event()"><i class="mdi mdi-test-tube">&nbsp;</i><span>Test...</span></div>';
-			html += '<div class="button secondary mobile_hide" onClick="$P().do_export()"><i class="mdi mdi-cloud-download-outline">&nbsp;</i><span>Export...</span></div>';
-			html += '<div class="button secondary mobile_hide" onClick="$P().go_edit_history()"><i class="mdi mdi-history">&nbsp;</i><span>History...</span></div>';
-			html += '<div class="button save mobile_collapse" id="btn_save" onClick="$P().do_save_event()"><i class="mdi mdi-floppy">&nbsp;</i><span>Save Changes</span></div>';
+			html += '<div class="button secondary mobile_collapse mobile_hide" onClick="$P().do_export()"><i class="mdi mdi-cloud-download-outline">&nbsp;</i><span>Export...</span></div>';
+			html += '<div class="button secondary mobile_collapse mobile_hide" onClick="$P().go_edit_history()"><i class="mdi mdi-history">&nbsp;</i><span>History...</span></div>';
+			html += '<div class="button save phone_collapse" id="btn_save" onClick="$P().do_save_event()"><i class="mdi mdi-floppy">&nbsp;</i><span>Save Changes</span></div>';
 		html += '</div>'; // box_buttons
 		
 		html += '</div>'; // box
@@ -2026,16 +2004,10 @@ Page.Events = class Events extends Page.PageUtils {
 		// this.updateAddRemoveMe('#fe_ee_email');
 		this.setupBoxButtonFloater();
 		this.setupEditTriggers();
-		
-		if (do_snap) this.savePageSnapshot( this.get_event_form_json(true) );
 	}
 	
 	cancel_event_edit() {
 		// cancel editing event and return to list
-		// delete draft + snap
-		this.deletePageDraft();
-		this.deletePageSnapshot();
-		
 		if (this.event.id) Nav.go( '#Events?sub=view&id=' + this.event.id );
 		else Nav.go( '#Events?sub=list' );
 	}
@@ -2531,9 +2503,10 @@ Page.Events = class Events extends Page.PageUtils {
 		if (!event) return; // error
 		
 		this.event = event;
+		this.saving = true;
 		
 		Dialog.showProgress( 1.0, "Saving Event..." );
-		app.api.post( 'app/update_event', event, this.save_event_finish.bind(this) );
+		app.api.post( 'app/update_event', event, this.save_event_finish.bind(this), this.save_event_error.bind(this) );
 	}
 	
 	save_event_finish(resp) {
@@ -2542,20 +2515,24 @@ Page.Events = class Events extends Page.PageUtils {
 		Dialog.hideProgress();
 		if (!this.active) return; // sanity
 		
-		this.deletePageSnapshot();
-		this.deletePageDraft();
+		// update in-memory copy and remove saving flag
+		this.event = resp.event;
 		
-		// update in-memory copy, to prevent race condition on view page
-		var idx = find_object_idx(app.events, { id: this.event.id });
-		if (idx > -1) {
-			this.event.modified = app.epoch;
-			this.event.revision++;
-			merge_hash_into( app.events[idx], this.event );
-		}
+		if (!this.event.fields) this.event.fields = [];
+		this.params = this.event.fields; // for user form param editor
+		this.limits = this.event.limits; // for res limit editor
+		this.actions = this.event.actions; // for job action editor
 		
-		// Nav.go( 'Events?sub=view&id=' + this.event.id );
+		delete this.saving;
+		
 		this.triggerSaveComplete();
 		app.showMessage('success', "The event was saved successfully.");
+	}
+	
+	save_event_error(resp) {
+		// error saving event!
+		app.doError( resp.description );
+		delete this.saving;
 	}
 	
 	show_delete_event_dialog() {
@@ -2581,9 +2558,6 @@ Page.Events = class Events extends Page.PageUtils {
 		var thing = this.workflow ? "workflow" : "event";
 		Dialog.hideProgress();
 		if (!this.active) return; // sanity
-		
-		this.deletePageSnapshot();
-		this.deletePageDraft();
 		
 		Nav.go('Events?sub=list', 'force');
 		app.showMessage('success', "The " + thing + " &ldquo;" + this.event.title + "&rdquo; was deleted successfully.  The job history is being deleted in the background.");
@@ -4048,15 +4022,38 @@ Page.Events = class Events extends Page.PageUtils {
 		}
 	}
 	
-	onDataUpdate(key, data) {
+	onDataUpdate(key, data, item) {
 		// refresh list if events were updated
-		if ((key == 'events') && (this.args.sub == 'list')) this.gosub_list(this.args);
+		if ((key == 'events') && (this.args.sub == 'list')) {
+			this.gosub_list(this.args);
+		}
 		else if ((key == 'stats') && (this.args.sub == 'view')) {
 			// recompute upcoming jobs every minute
 			this.autoExpireUpcomingJobs();
 			this.renderUpcomingJobs();
 			this.updateJobHistoryDayGraph();
 		}
+		else if (item) {
+			// check for single event update
+			if ((this.args.sub == 'view') && this.event && (item.id == this.event.id)) {
+				this.gosub_view(this.args);
+			}
+			else if ((this.args.sub == 'edit') && this.event && (item.id == this.event.id)) {
+				// we may have to interrupt the user with a notification here
+				// make sure user has an out-of-date copy, and is not currently saving
+				if ((this.event.revision != item.revision) && !this.saving) {
+					if ($('.button.save').hasClass('primary')) {
+						// worst case scenario -- we have made local changes but someone ELSE just saved
+						app.showMessage('suspended', "This " + (this.workflow ? 'workflow' : 'event') + " has just been updated by another user.  You will not be able to save your changes until you refresh.");
+					}
+					else {
+						// ah, no local changes, so update with remote changes silently
+						delete this.args.rollback; // just in case
+						this.gosub_edit(this.args);
+					}
+				} // other
+			} // edit
+		} // item
 	}
 	
 	onResize() {
@@ -4066,10 +4063,6 @@ Page.Events = class Events extends Page.PageUtils {
 	
 	onDeactivate() {
 		// called when page is deactivated
-		if ((this.args.sub == 'new') || (this.args.sub == 'edit')) {
-			this.checkSavePageDraft( this.get_event_form_json(true) );
-		}
-		
 		delete this.jobs;
 		delete this.event;
 		delete this.upcomingJobs;
@@ -4087,6 +4080,8 @@ Page.Events = class Events extends Page.PageUtils {
 		
 		delete this.pluginParamCache;
 		delete this.originTab;
+		
+		delete this.saving;
 		
 		// destroy charts if applicable (view page)
 		if (this.charts) {

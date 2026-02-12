@@ -324,12 +324,12 @@ app.comm = {
 		app.presortTables();
 		app.pruneData();
 		
-		// notify page if wanted
+		// notify page if wanted (NOTE: passing 3rd arg to onDataUpdate here!)
 		if (app.page_manager && app.page_manager.current_page_id) {
 			var id = app.page_manager.current_page_id;
 			var page = app.page_manager.find(id);
 			if (page && page.onDataUpdate) {
-				page.onDataUpdate( data.list, app[data.list] );
+				page.onDataUpdate( data.list, app[data.list], data.item );
 			}
 		}
 	},

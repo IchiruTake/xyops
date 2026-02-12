@@ -1182,9 +1182,12 @@ Example response:
 
 ```json
 {
-    "code": 0
+    "code": 0,
+	"event": { /* fully updated event object */ }
 }
 ```
+
+In addition to the [Standard Response Format](#standard-response-format), this will include an `event` object containing the updated event.
 
 The `update_state` is used to reset the event's time cursor for [Catch-Up](triggers.md#catch-up) mode.
 
