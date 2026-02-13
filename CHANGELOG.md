@@ -1,5 +1,13 @@
 # xyOps Changelog
 
+## Version v0.9.66
+
+> February 13, 2026
+
+- [`789baeb`](https://github.com/pixlcore/xyops/commit/789baeb074d825afb4db64630a808c633a6e4fab): Version 0.9.66
+- [`8de2be2`](https://github.com/pixlcore/xyops/commit/8de2be2cc4bd6be216e2a0243780818be7efc278): UI: Make it MUCH more obvious which event fields / plugin params are admin-locked, when logged in as a non-admin.  Fixes #137.
+- [`ce08885`](https://github.com/pixlcore/xyops/commit/ce0888552c574ffb1b0c0955a77383c35d102f08): Bug Fix: Non-admins updating workflows cause admin-locked text fields to reset to defaults.  Fixes #136 (again).
+
 ## Version v0.9.65
 
 > February 13, 2026
