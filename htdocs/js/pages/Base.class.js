@@ -3314,4 +3314,261 @@ Page.Base = class Base extends Page {
 		}
 	}
 	
+	//
+	// Sortble grid stuff
+	//
+	
+	getSortedTableRows(id) {
+		// get sorted (and filtered!) table rows
+		var opts = this.tables[id];
+		var sort_by = opts.sort_by;
+		var sort_dir = opts.sort_dir;
+		var sort_type = 'number';
+		if (opts.rows.length && (typeof(opts.rows[0][sort_by]) == 'string')) sort_type = 'string';
+		
+		// apply filter
+		var rows = [];
+		if (typeof(opts.filter) == 'function') {
+			// custom filter function
+			rows = opts.rows.filter( opts.filter );
+		}
+		else {
+			// default string regex match
+			var filter_re = new RegExp( escape_regexp(opts.filter) || '.*', 'i' );
+			rows = opts.rows.filter( function(row) {
+				var blob = hash_values_to_array(row).join(' ');
+				return !!blob.match( filter_re );
+			} );
+		}
+		
+		// apply custom sort
+		rows.sort( function(a, b) {
+			if (sort_type == 'number') {
+				return( (a[sort_by] - b[sort_by]) * sort_dir );
+			}
+			else {
+				return( a[sort_by].toString().localeCompare(b[sort_by]) * sort_dir );
+			}
+		});
+		
+		return rows;
+	}
+	
+	updateTableRows(id, rows) {
+		// replace sorted table rows, redraw
+		var opts = this.tables[id];
+		if (rows) opts.rows = rows;
+		
+		var disp_rows = this.getSortedTableRows( opts.id );
+		
+		// redraw pagination thing
+		this.div.find('#st_hinfo_' + opts.id).html(
+			this.getTableHeaderInfo(id, disp_rows) 
+		);
+		
+		// redraw rows
+		this.div.find('#st_' + opts.id).html( 
+			this.getTableColumnHTML( opts.id ) + 
+			this.getTableContentHTML( opts.id, disp_rows ) 
+		);
+	}
+	
+	applyTableFilter(elem) {
+		// key typed in table filter box, redraw
+		var id = $(elem).data('id');
+		var opts = this.tables[id];
+		opts.filter = $(elem).val();
+		
+		var disp_rows = this.getSortedTableRows( opts.id );
+		
+		// redraw pagination thing
+		this.div.find('#st_hinfo_' + opts.id).html(
+			this.getTableHeaderInfo(id, disp_rows) 
+		);
+		
+		// redraw rows
+		this.div.find('#st_' + opts.id).html( 
+			this.getTableColumnHTML( opts.id ) + 
+			this.getTableContentHTML( opts.id, disp_rows ) 
+		);
+	}
+	
+	getTableHeaderInfo(id, disp_rows) {
+		// construct HTML for sortable table header info widget
+		var opts = this.tables[id];
+		var rows = opts.rows;
+		var html = '';
+		
+		if (disp_rows.length < rows.length) {
+			html += commify(disp_rows.length) + ' of ' + commify(rows.length) + ' ' + pluralize(opts.item_name, rows.length) + '';
+		}
+		else {
+			html += commify(rows.length) + ' ' + pluralize(opts.item_name, rows.length) + '';
+		}
+		
+		var bold_idx = opts.column_ids.indexOf( opts.sort_by );
+		html += ', sorted by ' + opts.column_labels[bold_idx] + '';
+		html += ' <i class="mdi mdi-menu-' + ((opts.sort_dir == 1) ? 'up' : 'down') + '"></i>';
+		// html += ((opts.sort_dir == 1) ? ' ascending' : ' descending');
+		
+		return html;
+	}
+	
+	getTableColumnHTML(id) {
+		// construct HTML for sortable table column headers (THs)
+		var opts = this.tables[id];
+		var html = '';
+		html += '<ul class="grid_row_header">';
+		
+		opts.column_ids.forEach( function(col_id, idx) {
+			var col_label = opts.column_labels[idx];
+			if (!col_id) {
+				html += '<div>' + col_label + '</div>';
+				return;
+			}
+			var classes = ['st_col_header'];
+			var icon = '';
+			if (col_id == opts.sort_by) {
+				classes.push('active');
+				icon = ' <i class="mdi mdi-menu-' + ((opts.sort_dir == 1) ? 'up' : 'down') + '"></i>';
+			}
+			html += '<div class="' + classes.join(' ') + '" data-id="' + opts.id + '" data-col="' + col_id + '" onClick="$P().toggleTableSort(this)">' + col_label + icon + '</div>';
+		});
+		
+		html += '</ul>';
+		return html;
+	}
+	
+	getTableContentHTML(id, disp_rows) {
+		// construct HTML for sortable table content (rows)
+		var opts = this.tables[id];
+		var html = '';
+		var bold_idx = opts.column_ids.indexOf( opts.sort_by );
+		
+		var len = disp_rows.length;
+		var max_rows = config.max_table_rows || 0;
+		var chopped = 0;
+		if (max_rows && (disp_rows.length > max_rows)) {
+			chopped = disp_rows.length - max_rows;
+			len = max_rows;
+		}
+		
+		for (var idx = 0; idx < len; idx++) {
+			var row = disp_rows[idx];
+			var tds = opts.callback(row, idx);
+			html += '<ul class="grid_row ' + (tds.className || '') + '">';
+			for (var idy = 0, ley = tds.length; idy < ley; idy++) {
+				html += '<div' + ((bold_idx == idy) ? ' style="font-weight:bold"' : '') + '>' + tds[idy] + '</div>';
+			}
+			html += '</ul>';
+		} // foreach row
+		
+		if (!disp_rows.length) {
+			html += '<ul class="grid_row_empty"><div style="grid-column: 1 / -1;">';
+			html += 'No ' + pluralize(opts.item_name) + ' found.';
+			html += '</div></ul>';
+		}
+		else if (chopped) {
+			html += '<ul class="grid_row_more"><div style="grid-column: 1 / -1;">';
+			html += `(${commify(chopped)} more ${pluralize(opts.item_name, chopped)} not shown)`;
+			html += '</div></ul>';
+		}
+		
+		return html;
+	}
+	
+	toggleTableSort(elem) {
+		var id = $(elem).data('id');
+		var col_id = $(elem).data('col');
+		var opts = this.tables[id];
+		
+		// swap sort dir or change sort column
+		if (col_id == opts.sort_by) {
+			// swap dir
+			opts.sort_dir *= -1;
+		}
+		else {
+			// same sort dir but change column
+			opts.sort_by = col_id;
+		}
+		
+		var disp_rows = this.getSortedTableRows( opts.id );
+		
+		// redraw pagination thing
+		this.div.find('#st_hinfo_' + opts.id).html(
+			this.getTableHeaderInfo(id, disp_rows) 
+		);
+		
+		// redraw grid
+		this.div.find('#st_' + opts.id).html( 
+			this.getTableColumnHTML(id) + 
+			this.getTableContentHTML( opts.id, disp_rows ) 
+		);
+	}
+	
+	getSortableTable(rows, opts, callback) {
+		// get HTML for sortable and filterable table
+		// opts: { id, item_name, sort_by, sort_dir, filter, column_ids, column_labels }
+		var self = this;
+		var html = '';
+		if (!this.tables) this.tables = {};
+		
+		// retrieve previous settings if applicable
+		if (this.tables[ opts.id ]) {
+			if (this.tables[ opts.id ].filter) opts.filter = this.tables[ opts.id ].filter;
+			if (this.tables[ opts.id ].sort_by) opts.sort_by = this.tables[ opts.id ].sort_by;
+			if (this.tables[ opts.id ].sort_dir) opts.sort_dir = this.tables[ opts.id ].sort_dir;
+		}
+		
+		// save in page for resort / filtering
+		opts.rows = rows;
+		opts.callback = callback;
+		this.tables[ opts.id ] = opts;
+		
+		var disp_rows = this.getSortedTableRows( opts.id );
+		
+		if (!opts.hide_pagination) {
+			// pagination
+			html += '<div class="data_grid_pagination">';
+			
+				html += '<div style="text-align:left" id="st_hinfo_' + opts.id + '">';
+					html += this.getTableHeaderInfo( opts.id, disp_rows );
+				html += '</div>';
+				
+				html += '<div style="text-align:center">';
+					html += '&nbsp;';
+				html += '</div>';
+				
+				html += '<div style="text-align:right">';
+					html += 'Page 1 of 1';
+				html += '</div>';
+			
+			html += '</div>';
+			
+			html += '<div style="margin-top:5px;">';
+		}
+		else {
+			// no pagination
+			html += '<div>';
+		}
+		
+		var tattrs = opts.attribs || {};
+		if (opts.class) tattrs.class = opts.class;
+		if (!tattrs.class) {
+			tattrs.class = 'data_grid';
+			if (opts.item_name.match(/^\w+$/)) tattrs.class += ' ' + opts.item_name + '_grid';
+		}
+		if (!tattrs.style) tattrs.style = '';
+		tattrs.style += 'grid-template-columns: repeat(' + opts.column_ids.length + ', auto);';
+		html += '<div id="st_' + opts.id + '" ' + compose_attribs(tattrs) + '>';
+		
+			html += this.getTableColumnHTML( opts.id );
+			html += this.getTableContentHTML( opts.id, disp_rows );
+		
+		html += '</div>'; // scroll wrapper
+		html += '</div>'; // grid
+		
+		return html;
+	}
+	
 };
