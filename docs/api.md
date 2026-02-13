@@ -5948,3 +5948,5 @@ hello world
 ```
 
 In addition to the [Standard Response Format](#standard-response-format), this will include a `details` property containing the mailer debug log (useful for troubleshooting).
+
+**Note:** This API is rate-limited by the [max_emails_per_day](config.md#max_emails_per_day) configuration property.  If exceeded, it will fail with an error.
