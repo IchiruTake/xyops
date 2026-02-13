@@ -1,5 +1,14 @@
 # xyOps Changelog
 
+## Version v0.9.64
+
+> February 12, 2026
+
+- [`030d1db`](https://github.com/pixlcore/xyops/commit/030d1db18cee717955a1f1ab788dc1b1ef96bcb5): API Doc: send_email: Add note re: max_emails_per_day
+- [`6fac026`](https://github.com/pixlcore/xyops/commit/6fac02640a80093aa08ad2f89bff394dae772092): CSS: CodeMirror: Lighten comment / quote color on dark theme.
+- [`3ab4937`](https://github.com/pixlcore/xyops/commit/3ab49370951667b3509d7a1d525dc97605898cb6): Version 0.9.64
+- [`00fa562`](https://github.com/pixlcore/xyops/commit/00fa562b35c7709dbfbbafc009b61cf58235cb3e): Further improvements to UX regarding multi-user concurrent editing and saving for events and workflows.
+
 ## Version v0.9.63
 
 > February 12, 2026
