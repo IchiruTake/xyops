@@ -1,5 +1,13 @@
 # xyOps Changelog
 
+## Version v0.9.67
+
+> February 14, 2026
+
+- [`211dde2`](https://github.com/pixlcore/xyops/commit/211dde2f7ba8929e3b18ce090310c35d4ad01c0a): Version 0.9.67
+- [`1919563`](https://github.com/pixlcore/xyops/commit/1919563fe369cbf66dc1337edb77bee85c59a04d): API Doc: Add clarification about sending raw HTML instead of Markdown.  Fixes #140.
+- [`12a2354`](https://github.com/pixlcore/xyops/commit/12a2354139d46de8515244e5fca781b1d3985e8f): Config Doc: Correct default values for ping_freq_sec and ping_timeout_sec
+
 ## Version v0.9.66
 
 > February 13, 2026
