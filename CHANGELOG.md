@@ -1,5 +1,13 @@
 # xyOps Changelog
 
+## Version v1.0.0
+
+> February 15, 2026
+
+- [`24b2ed9`](https://github.com/pixlcore/xyops/commit/24b2ed920d1c07a4083679af9724d23eef071a41): Version 1.0.0
+	- Major version bump of pixl-server-storage to v4 for new better-sqlite3 engine. Fixes #7.
+- [`95f1241`](https://github.com/pixlcore/xyops/commit/95f1241f1e45e75f12e7403ac8d7d040b3f8da78): Changelog Script: Add debug mode, and include extra commit details on version commits.
+
 ## Version v0.9.69
 
 > February 15, 2026
@@ -25,6 +33,8 @@
 > February 14, 2026
 
 - [`211dde2`](https://github.com/pixlcore/xyops/commit/211dde2f7ba8929e3b18ce090310c35d4ad01c0a): Version 0.9.67
+	- Bump pixl-server-web to v3.0.3 for Formidable hack to add support for Powershell POST requests.  Fixes #141.
+	- Relevant commit: https://github.com/jhuckaby/pixl-server-web/commit/134b2ff3db1fb847deb158186228161b12a9b538
 - [`1919563`](https://github.com/pixlcore/xyops/commit/1919563fe369cbf66dc1337edb77bee85c59a04d): API Doc: Add clarification about sending raw HTML instead of Markdown.  Fixes #140.
 - [`12a2354`](https://github.com/pixlcore/xyops/commit/12a2354139d46de8515244e5fca781b1d3985e8f): Config Doc: Correct default values for ping_freq_sec and ping_timeout_sec
 
@@ -112,12 +122,15 @@
 > February 5, 2026
 
 - [`e7a7ba4`](https://github.com/pixlcore/xyops/commit/e7a7ba4124e533309c3937f20e2e49e614482c0e): Version 0.9.58
+	- Bump pixl-xyapp to v2.1.22 for blocking nav if code editor dialog is up.  Fixes #116
 
 ## Version v0.9.57
 
 > February 5, 2026
 
 - [`d0d461e`](https://github.com/pixlcore/xyops/commit/d0d461ea8837f8a283202973485941a450351bc7): Version 0.9.57
+	- Bump pixl-xyapp to v2.1.21 for CodeEditor nav fix.
+	- Fixes #116
 - [`81caf3d`](https://github.com/pixlcore/xyops/commit/81caf3d7490c1ce0d05a903b6bcf09099c926cc9): Popup Code Editor Params: Show line numbers by default.
 
 ## Version v0.9.56
@@ -277,6 +290,7 @@
 > January 25, 2026
 
 - [`b46abb6`](https://github.com/pixlcore/xyops/commit/b46abb6cfa2cbf03f739b170f96ca7311ba2fd7e): Version 0.9.40
+	- Bump pixl-boot to v2.0.2 for improved systemd service behavior.
 - [`d35f397`](https://github.com/pixlcore/xyops/commit/d35f3977ce5e57c2c0fb1051daf8e39754540034): Doc Index: Add link to contrib guide.
 - [`f2576b2`](https://github.com/pixlcore/xyops/commit/f2576b2e6d233319925c701d2fc1f5feebf5f5dc): Satellite Install/Upgrade: Redesign Linux install/upgrade scripts to be first-class systemd citizens.
 - [`53ec3a8`](https://github.com/pixlcore/xyops/commit/53ec3a87753bd9e0a7e422f19c890a4d38974c4e): Bug Fix: For fetching storage bucket actions, handle case where bucket data is a top-level array (merge in as "items" property).
@@ -624,6 +638,7 @@
 
 - [`1ed3301`](https://github.com/pixlcore/xyops/commit/1ed330198af002f90f3c09554ab17522b4f16ab4): Trigger Plugin: Include STDOUT in level 9 debug log entry
 - [`fa9ec91`](https://github.com/pixlcore/xyops/commit/fa9ec911caa7d5b90cb420ddbf730eddf51bffd0): Version 0.9.10
+	- Bump pixl-request to v2.5.0 for retry delay feature
 - [`e21a2aa`](https://github.com/pixlcore/xyops/commit/e21a2aa04a2212477e733de2fee0d2f14cf18b8c): Improve UX for updating or upgrading plugins.
 - [`bdbbd92`](https://github.com/pixlcore/xyops/commit/bdbbd9272744e77fe79826ff410b37b0545126f0): Fix bug where "negative" Cronicle list pages were not imported.
 - [`fdf4a68`](https://github.com/pixlcore/xyops/commit/fdf4a689036866f9b894fc77abfdd2faaf5ee073): Marketplace: Use exponential backoff for proxy request retries.
@@ -729,6 +744,7 @@
 > December 30, 2025
 
 - [`d1c00fc`](https://github.com/pixlcore/xyops/commit/d1c00fc5558b7f1e3cb2885f2a17cf9f21a5af14): Version 0.9.1
+	- Add auto-changelog dev dep
 - [`094f785`](https://github.com/pixlcore/xyops/commit/094f785bca2b04b6916d7e269ee5bcb7abced2d2): Add JSON param type, and also parse number variants as numbers.
 - [`6cfd035`](https://github.com/pixlcore/xyops/commit/6cfd035f16283f120b0ec0be725377d9afdef4b5): Fix typo in macro expansion example
 - [`381f8bb`](https://github.com/pixlcore/xyops/commit/381f8bb4632bd2c109785bfb192a69078cf9d0fb): Add debug logging to api_get_master_releases
