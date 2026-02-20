@@ -5361,7 +5361,7 @@ Notes:
 GET /api/app/admin_export_data/v1
 ```
 
-Stream a gzip-compressed NDJSON archive of selected data to the client. Admin only. For browser downloads, first call [get_transfer_token](#get_transfer_token) and then include `?token=...` on this GET to authorize and apply the parameters pre-bound to the token.
+Stream a gzip-compressed NDJSON archive of selected data to the client. Requires the [bulk_export](privileges.md#bulk_export) privilege. For browser downloads, first call [get_transfer_token](#get_transfer_token) and then include `?token=...` on this GET to authorize and apply the parameters pre-bound to the token.
 
 Parameters (choose either the high-level selectors or a custom `items` array):
 

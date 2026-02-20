@@ -192,7 +192,7 @@ Almost every [configuration property](config.md) can be overridden using this en
 
 ## Daily Backups
 
-Here is how you can generate daily backups of critical xyOps data, regardless of your backend storage engine.  First, create an [API Key](api.md#api-keys) and grant it full administrator privileges (this is required to use the [admin_export_data](api.md#admin_export_data) API).  You can then request a backup using a [curl](https://curl.se/) command like this:
+Here is how you can generate daily backups of critical xyOps data, regardless of your backend storage engine.  First, create an [API Key](api.md#api-keys) and grant it the [bulk_export](privileges.md#bulk_export) privilege (this is required to use the [admin_export_data](api.md#admin_export_data) API).  You can then request a backup using a [curl](https://curl.se/) command like this:
 
 ```sh
 curl -X POST "https://xyops.yourcompany.com/api/app/admin_export_data" \

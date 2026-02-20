@@ -60,7 +60,8 @@
 		{ "id": "delete_snapshots", "title": "Delete Snapshots", "icon": "monitor-screenshot" },
 		
 		{ "id": "add_servers", "title": "Add Servers", "icon": "server-plus-outline" },
-		{ "id": "send_emails", "title": "Send Emails", "icon": "email-fast-outline" }
+		{ "id": "send_emails", "title": "Send Emails", "icon": "email-fast-outline" },
+		{ "id": "bulk_export", "title": "Bulk Export", "icon": "database-export-outline" }
 	],
 	
 	"globalMemoryLists": ["api_keys", "groups", "plugins", "categories", "events", "channels", "web_hooks", "buckets", "secrets", "monitors", "alerts", "tags", "roles"],

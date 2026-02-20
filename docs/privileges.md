@@ -11,6 +11,9 @@ Note: Some operations also enforce resource-level access (e.g., category, group,
 ### admin
 Full administrator access; implies all privileges and bypasses normal restrictions.
 
+### bulk_export
+Allow bulk data exports using the [admin_export_data](api.md#admin_export_data) API.
+
 ## Alerts
 
 ### create_alerts
