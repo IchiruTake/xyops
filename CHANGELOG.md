@@ -1,5 +1,24 @@
 # xyOps Changelog
 
+## Version v1.0.3
+
+> February 20, 2026
+
+- [`e168b7b`](https://github.com/pixlcore/xyops/commit/e168b7b388b3fd21576394cf8d49c466dce79725): Version 1.0.3
+- [`d656dbc`](https://github.com/pixlcore/xyops/commit/d656dbcd93e709fdd1e614699a492dc173f676d7): Admin DB Optimization: Fix crasher on new better-sqlite3 engine.  Thanks to @nickdollimount for finding this!
+
+## Version v1.0.2
+
+> February 20, 2026
+
+- [`ae56df7`](https://github.com/pixlcore/xyops/commit/ae56df784e9330d23e52243de4532ce27eba93ef): Version 1.0.2
+- [`2447d82`](https://github.com/pixlcore/xyops/commit/2447d82bebc25b37d3668ad07b74b9484efba529): Plugin List UI: Convert to sortable table with clickable column headers and filter text field.  Fixes #147.
+- [`8a23fba`](https://github.com/pixlcore/xyops/commit/8a23fba3769e320e4ee8ddee19fdde4f6af351ac): Active Jobs: When maximum concurrent jobs is exceeded, log all blocking jobs to metadata, for troubleshooting.
+- [`bc53c62`](https://github.com/pixlcore/xyops/commit/bc53c62dc665f567bdb655ba2d78b2623802bcc8): Bulk Export: Added new `bulk_export` privilege just for using the `admin_export_data` API, so automated backups don't need full admin privs.
+- [`39a1776`](https://github.com/pixlcore/xyops/commit/39a1776395ab2c82837c41d6d50b2f6b8d049a73): HTML Sanitization: Allow "style" tag on any element (for user HTML content in jobs).  Fixes #150.
+- [`bc63feb`](https://github.com/pixlcore/xyops/commit/bc63feb82651d9a80b50b4d7ced9b27f53c2c545): Hosting Doc: Fix typo in daily backup shell script.  Fixes #148.
+- [`b9c0a0e`](https://github.com/pixlcore/xyops/commit/b9c0a0e8e9bf070fd6fec2d7a3ddbe405261c61c): Servers Doc: Added section on automated docker workers.
+
 ## Version v1.0.1
 
 > February 17, 2026
