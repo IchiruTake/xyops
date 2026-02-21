@@ -80,8 +80,8 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 		
 		html += this.getSortableTable( this.plugins, table_opts, function(item) {
 			var actions = [];
-			if (app.hasPrivilege('edit_plugins')) actions.push( `<button class="link" data-plugin="${item.id}" onClick="$P().edit_plugin(this)"><b>Edit</b></button>` );
-			if (app.hasPrivilege('delete_plugins')) actions.push( `<button class="link danger" data-plugin="${item.id}" onClick="$P().delete_plugin(this)"><b>Delete</b></button>` );
+			if (app.hasPrivilege('edit_plugins')) actions.push( `<button class="link" data-plugin="${item.id}" onClick="$P().edit_plugin_from_list(this)"><b>Edit</b></button>` );
+			if (app.hasPrivilege('delete_plugins')) actions.push( `<button class="link danger" data-plugin="${item.id}" onClick="$P().delete_plugin_from_list(this)"><b>Delete</b></button>` );
 			
 			var tds = [
 				'<b>' + self.getNicePlugin(item, app.hasPrivilege('edit_plugins')) + '</b>',
