@@ -1,5 +1,12 @@
 # xyOps Changelog
 
+## Version v1.0.4
+
+> February 21, 2026
+
+- [`930e09e`](https://github.com/pixlcore/xyops/commit/930e09e6d15c4f256f978a34137e4390ea29e8ec): Version 1.0.4
+- [`15a1400`](https://github.com/pixlcore/xyops/commit/15a140011b69ca9c3606380a94df06eff501a544): Bug Fix: Plugin List: Inline "Edit" and "Delete" links were no longer working after table was upgraded to sortable.  Regression from 147.
+
 ## Version v1.0.3
 
 > February 20, 2026
