@@ -53,50 +53,48 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 		var html = '';
 		
 		if (!resp.rows) resp.rows = [];
-		this.plugins = resp.rows;
-		
-		// NOTE: Don't change these columns without also changing the responsive css column collapse rules in style.css
-		var cols = ['<i class="mdi mdi-checkbox-marked-outline"></i>', 'Plugin Title', 'Plugin ID', 'Type', 'Source', 'Created', 'Actions'];
+		this.plugins = resp.rows.map( function(item) {
+			return {
+				...item,
+				source_sort: self.getNicePluginSourceText(item)
+			};
+		} );
 		
 		html += '<div class="box">';
 		html += '<div class="box_title">';
+			html += '<div class="box_title_widget" style="overflow:visible; margin-left:0;"><i class="mdi mdi-magnify" onClick="$(this).next().focus()">&nbsp;</i><input type="text" placeholder="Filter" value="" data-id="t_plugins" onInput="$P().applyTableFilter(this)"></div>';
 			html += 'Plugins';
 		html += '</div>';
 		html += '<div class="box_content table">';
 		
-		var grid_opts = {
-			rows: this.plugins,
-			cols: cols,
-			data_type: 'plugin',
-			grid_template_columns: 'min-content' + ' auto'.repeat( cols.length - 1 )
+		// NOTE: Don't change these columns without also changing the responsive css column collapse rules in style.css
+		var table_opts = {
+			id: 't_plugins',
+			item_name: 'plugin',
+			sort_by: 'title',
+			sort_dir: 1,
+			filter: '',
+			column_ids: ['title', 'id', 'type', 'source_sort', 'created', '' ],
+			column_labels: ['Plugin Title', 'Plugin ID', 'Type', 'Source', 'Created', 'Actions']
 		};
 		
-		html += this.getBasicGrid( grid_opts, function(item, idx) {
+		html += this.getSortableTable( this.plugins, table_opts, function(item) {
 			var actions = [];
-			if (app.hasPrivilege('edit_plugins')) actions.push( '<button class="link" onClick="$P().edit_plugin('+idx+')"><b>Edit</b></button>' );
-			if (app.hasPrivilege('delete_plugins')) actions.push( '<button class="link danger" onClick="$P().delete_plugin('+idx+')"><b>Delete</b></button>' );
-			
-			var plugin_events = find_objects( app.events, { plugin: item.id } );
-			var num_events = plugin_events.length;
+			if (app.hasPrivilege('edit_plugins')) actions.push( `<button class="link" data-plugin="${item.id}" onClick="$P().edit_plugin(this)"><b>Edit</b></button>` );
+			if (app.hasPrivilege('delete_plugins')) actions.push( `<button class="link danger" data-plugin="${item.id}" onClick="$P().delete_plugin(this)"><b>Delete</b></button>` );
 			
 			var tds = [
-				'<div class="td_drag_handle" style="cursor:default">' + self.getFormCheckbox({
-					checked: item.enabled,
-					onChange: '$P().toggle_plugin_enabled(this,' + idx + ')'
-				}) + '</div>',
 				'<b>' + self.getNicePlugin(item, app.hasPrivilege('edit_plugins')) + '</b>',
 				'<span class="mono">' + item.id + '</span>',
 				self.getNicePluginType(item.type),
-				// commify( num_events ),
 				self.getNicePluginSource(item),
-				// self.getNiceUser(item.username, app.isAdmin()),
-				'<span title="'+self.getNiceDateTimeText(item.created)+'">'+self.getNiceDate(item.created)+'</span>',
+				'<span title="' + self.getNiceDateTimeText(item.created) + '">' + self.getNiceDate(item.created) + '</span>',
 				actions.join(' | ') || '&nbsp;'
 			];
 			
 			if (!item.enabled) tds.className = 'disabled';
 			return tds;
-		} ); // getBasicGrid
+		} ); // getSortableTable
 		
 		html += '</div>'; // box_content
 		
@@ -113,11 +111,31 @@ Page.Plugins = class Plugins extends Page.PageUtils {
 		this.addPageDescription();
 	}
 	
+	edit_plugin_from_list(elem) {
+		// edit plugin from sortable table
+		var id = $(elem).data('plugin');
+		Nav.go( '#Plugins?sub=edit&id=' + id );
+	}
+	
+	delete_plugin_from_list(elem) {
+		// delete plugin from sortable table
+		var id = $(elem).data('plugin');
+		this.plugin = find_object( this.plugins, { id } );
+		this.show_delete_plugin_dialog();
+	}
+	
 	getNicePluginSource(plugin) {
 		// marketplace, stock, or user
 		if (plugin.marketplace) return '<span class="nowrap"><i class="mdi mdi-cart-outline"></i>Marketplace</span>';
 		else if (plugin.stock) return '<span class="nowrap"><i class="mdi mdi-rocket-launch-outline"></i>xyOps Default</span>';
 		else return this.getNiceUser(plugin.username, app.isAdmin());
+	}
+	
+	getNicePluginSourceText(plugin) {
+		// marketplace, stock, or user as text (for table sort)
+		if (plugin.marketplace) return '_marketplace';
+		else if (plugin.stock) return '_stock';
+		else return plugin.username;
 	}
 	
 	toggle_plugin_enabled(elem, idx) {

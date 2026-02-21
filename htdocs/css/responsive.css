@@ -236,9 +236,9 @@
 	.data_grid.secret_grid { grid-template-columns: min-content auto 0px auto auto auto !important; }
 	.data_grid.secret_grid > ul > div:nth-child(3) { visibility: hidden; }
 	
-	/* 'Enabled', 'Plugin Title', 'Plugin ID', 'Type', 'Author', 'Created', 'Actions' */
-	.data_grid.plugin_grid { grid-template-columns: min-content auto 0px auto auto auto auto !important; }
-	.data_grid.plugin_grid > ul > div:nth-child(3) { visibility: hidden; }
+	/* 'Plugin Title', 'Plugin ID', 'Type', 'Author', 'Created', 'Actions' */
+	.data_grid.plugin_grid { grid-template-columns: auto 0px auto auto auto auto !important; }
+	.data_grid.plugin_grid > ul > div:nth-child(2) { visibility: hidden; }
 	
 	/* 'Tag', 'ID', 'Author', 'Created', 'Modified', 'Actions' */
 	.data_grid.tag_grid { grid-template-columns: auto auto 0px auto auto auto !important; }
@@ -642,10 +642,10 @@
 	.data_grid.secret_grid > ul > div:nth-child(3) { visibility: hidden; }
 	.data_grid.secret_grid > ul > div:nth-child(4) { visibility: hidden; }
 	
-	/* 'Enabled', 'Plugin Title', 'Plugin ID', 'Type', 'Author', 'Created', 'Actions' */
-	.data_grid.plugin_grid { grid-template-columns: min-content auto 0px auto 0px auto auto !important; }
-	.data_grid.plugin_grid > ul > div:nth-child(3) { visibility: hidden; }
-	.data_grid.plugin_grid > ul > div:nth-child(5) { visibility: hidden; }
+	/* 'Plugin Title', 'Plugin ID', 'Type', 'Author', 'Created', 'Actions' */
+	.data_grid.plugin_grid { grid-template-columns: auto 0px auto 0px auto auto !important; }
+	.data_grid.plugin_grid > ul > div:nth-child(2) { visibility: hidden; }
+	.data_grid.plugin_grid > ul > div:nth-child(4) { visibility: hidden; }
 	
 	/* 'Tag', 'ID', 'Author', 'Created', 'Modified', 'Actions' */
 	.data_grid.tag_grid { grid-template-columns: auto auto 0px 0px auto auto !important; }
@@ -1212,11 +1212,11 @@
 	.data_grid.secret_grid > ul > div:nth-child(4) { visibility: hidden; }
 	.data_grid.secret_grid > ul > div:nth-child(5) { visibility: hidden; }
 	
-	/* 'Enabled', 'Plugin Title', 'Plugin ID', 'Type', 'Author', 'Created', 'Actions' */
-	.data_grid.plugin_grid { grid-template-columns: min-content auto 0px auto 0px 0px auto !important; }
-	.data_grid.plugin_grid > ul > div:nth-child(3) { visibility: hidden; }
+	/* 'Plugin Title', 'Plugin ID', 'Type', 'Author', 'Created', 'Actions' */
+	.data_grid.plugin_grid { grid-template-columns: auto 0px auto 0px 0px auto !important; }
+	.data_grid.plugin_grid > ul > div:nth-child(2) { visibility: hidden; }
+	.data_grid.plugin_grid > ul > div:nth-child(4) { visibility: hidden; }
 	.data_grid.plugin_grid > ul > div:nth-child(5) { visibility: hidden; }
-	.data_grid.plugin_grid > ul > div:nth-child(6) { visibility: hidden; }
 	
 	/* 'Tag', 'ID', 'Author', 'Created', 'Modified', 'Actions' */
 	.data_grid.tag_grid { grid-template-columns: auto auto 0px 0px 0px auto !important; }
@@ -1682,13 +1682,12 @@
 	.data_grid.secret_grid > ul > div:nth-child(4) { visibility: hidden; }
 	.data_grid.secret_grid > ul > div:nth-child(5) { visibility: hidden; }
 	
-	/* 'Enabled', 'Plugin Title', 'Plugin ID', 'Type', 'Author', 'Created', 'Actions' */
-	.data_grid.plugin_grid { grid-template-columns: 0px auto 0px auto 0px 0px 0px !important; }
-	.data_grid.plugin_grid > ul > div:nth-child(1) { visibility: hidden; }
-	.data_grid.plugin_grid > ul > div:nth-child(3) { visibility: hidden; }
+	/* 'Plugin Title', 'Plugin ID', 'Type', 'Author', 'Created', 'Actions' */
+	.data_grid.plugin_grid { grid-template-columns: auto 0px auto 0px 0px 0px !important; }
+	.data_grid.plugin_grid > ul > div:nth-child(2) { visibility: hidden; }
+	.data_grid.plugin_grid > ul > div:nth-child(4) { visibility: hidden; }
 	.data_grid.plugin_grid > ul > div:nth-child(5) { visibility: hidden; }
 	.data_grid.plugin_grid > ul > div:nth-child(6) { visibility: hidden; }
-	.data_grid.plugin_grid > ul > div:nth-child(7) { visibility: hidden; }
 	
 	/* 'Tag', 'ID', 'Author', 'Created', 'Modified', 'Actions' */
 	.data_grid.tag_grid { grid-template-columns: auto 0px 0px 0px 0px auto !important; }
