@@ -1,5 +1,12 @@
 # xyOps Changelog
 
+## Version v1.0.7
+
+> February 22, 2026
+
+- [`8ba3f91`](https://github.com/pixlcore/xyops/commit/8ba3f9134565e07f235552e9febf6f93797b3221): Version 1.0.7
+- [`7287b3e`](https://github.com/pixlcore/xyops/commit/7287b3edec5add2533972f710588aee80894110f): Action / Trigger Plugins: Only parse JSON from last line of output, to ignore noise emitted from plugins.  Be smart about trailing empty lines.
+
 ## Version v1.0.6
 
 > February 22, 2026
