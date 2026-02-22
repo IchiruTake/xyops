@@ -1,5 +1,12 @@
 # xyOps Changelog
 
+## Version v1.0.6
+
+> February 22, 2026
+
+- [`cb17b95`](https://github.com/pixlcore/xyops/commit/cb17b950ecd3c0979df0c58d36ce60b4ab677c09): Version 1.0.6
+- [`d2c80ba`](https://github.com/pixlcore/xyops/commit/d2c80ba9ce731b3b75c70d864afc7f879655a14c): Action and Trigger Plugins: Provide secrets via JSON in top-level `secrets` object, to be consistent with Event Plugins.
+
 ## Version v1.0.5
 
 > February 22, 2026
