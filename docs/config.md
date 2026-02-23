@@ -85,7 +85,12 @@ This is designed as a runaway e-brake mechanism, to prevent an erroneous workflo
 ## dead_job_timeout
 <!-- Title: Dead Job TImeout (seconds) -->
 
-This number (seconds) determines when a running job with no updates is considered dead and aborted (default: `120`).
+This number (in seconds) determines when a running job with no updates is considered dead and aborted (default: `120`).
+
+## stale_alert_timeout
+<!-- Title: Stale Alert Timeout (seconds) -->
+
+This number (in seconds) determines when stale alerts are cleared.  Stale alerts occur when a server disconnects with active alerts attached.
 
 ## job_env
 <!-- Title: Job Environment Variables -->

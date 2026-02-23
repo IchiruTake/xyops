@@ -36,6 +36,7 @@
 	
 	"max_jobs_per_min": 100,
 	"dead_job_timeout": 120,
+	"stale_alert_timeout": 90,
 	
 	"job_env": {},
 	
