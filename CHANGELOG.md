@@ -1,5 +1,13 @@
 # xyOps Changelog
 
+## Version v1.0.8
+
+> February 23, 2026
+
+- [`5b88a01`](https://github.com/pixlcore/xyops/commit/5b88a01de6d6faff4fec2732df78d0a84c3e2953): Version 1.0.8
+	- Bump pixl-server-storage to v4.0.2 for latest AWS SDK, for multiple upstream vuln fixes.
+- [`0204291`](https://github.com/pixlcore/xyops/commit/0204291318f7acd4481d0919f1438aaa925fa3bb): Alert System: Fix issue when servers with active alerts disconnect, then reconnect after the alerts time out, which causes the alerts to get stuck in limbo, and never reappear.
+
 ## Version v1.0.7
 
 > February 22, 2026
