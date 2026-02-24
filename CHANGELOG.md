@@ -1,5 +1,12 @@
 # xyOps Changelog
 
+## Version v1.0.9
+
+> February 24, 2026
+
+- [`db9b0d6`](https://github.com/pixlcore/xyops/commit/db9b0d64ecb1a282d568e07e1dbc9abb7c4738ab): Version 1.0.9
+- [`3a47e9a`](https://github.com/pixlcore/xyops/commit/3a47e9a675fed59d0bfba39dc5086190c45bc55e): New Feature: Server User Data, to store arbitrary data per server, available in all running jobs, and can be used to augment event targeting.  Fixes #160.
+
 ## Version v1.0.8
 
 > February 23, 2026
