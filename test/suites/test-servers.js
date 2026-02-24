@@ -102,7 +102,44 @@ exports.tests = [
 		assert.ok( data.server && data.server.id === 'satunit1', 'unexpected server id' );
 		assert.ok( data.server.autoGroup === true, 'expected autoGroup true' );
 	},
-
+	
+	async function test_api_update_server_data(test) {
+		// update server user data
+		let { data } = await this.request.json( this.api_url + '/app/update_server_data/v1', {
+			id: 'satunit1',
+			data: { "foo": "bar1" }
+		});
+		assert.ok( data.code === 0, 'successful api response' );
+	},
+	
+	async function test_api_get_updated_server_data(test) {
+		// verify data updates took effect
+		let { data } = await this.request.json( this.api_url + '/app/get_server/v1', { id: 'satunit1' } );
+		assert.ok( data.code === 0, 'successful api response' );
+		assert.ok( !!data.server, 'server object missing' );
+		assert.ok( !!data.server.userData, 'userData object missing' );
+		assert.ok( data.server.userData.foo == "bar1", 'unexpected result in user data' );
+	},
+	
+	async function test_api_update_server_data_shallow_merge(test) {
+		// update server user data
+		let { data } = await this.request.json( this.api_url + '/app/update_server_data/v1', {
+			id: 'satunit1',
+			data: { "added": "zzz" }
+		});
+		assert.ok( data.code === 0, 'successful api response' );
+	},
+	
+	async function test_api_get_updated_server_data_merged(test) {
+		// verify data updates took effect
+		let { data } = await this.request.json( this.api_url + '/app/get_server/v1', { id: 'satunit1' } );
+		assert.ok( data.code === 0, 'successful api response' );
+		assert.ok( !!data.server, 'server object missing' );
+		assert.ok( !!data.server.userData, 'userData object missing' );
+		assert.ok( data.server.userData.foo == "bar1", 'unexpected foo result in user data' );
+		assert.ok( data.server.userData.added == "zzz", 'unexpected added result in user data' );
+	},
+	
 	async function test_api_get_servers_admin_snapshot(test) {
 		// admin endpoint: get snapshot of all connected servers + masters
 		let { data } = await this.request.json( this.api_url + '/app/get_servers/v1', {} );

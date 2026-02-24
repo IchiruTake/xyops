@@ -3971,14 +3971,19 @@ In addition to the [Standard Response Format](#standard-response-format), this w
 POST /api/app/update_server/v1
 ```
 
-Update server metadata (title, enabled, icon, groups, and auto-grouping). Admin only. Requires a valid administrator session or API Key. Send as HTTP POST with JSON. The request is shallow-merged into the existing server record.
+Update server metadata (title, enabled, icon, groups, and auto-grouping). Requires a valid session or API Key with the [update_servers](privileges.md#update_servers) privilege. Send as HTTP POST with JSON. The request is shallow-merged into the existing server record.
 
 Parameters:
 
 | Property Name | Type | Description |
 |---------------|------|-------------|
-| `id` | String | **(Required)** The server ID to update. |
-| (Other) | Various | Any updatable [Server](data.md#server) fields: e.g. `title`, `enabled`, `icon`, `groups` (array of [Group.id](data.md#group-id)), `autoGroup` (boolean). |
+| `id` | String | **(Required)** The [Server.id](data.md#server-id) of the server to update. |
+| `enabled` | Boolean | Optionally enable or disable the server as an event target (disabled servers will not be chosen for jobs). |
+| `title` | String | Optional custom label for the server, displayed in the UI (by default the server's hostname is displayed). |
+| `icon` | String | Optional icon ID for the server, displayed in the UI. Icons are sourced from [Material Design Icons](https://materialdesignicons.com/).
+| `groups` | Array | Optional set of [Group.id](data.md#group-id)s for the server.  Only applicable if `autoGroup` is `false`. |
+| `autoGroup` | Boolean | Optionally set the auto-group flag for the server (see below).
+| (Other) | Various | Any other updatable [Server](data.md#server) fields. |
 
 Special behavior:
 
@@ -3995,6 +4000,37 @@ Example request:
   "icon": "server",
   "groups": ["main", "staging"],
   "autoGroup": false
+}
+```
+
+Example response:
+
+```json
+{ "code": 0 }
+```
+
+### update_server_data
+
+```
+POST /api/app/update_server_data/v1
+```
+
+Update the server's [user data](servers.md#user-data). Requires a valid session or API Key with the [update_servers](privileges.md#update_servers) privilege. Send as HTTP POST with JSON. The user data properties are shallow-merged into the existing object, unless `replace` is set.
+
+Parameters:
+
+| Property Name | Type | Description |
+|---------------|------|-------------|
+| `id` | String | **(Required)** The [Server.id](data.md#server-id) of the server to update. |
+| `data` | Object | **(Required)** The user data properties to update (shallow-merged by default). |
+| `replace` | Boolean | Optional flag, will delete and replace the **entire** user data object if `true`. |
+
+Example request:
+
+```json
+{
+  "id": "sorbstack01",
+  "data": { "foo": "bar" }
 }
 ```
 

@@ -139,6 +139,18 @@ Behavior when servers are offline:
 
 Alerts can optionally suppress job launches on a specific server, so a server under alert may be excluded from selection until it clears.  This feature is configured at the alert level (see [Alerts](alerts.md) for more details).
 
+## User Data
+
+xyOps can store arbitrary data with each server, which is called the "user data".  This is a freeform object stored as JSON, which can contain any data you want (including nested objects / arrays).  The user data is automatically passed to all running jobs on the server, and can also be used for custom event targeting.
+
+You can add or update the server data in a number of ways:
+
+- In the UI, on the server details page, click the "Edit Server" button.
+- By calling the [update_server_data](api.md#update_server_data) API.
+- Inside a running job (i.e. Event Plugin) by outputting a `serverData` object (see [Updating The Server Data](plugins.md#server-data)).
+
+Note that all server data for all active servers is stored in memory on the primary conductor server, so it is best to keep the size reasonable.
+
 ## Server UI
 
 Each server has a dedicated page in the xyOps UI showing live and historical state:

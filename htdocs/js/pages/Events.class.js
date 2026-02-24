@@ -2623,6 +2623,19 @@ Page.Events = class Events extends Page.PageUtils {
 			caption: 'Select groups and/or servers to run the event.'
 		});
 		
+		// target expression
+		html += this.getFormRow({
+			label: 'Expression:',
+			content: this.getFormText({
+				id: 'fe_ee_expression',
+				spellcheck: 'false',
+				autocomplete: 'off',
+				class: 'monospace',
+				value: event.expression || ''
+			}),
+			caption: 'Optionally enter an expression to further target servers based on their data, e.g. `userData.foo == "bar"`.  [Learn More](#Docs/events/target-expressions).'			
+		});
+		
 		// algo
 		var algo_items = config.ui.event_target_algo_menu.concat(
 			this.buildOptGroup( app.monitors, "Least Monitor Value:", 'chart-line', 'monitor:' )
@@ -3938,6 +3951,7 @@ Page.Events = class Events extends Page.PageUtils {
 		event.category = $('#fe_ee_cat').val();
 		event.tags = $('#fe_ee_tags').val();
 		event.targets = $('#fe_ee_targets').val();
+		event.expression = $('#fe_ee_expression').val();
 		event.algo = $('#fe_ee_algo').val();
 		event.plugin = $('#fe_ee_plugin').val();
 		event.notes = $('#fe_ee_notes').val();

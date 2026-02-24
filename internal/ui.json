@@ -60,6 +60,7 @@
 		{ "id": "delete_snapshots", "title": "Delete Snapshots", "icon": "monitor-screenshot" },
 		
 		{ "id": "add_servers", "title": "Add Servers", "icon": "server-plus-outline" },
+		{ "id": "update_servers", "title": "Update Servers", "icon": "server-network-outline" },
 		{ "id": "send_emails", "title": "Send Emails", "icon": "email-fast-outline" },
 		{ "id": "bulk_export", "title": "Bulk Export", "icon": "database-export-outline" }
 	],
@@ -481,6 +482,10 @@
 				"title": "Select targets for event",
 				"placeholder": "(Use event defaults)"
 			},
+			"d_wfde_expression": {
+				"label": "Expression:",
+				"caption": "Optionally override the expression to further target servers based on their data, e.g. `userData.foo == \"bar\"`.  [Learn More](#Docs/events/target-expressions)."
+			},
 			"d_wfde_algo": {
 				"label": "Algorithm:",
 				"caption": "Optionally override the target selection algorithm for the event."
@@ -528,6 +533,10 @@
 			"fe_wfdj_targets": {
 				"title": "Select targets for jobs",
 				"placeholder": "Select targets for jobs..."
+			},
+			"d_wfdj_expression": {
+				"label": "Expression:",
+				"caption": "Optionally enter an expression to further target servers based on their data, e.g. `userData.foo == \"bar\"`.  [Learn More](#Docs/events/target-expressions)."
 			},
 			"d_wfdj_algo": {
 				"label": "Algorithm:",

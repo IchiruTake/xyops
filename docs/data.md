@@ -473,9 +473,13 @@ An array of [Tag](#tag) IDs which can be used to search for historical jobs.  Th
 
 An array of server or group targets to run the event.  Each item of the array is a string, and can can either be a [Server.id](#server-id) or a [Group.id](#group-id).
 
+### Event.expression
+
+An optional expression in [xyOps Expression Format](xyexp.md), which can further reduce the set of candidate servers for targeting jobs.  Must use in conjunction with [Event.targets](#event-targets).  See [Target Expressions](events.md#target-expressions) for details.
+
 ### Event.algo
 
-When multiple servers are in the [Event.targets](#event-targets) array, xyOps uses a select algorithm to select a server to run the job.  The available algorithms are:
+When multiple servers are in the [Event.targets](#event-targets) array, xyOps uses an algorithm to select a server to run the job.  The available algorithms are:
 
 | Algorithm | Notes |
 |-----------|-------|
@@ -485,6 +489,7 @@ When multiple servers are in the [Event.targets](#event-targets) array, xyOps us
 | `least_mem` | Pick the server with the least memory usage. |
 | `prefer_first` | Prefer the first server when alphabetically sorted by hostname. |
 | `prefer_last` | Prefer the last server when alphabetically sorted by hostname. |
+| `monitor:_ID_` | Pick the server with the lowest custom monitor value, specified by [Monitor.id](monitor-id) with a `monitor:` prefix. |
 
 ### Event.notes
 
@@ -881,6 +886,10 @@ An array of [Ticket.id](#ticket-id)s associated with the job.
 
 If the [Job.state](#job-state) is `queued`, this property will indicate what position the job is currently sitting in the queue.
 
+### Job.serverData
+
+While the job is running, i.e. in the data passed to the Event Plugin, the job object will contain a `serverData` property.  This will be a copy of the [Server.userData](#server-userdata) object, if applicable for the current server.
+
 ## Monitor
 
 A monitor keeps track on a specific numeric server metric.  These are graphed in the UI so you can see trends over time, and you can also point alerts at them.  Here is an example monitor in JSON format:
@@ -1275,6 +1284,7 @@ A server is a physical or virtual machine that connects to the conductor xyOps s
 	],
 	"hostname": "centos-9-arm",
 	"id": "sorbstack01",
+	"userData": {},
 	"info": {
 		"arch": "arm64",
 		"booted": 1754854901.82,
@@ -1374,6 +1384,10 @@ An optional, user-defined title for the server, used for display purposes in the
 
 An optional icon ID for the server, displayed in the UI. Icons are sourced from [Material Design Icons](https://materialdesignicons.com/).
 
+### Server.userData
+
+Optional user data for server (freeform), which is passed to all server jobs, and can be used for event targeting.
+
 ### Server.autoGroup
 
 A boolean flag indicating if the server should be automatically assigned to groups based on its hostname.
@@ -1404,7 +1418,7 @@ The internal identifier for the server's socket connection.
 
 ### Server.info
 
-Additional information about the server, such as its operating system, architecture, and other relevant details, used primarily in the UI.
+Additional information about the server, such as its operating system, architecture, and other relevant details, used primarily in the UI.  See example JSON above.
 
 ## Tag
 

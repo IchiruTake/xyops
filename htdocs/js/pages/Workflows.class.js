@@ -1500,6 +1500,18 @@ Page.Workflows = class Workflows extends Page.Events {
 			})
 		});
 		
+		// target expression
+		html += this.getFormRow({
+			id: 'd_wfde_expression',
+			content: this.getFormText({
+				id: 'fe_wfde_expression',
+				spellcheck: 'false',
+				autocomplete: 'off',
+				class: 'monospace',
+				value: node.data.expression || ''
+			})
+		});
+		
 		// algo
 		html += this.getFormRow({
 			id: 'd_wfde_algo',
@@ -1540,6 +1552,7 @@ Page.Workflows = class Workflows extends Page.Events {
 			
 			node.data.event = $('#fe_wfde_event').val();
 			node.data.targets = $('#fe_wfde_targets').val();
+			node.data.expression = $('#fe_wfde_expression').val();
 			node.data.algo = $('#fe_wfde_algo').val();
 			node.data.tags = $('#fe_wfde_tags').val();
 			
@@ -1697,6 +1710,18 @@ Page.Workflows = class Workflows extends Page.Events {
 			})
 		});
 		
+		// target expression
+		html += this.getFormRow({
+			id: 'd_wfdj_expression',
+			content: this.getFormText({
+				id: 'fe_wfdj_expression',
+				spellcheck: 'false',
+				autocomplete: 'off',
+				class: 'monospace',
+				value: node.data.expression || ''
+			})
+		});
+		
 		// algo
 		html += this.getFormRow({
 			id: 'd_wfdj_algo',
@@ -1739,6 +1764,7 @@ Page.Workflows = class Workflows extends Page.Events {
 			node.data.category = $('#fe_wfdj_cat').val();
 			node.data.plugin = $('#fe_wfdj_plugin').val();
 			node.data.targets = $('#fe_wfdj_targets').val();
+			node.data.expression = $('#fe_wfdj_expression').val();
 			node.data.algo = $('#fe_wfdj_algo').val();
 			node.data.tags = $('#fe_wfdj_tags').val();
 			

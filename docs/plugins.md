@@ -402,6 +402,23 @@ Here is another example which will launch a subsequent job when the current job 
 
 The `push` object is used here to instruct xyOps to "push" (append) actions onto the existing set (you cannot replace or delete actions).  See [Action Types](actions.md#action-types) for all the possible action objects you can add here.
 
+##### Server Data
+
+To update the [Server User Data](servers.md#user-data) for the current server from inside a running job, use the following output format:
+
+```json
+{
+	"xy": 1,
+	"serverData": {
+		"foo": "bar"
+	}
+}
+```
+
+Note that the server data is shallow-merged, so you can specify a sparsely-populated object and it will only add / replace the included top-level properties.
+
+The server user data is only updated when the job completes.  If you need to update the server data immediately during a job, use the [update_server_data](api.md#update_server_data) API instead.
+
 ### Action Plugins
 
 Action Plugins are designed for custom actions that take place in response to jobs starting, completing, or completing with specific result codes (e.g. success, error, warning, critical, etc.).  They can also run in response to alerts firing or clearing.  You can already assign a number of [built-in actions](actions.md) including sending an email, firing a web hook, launching an event, taking a server snapshot, and more.  But with Plugins you can write your own actions that do anything you want.  They can even be configured to accept a custom set of parameters that are configured by the user in the UI.

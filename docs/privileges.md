@@ -165,6 +165,9 @@ Delete web hooks from the system.
 ### add_servers
 Add new servers on-demand in the UI, and also allow access to the API to dynamically register ephemeral servers.
 
+### update_servers
+Update server metadata, such as the title (label), icon, groups, and user data.
+
 ### create_snapshots
 Create on-demand server snapshots and set/cancel watches that take periodic snapshots.
 

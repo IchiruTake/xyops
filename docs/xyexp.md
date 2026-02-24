@@ -38,6 +38,7 @@ In addition to the standard JEXL operators, the following custom functions are a
 | `round` | `round(1.2) == 1` | See [Math.round](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round). |
 | `clamp` | `clamp(50, 0, 100) == 50` | Clamps a numerical value between a lower and upper limit. |
 | `find` | `find(array, key, value)` | Finds objects in an array using a named property and a substring match. |
+| `includes` | `includes(array, key)` | Find a substring in a string, or an element in an array. |
 | `count` | `count(array)` | Returns the number of items in an array (as JEXL arrays don't have a `length` inside expressions). |
 
 ### String Formatting

@@ -1198,6 +1198,18 @@ Page.Servers = class Servers extends Page.ServerUtils {
 			caption: 'Override the server group(s) the server should belong to.  By default these are automatically assigned using the server hostname.'
 		});
 		
+		// user data
+		html += this.getFormRow({
+			label: 'User Data:',
+			content: this.getFormTextarea({
+				id: 'fe_es_user_data',
+				rows: 1,
+				value: JSON.stringify(server.userData || {}, null, "\t"),
+				style: 'display:none'
+			}) + '<div class="button small secondary" onClick="$P().editUserData()"><i class="mdi mdi-text-box-edit-outline">&nbsp;</i>Edit JSON...</div>',
+			caption: 'Optionally provide custom user data for the server.  This is sent to all server jobs, and can be used for event targeting.'
+		});
+		
 		html += '</div>';
 		Dialog.confirm( title, html, btn, function(result) {
 			if (!result) return;
@@ -1208,7 +1220,8 @@ Page.Servers = class Servers extends Page.ServerUtils {
 				title: $('#fe_es_title').val().trim(),
 				enabled: $('#fe_es_enabled').is(':checked'),
 				icon: $('#fe_es_icon').val(),
-				groups: $('#fe_es_groups').val()
+				groups: $('#fe_es_groups').val(),
+				userData: JSON.parse( $('#fe_es_user_data').val() )
 			};
 			
 			// set autoGroup based on group menu selection
@@ -1235,6 +1248,18 @@ Page.Servers = class Servers extends Page.ServerUtils {
 		SingleSelect.init( $('#fe_es_icon') );
 		MultiSelect.init( $('#fe_es_groups') );
 		Dialog.autoResize();
+	}
+	
+	editUserData() {
+		// popup json editor for server userData
+		this.editCodeAuto({
+			title: "Edit User Data JSON", 
+			code: $('#fe_es_user_data').val(), 
+			format: 'json',
+			callback: function(new_value) {
+				$('#fe_es_user_data').val( new_value );
+			}
+		});
 	}
 	
 	goServerHistory() {
