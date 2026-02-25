@@ -549,6 +549,17 @@ Page.AlertSetup = class AlertSetup extends Page.PageUtils {
 			caption: 'Abort all running jobs on the server when the alert fires.'
 		});
 		
+		// exclusive actions
+		html += this.getFormRow({
+			label: 'Actions:',
+			content: this.getFormCheckbox({
+				id: 'fe_ea_exclusive_actions',
+				label: 'Exclusive Actions',
+				checked: alert.exclusive_actions
+			}),
+			caption: 'Only run the actions defined below, i.e. do not inherit from groups or universal.'
+		});
+		
 		// actions
 		// (requires this.actions to be populated)
 		html += this.getFormRow({
@@ -585,6 +596,7 @@ Page.AlertSetup = class AlertSetup extends Page.PageUtils {
 		alert.monitor_id = $('#fe_ea_monitor').val();
 		alert.limit_jobs = $('#fe_ea_limit_jobs').is(':checked') ? true : false;
 		alert.abort_jobs = $('#fe_ea_abort_jobs').is(':checked') ? true : false;
+		alert.exclusive_actions = $('#fe_ea_exclusive_actions').is(':checked') ? true : false;
 		alert.notes = $('#fe_ea_notes').val();
 		
 		if (!alert.title.length) {

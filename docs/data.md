@@ -66,6 +66,10 @@ Optionally link the alert to a monitor given its [ID](#monitor-id).  This will s
 
 The number of consecutive times the expression must evaluate to `true` before the alert fires.  Similarly, this is also the alert "cooldown" (the expression must evaluate to `false` the same number of times before the alert is considered inactive).
 
+### Alert.exclusive_actions
+
+If set to `true` the alert will not inherit group or universal actions.
+
 ### Alert.notes
 
 Optional notes or comments about the alert.
