@@ -3198,7 +3198,8 @@ Page.Job = class Job extends Page.PageUtils {
 	onStatusUpdate(data) {
 		// hook main app status update (every 1s)
 		// use this as a condition to update live job in progress
-		// and to detect job completion
+		if (this.job && this.job.final && data.jobsChanged) this.getAdditionalJobs();
+		
 		if (!this.job || (this.job.state == 'complete')) return;
 		
 		var old_state = this.job.state;
