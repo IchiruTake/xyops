@@ -1482,7 +1482,9 @@ Page.Job = class Job extends Page.PageUtils {
 		header += `- **Source:** ${ucfirst(action.source || 'event')}\n`;
 		header += `- **Date/Time:** ${nice_date}\n`;
 		header += `- **Result:** ${action.description || 'OK'}\n`;
-		header += `\n`;
+		
+		// if details starts with its own list, join it properly to our header list
+		if (!details.match(/^\s*\-\s+/)) header += `\n`;
 		
 		details = header + details;
 		
