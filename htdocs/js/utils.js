@@ -67,6 +67,7 @@ function summarize_event_timings(event) {
 			case 'blackout': opts.push("Blackout"); break;
 			case 'delay': opts.push("Delay"); break;
 			case 'precision': opts.push("Precision"); break;
+			case 'quiet': opts.push("Quiet"); break;
 			case 'plugin':
 				var plugin = find_object( app.plugins, { id: trigger.plugin_id } );
 				if (plugin) opts.push(plugin.title);

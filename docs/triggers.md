@@ -266,7 +266,7 @@ Example:
 
 ### Range
 
-Restrict scheduling to a date/time window. Prevents launches before `start` and after `end` (unless time is inside another range). Endpoints are inclusive.
+Restrict scheduling to a date/time window. Prevents launches before `start` and after `end` (unless time is inside another range). Endpoints are inclusive.  As a "modifier" this option only takes effect when jobs are launched from a scheduler trigger (i.e. not launched manually via UI or API).
 
 Parameters:
 
@@ -293,7 +293,7 @@ Example: Only run between March 1 and May 31 (inclusive):
 
 ### Blackout
 
-Prevent any automatic launches during a specific date/time window. Endpoints are inclusive.
+Prevent any automatic launches during a specific date/time window. Endpoints are inclusive.  As a "modifier" this option only takes effect when jobs are launched from a scheduler trigger (i.e. not launched manually via UI or API).
 
 Parameters:
 
@@ -320,7 +320,7 @@ Example:
 
 ### Delay
 
-Add a starting delay to all scheduler-launched jobs for the event. Does not affect manual/API runs. Mutually exclusive with `interval` and `precision`.
+Add a starting delay to all scheduler-launched jobs for the event. Does not affect manual/API runs. Mutually exclusive with `interval` and `precision`.  As a "modifier" this option only takes effect when jobs are launched from a scheduler trigger (i.e. not launched manually via UI or API).
 
 Parameters:
 
@@ -340,7 +340,7 @@ Example (delay all launches by 2 minutes):
 
 ### Precision
 
-Launch within the scheduled minute at specific second offsets. Augments other automatic triggers to achieve sub-minute starts. Mutually exclusive with `interval` and `delay`.
+Launch within the scheduled minute at specific second offsets. Augments other automatic triggers to achieve sub-minute starts. Mutually exclusive with `interval` and `delay`.  As a "modifier" this option only takes effect when jobs are launched from a scheduler trigger (i.e. not launched manually via UI or API).
 
 Parameters:
 
@@ -362,6 +362,23 @@ Example (launch at :05, :20, :35, :50 within each matched minute):
   "seconds": [5, 20, 35, 50]
 }
 ```
+
+### Quiet
+
+The "Quiet" modifier allows you to configure jobs to run silently (i.e. completely invisible to the UI), and also optionally ephemeral (so they self-delete upon completion).  As a "modifier" this option only takes effect when jobs are launched from a scheduler trigger (i.e. not launched manually via UI or API).  Each quiet mode can be enabled or disabled separately:
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `invisible` | Boolean | Yes | Upcoming, queued and running jobs are completely hidden from the UI. |
+| `ephemeral` | Boolean | Yes | Auto-delete jobs upon completion (no permanent storage). |
+
+A few notes about behaviors:
+
+- Invisible mode affects running jobs, queued jobs, as well as upcoming jobs.
+	- You can still access running invisible jobs via the API (i.e. [get_job](api.md#get_job), [get_jobs](api.md#get_job)).
+	- As soon as jobs complete, they will be visible in the UI (unless `ephemeral` is also set).
+- Ephemeral mode will automatically disable itself if the job produces output files.
+- Both invisible and ephemeral modes are passed down to child sub-jobs if set on a workflow.
 
 ### Plugin
 

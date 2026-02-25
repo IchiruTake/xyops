@@ -3939,7 +3939,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		if (!trigger.enabled) short_desc = '(Disabled)';
 		if (trigger.type.match(/^(interval|single|startup)$/)) nice_title = alt_type;
 		
-		if (trigger.type.match(/^(catchup|range|blackout|delay|precision|plugin)$/)) {
+		if (trigger.type.match(/^(catchup|range|blackout|delay|precision|quiet|plugin)$/)) {
 			// option triggers are rendered as pure circles with no pole
 			nice_title = alt_type;
 			inner_classes.push('wf_option');
@@ -5161,6 +5161,26 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				short_desc = 'On the minute';
 				if (item.seconds && item.seconds.length) short_desc = item.seconds.map( sec => ':' + zeroPad(sec, 2) ).join(', ');
 				nice_desc = '<i class="mdi mdi-progress-clock">&nbsp;</i><b>Seconds:</b> ' + short_desc;
+			break;
+			
+			case 'quiet':
+				nice_icon = '<i class="mdi mdi-cog-outline"></i>';
+				nice_type = 'Modifier';
+				alt_type = 'Quiet';
+				short_desc = '';
+				nice_desc = '';
+				if (item.invisible) {
+					short_desc += 'Invisible';
+					nice_desc += '<i class="mdi mdi-selection-ellipse">&nbsp;</i><b>Invisible</b>';
+				}
+				if (item.ephemeral) {
+					if (short_desc) short_desc += ', ';
+					if (nice_desc) nice_desc += ', ';
+					short_desc += 'Ephemeral';
+					nice_desc += '<i class="mdi mdi-trash-can-outline">&nbsp;</i><b>Ephemeral</b>';
+				}
+				if (!short_desc) short_desc = '(None)';
+				if (!nice_desc) nice_desc = '(None)';
 			break;
 			
 			case 'plugin':

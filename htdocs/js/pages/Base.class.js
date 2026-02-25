@@ -1253,6 +1253,7 @@ Page.Base = class Base extends Page {
 		if (job.icon) icon = '<i class="mdi mdi-' + job.icon + '"></i>';
 		else if (job.type == 'workflow') icon = '<i class="mdi mdi-clipboard-play-outline"></i>';
 		else if (job.workflow) icon = '<i class="mdi mdi-clipboard-clock-outline"></i>';
+		else if (job.invisible) icon = '<i class="mdi mdi-selection-ellipse"></i>';
 		
 		var html = '<span class="nowrap">';
 		if (link) {
@@ -1927,6 +1928,10 @@ Page.Base = class Base extends Page {
 			var triggers = event.triggers.filter( function(trigger) { return trigger.enabled; } );
 			var schedules = triggers.filter( function(trigger) { return trigger.type.match(/^(schedule|single|interval)$/); } );
 			if (!schedules.length) return false;
+			
+			// quiet (invisible) mode
+			var quiet = find_object( triggers, { type: 'quiet' } );
+			if (quiet && quiet.invisible) return false;
 			
 			// setup all unique timezones (intl formatters)
 			schedules.forEach( function(trigger) {

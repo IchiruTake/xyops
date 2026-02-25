@@ -69,6 +69,7 @@ Page.Job = class Job extends Page.PageUtils {
 			this.live = false;
 			
 			if (job.icon) icon = job.icon;
+			else if (job.invisible) icon = 'selection-ellipse';
 			else {
 				if (is_workflow) icon = 'clipboard';
 				else icon = 'timer';

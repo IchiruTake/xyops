@@ -1146,6 +1146,7 @@
 		{ "id": "blackout", "title": "Blackout", "icon": "circle" },
 		{ "id": "delay", "title": "Delay", "icon": "chat-sleep-outline" },
 		{ "id": "precision", "title": "Precision", "icon": "progress-clock" },
+		{ "id": "quiet", "title": "Quiet", "icon": "volume-mute" },
 		{ "id": "plugin", "title": "Plugin", "icon": "power-plug" }
 	],
 	

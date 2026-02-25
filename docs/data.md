@@ -890,6 +890,14 @@ If the [Job.state](#job-state) is `queued`, this property will indicate what pos
 
 While the job is running, i.e. in the data passed to the Event Plugin, the job object will contain a `serverData` property.  This will be a copy of the [Server.userData](#server-userdata) object, if applicable for the current server.
 
+### Job.invisible
+
+If set to `true`, the job is running invisibly to the UI.  See [Quiet Trigger](triggers.md#quiet) for details.
+
+### Job.ephemeral
+
+If set to `true`, the job will self-delete upon completion.  See [Quiet Trigger](triggers.md#quiet) for details.
+
 ## Monitor
 
 A monitor keeps track on a specific numeric server metric.  These are graphed in the UI so you can see trends over time, and you can also point alerts at them.  Here is an example monitor in JSON format:

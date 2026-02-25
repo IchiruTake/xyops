@@ -171,6 +171,7 @@ Page.Events = class Events extends Page.PageUtils {
 								{ id: 'blackout', title: "Blackout", icon: 'circle' },
 								{ id: 'delay', title: "Delay", icon: 'chat-sleep-outline' },
 								{ id: 'precision', title: "Precision", icon: 'progress-clock' },
+								{ id: 'quiet', title: "Quiet", icon: 'volume-mute' },
 								{ id: 'plugin', title: "Plugin", icon: 'power-plug' }
 							].concat(
 								this.buildOptGroup( scheduler_plugins, "Trigger Plugins:", 'power-plug-outline', 'p_' )
@@ -941,7 +942,7 @@ Page.Events = class Events extends Page.PageUtils {
 			var { nice_icon, nice_type, nice_desc } = self.getTriggerDisplayArgs(item);
 			
 			var tds = [
-				'<div class="nowrap ellip">' + nice_desc + '</div>',
+				'<div class="nowrap ellip">' + nice_desc.replace(/\&nbsp\;/g, '') + '</div>',
 				'<div class="td_big nowrap">' + nice_icon + nice_type + '</div>',
 			];
 			
@@ -3190,21 +3191,21 @@ Page.Events = class Events extends Page.PageUtils {
 		html += this.getFormRow({
 			id: 'd_et_range_desc',
 			label: 'Description:',
-			content: 'This option allows you to set a starting and/or ending date/time for the event.  Jobs will not be scheduled before your start date/time, nor after your end date/time.  This is designed to accompany other triggers.'
+			content: 'This modifier allows you to set a starting and/or ending date/time for the event.  Jobs will not be scheduled before your start date/time, nor after your end date/time.  This is designed to accompany other triggers.'
 		});
 		
 		// blackout
 		html += this.getFormRow({
 			id: 'd_et_blackout_desc',
 			label: 'Description:',
-			content: 'This option allows you to set a "blackout" period for the event, meaning jobs will not be scheduled during this time.  Examples include company holidays, and maintenance windows.  This is designed to accompany other triggers.'
+			content: 'This modifier allows you to set a "blackout" period for the event, meaning jobs will not be scheduled during this time.  Examples include company holidays, and maintenance windows.  This is designed to accompany other triggers.'
 		});
 		
 		// delay
 		html += this.getFormRow({
 			id: 'd_et_delay_desc',
 			label: 'Description:',
-			content: 'This option allows you to set a custom delay for each job launched by the scheduler.  This does not affect jobs launched manually in the UI or via the API.'
+			content: 'This modifier allows you to set a custom delay for each job launched by the scheduler.  This does not affect jobs launched manually in the UI or via the API.'
 		});
 		html += this.getFormRow({
 			id: 'd_et_delay',
@@ -3272,7 +3273,7 @@ Page.Events = class Events extends Page.PageUtils {
 		html += this.getFormRow({
 			id: 'd_et_precision_desc',
 			label: 'Description:',
-			content: 'This option allows you to set the precise seconds when each job should launch via the scheduler.  This does not affect jobs launched manually in the UI or via the API.'
+			content: 'This modifier allows you to set the precise seconds when each job should launch via the scheduler.  This does not affect jobs launched manually in the UI or via the API.'
 		});
 		
 		// precision seconds
@@ -3290,6 +3291,37 @@ Page.Events = class Events extends Page.PageUtils {
 				'data-select-all': 1,
 				// 'data-compact': 1
 			})
+		});
+		
+		// quiet desc
+		html += this.getFormRow({
+			id: 'd_et_quiet_desc',
+			label: 'Description:',
+			content: 'This modifier allows you to hide jobs from the UI, and/or delete jobs after completion.  This does not affect jobs launched manually in the UI or via the API.'
+		});
+		
+		// quiet invisible
+		html += this.getFormRow({
+			id: 'd_et_quiet_invisible',
+			label: 'Visibility:',
+			content: this.getFormCheckbox({
+				id: 'fe_et_quiet_invisible',
+				label: 'Invisible Jobs',
+				checked: !!trigger.invisible
+			}),
+			caption: 'Make all running jobs completely invisible to the UI.'
+		});
+		
+		// quiet ephemeral
+		html += this.getFormRow({
+			id: 'd_et_quiet_ephemeral',
+			label: 'Permanence:',
+			content: this.getFormCheckbox({
+				id: 'fe_et_quiet_ephemeral',
+				label: 'Ephemeral Jobs',
+				checked: !!trigger.ephemeral
+			}),
+			caption: 'Delete all jobs after completion.  Note that if a job produces output files, it automatically disables ephemeral mode.'
 		});
 		
 		// timezone (shared by schedule and crontab types)
@@ -3519,6 +3551,15 @@ Page.Events = class Events extends Page.PageUtils {
 					}
 				break;
 				
+				case 'quiet':
+					// quiet mode
+					trigger.invisible = $('#fe_et_quiet_invisible').is(':checked');
+					trigger.ephemeral = $('#fe_et_quiet_ephemeral').is(':checked');
+					if (!trigger.invisible && !trigger.ephemeral) {
+						return app.doError("You must select at least one mode for the quiet modifier.");
+					}
+				break;
+				
 				case 'plugin':
 					trigger.plugin_id = $('#fe_et_plugin').val();
 					if (!trigger.plugin_id) return app.badField('#fe_et_plugin', "Please select a Plugin for scheduling.");
@@ -3677,6 +3718,13 @@ Page.Events = class Events extends Page.PageUtils {
 				case 'precision':
 					$('#d_et_precision_desc').show();
 					$('#d_et_seconds').show();
+					new_btn_label = 'Add Modifier';
+				break;
+				
+				case 'quiet':
+					$('#d_et_quiet_desc').show();
+					$('#d_et_quiet_invisible').show();
+					$('#d_et_quiet_ephemeral').show();
 					new_btn_label = 'Add Modifier';
 				break;
 				
