@@ -1679,6 +1679,9 @@ body.dark .dialog .plugin_param_editor_cont {
 .summary_grid .info_value i.mdi:before {
 	transform: scale(1.30);
 }
+.summary_grid .info_value i.link:hover {
+	text-decoration: none !important;
+}
 
 .summary_grid.single {
 	grid-template-columns: 1fr;
