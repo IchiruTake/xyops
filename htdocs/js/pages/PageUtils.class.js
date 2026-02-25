@@ -2165,6 +2165,14 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			caption: 'Select which event to run for the action.'
 		});
 		
+		// event params
+		html += this.getFormRow({
+			id: 'd_eja_event_params',
+			label: 'User Parameters:',
+			content: '<div id="d_eja_event_param_editor" class="plugin_param_editor_cont"></div>',
+			caption: 'Enter values for all the Event-defined parameters here.'
+		});
+		
 		// notification channel
 		html += this.getFormRow({
 			id: 'd_eja_channel',
@@ -2327,6 +2335,10 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				case 'run_event':
 					action.event_id = $('#fe_eja_event').val();
 					if (!action.event_id) return app.badField('#fe_eja_event', "Please select an event to run for the action.");
+					var event = find_object( app.events, { id: action.event_id } );
+					if (!event) return app.badField('#fe_eja_event', "Event not found.");
+					action.params = self.getParamValues( event.fields || [] );
+					if (!action.params) return false; // invalid
 				break;
 				
 				case 'channel':
@@ -2374,7 +2386,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		} ); // Dialog.confirm
 		
 		var change_action_type = function(new_type) {
-			$('#d_eja_email, #d_eja_users, #d_eja_body, #d_eja_web_hook, #d_eja_web_hook_text, #d_eja_run_job, #d_eja_channel, #d_eja_bucket, #d_eja_bucket_sync, #d_eja_bucket_glob, #d_nt_type, #d_nt_assignees, #d_nt_tags, #d_eja_tags, #d_eja_plugin, #d_eja_plugin_params').hide();
+			$('#d_eja_email, #d_eja_users, #d_eja_body, #d_eja_web_hook, #d_eja_web_hook_text, #d_eja_run_job, #d_eja_event_params, #d_eja_channel, #d_eja_bucket, #d_eja_bucket_sync, #d_eja_bucket_glob, #d_nt_type, #d_nt_assignees, #d_nt_tags, #d_eja_tags, #d_eja_plugin, #d_eja_plugin_params').hide();
 			
 			switch (new_type) {
 				case 'email':
@@ -2390,6 +2402,9 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				
 				case 'run_event':
 					$('#d_eja_run_job').show();
+					$('#d_eja_event_params').show();
+					var event = find_object( app.events, { id: $('#fe_eja_event').val() } ) || {};
+					$('#d_eja_event_param_editor').html( self.getParamEditor(event.fields || [], action.params) ).buttonize();
 				break;
 				
 				case 'channel':
@@ -2447,7 +2462,13 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		$('#fe_eja_plugin').on('change', function() {
 			$('#d_eja_param_editor').html( self.getPluginParamEditor( $(this).val(), action.params || {} ) ).buttonize();
 			Dialog.autoResize();
-		}); // type change
+		}); // plugin change
+		
+		$('#fe_eja_event').on('change', function() {
+			var event = find_object( app.events, { id: $('#fe_eja_event').val() } ) || {};
+			$('#d_eja_event_param_editor').html( self.getParamEditor(event.fields || [], action.params || {}) ).buttonize();
+			Dialog.autoResize();
+		}); // event change
 		
 		MultiSelect.init( $('#fe_eja_users, #fe_nt_assignees, #fe_nt_tags, #fe_eja_tags') );
 		SingleSelect.init( $('#fe_eja_condition, #fe_eja_type, #fe_eja_event, #fe_eja_channel, #fe_eja_web_hook, #fe_eja_plugin, #fe_eja_bucket, #fe_eja_bucket_sync, #fe_nt_type') );
