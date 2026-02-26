@@ -226,6 +226,8 @@ Parameters:
 |------|------|----------|-------------|
 | `event_id` | String | Yes | Target [Event.id](data.md#event-id) to run. |
 | `params` | Object | Optional | Override parameters for the launched event. |
+| `target_server` | Boolean | Optional | For alert actions, this will override the [Event.targets](data.md#event-targets) to point at the server where the alert triggered. |
+| `clear_alert` | Boolean | Optional | For alert actions, this will clear the alert when the job completes.  Useful for signal alerts (e.g. files waiting for pickup). |
 
 Example (job warning):
 
@@ -246,7 +248,9 @@ Example (alert fired):
     "enabled": true,
     "condition": "alert_new",
     "type": "run_event",
-    "event_id": "scale_out"
+    "event_id": "scale_out",
+	"target_server": true,
+	"clear_alert": false
 }
 ```
 
