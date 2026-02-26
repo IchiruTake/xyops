@@ -25,11 +25,11 @@ To write your own Event Plugin, all you need is to provide a command-line execut
 
 When your Plugin is executed on the target server for running a job, a unique temp directory will be created for it, and any files passed to the job will be pre-downloaded for you.  The CWD (current working directory) will be set to the temp dir, so your Plugin can easily list and access the input files.
 
-#### Parameters
+#### Event Parameters
 
 As with most other Plugin types, you can define custom parameters for Event Plugins.  These can be text fields, text boxes, code editors, select menus, checkboxes, or toolsets.  The user can then fill these out when they are editing the event, and they are passed to the Plugin when a job runs.  See [Plugin Parameters](#plugin-parameters) below for more details.
 
-#### Input
+#### Job Input
 
 When Event Plugins are invoked via a job launching, they are passed a JSON document on STDIN (compressed onto a single line).  The following top-level properties will be present in the object:
 
@@ -126,7 +126,7 @@ First, all job input files are automatically written out to the job's unique tem
 
 So you can also discover and iterate over your input files by accessing this data structure.
 
-#### Output
+#### Job Output
 
 Your Plugin is expected to write JSON to STDOUT in order to report status back to the xyOps primary conductor.  At the very least, you need to notify xyOps that the job was completed, and the result of the job (i.e. success or fail).  This is done by printing a JSON object with a `xy` property set to `1` (indicating the [xyOps Wire Protocol](xywp.md) version), and a `code` property set to `0` indicating success.  You need to make sure the JSON is compacted onto a single line, and ends with a single EOL character (`\n` on Unix).  Example:
 
@@ -355,6 +355,17 @@ If the files are located in the current working directory (your job's unique tem
 }
 ```
 
+If you want to have xyOps delete the files for you after uploading, specify an object inside the files array, with `path` and `delete` properties.  Example:
+
+```json
+{
+	"xy": 1,
+	"files": [
+		{ "path": "*.mp4", "delete": true }
+	]
+}
+```
+
 Note that if you send multiple messages with `files` properties, the previous list is overwritten (i.e. the latter prevails).
 
 ##### Tags
@@ -425,11 +436,11 @@ Action Plugins are designed for custom actions that take place in response to jo
 
 Action Plugins run *on the primary conductor server*, as they are part of the core engine.  However, you can still write them in any language, as they are spawned as a child subprocess, and communication API is JSON over STDIO.  To create an Action Plugin, navigate to the **Plugins** page, and click the **New Plugin** button.  For the Plugin type, select "Action Plugin".
 
-#### Parameters
+#### Action Parameters
 
 As with most other Plugin types, you can define custom parameters for Action Plugins.  These can be text fields, text boxes, code editors, select menus, checkboxes, or toolsets.  The user can then fill these out when they are editing the event or alert, and they are passed to the Plugin when the action fires.  See [Plugin Parameters](#plugin-parameters) below for more details.
 
-#### Input
+#### Action Input
 
 When Action Plugins are invoked, they are passed a JSON document on STDIN (compressed to a single line).  The following top-level properties will be present in the object:
 
@@ -562,7 +573,7 @@ And here is an example JSON document sent to an Action Plugin's STDIN as part of
 
 See [AlertHookData](data.md#alerthookdata) for more details on these properties.
 
-#### Output
+#### Action Output
 
 When your Action Plugin has completed, you can inform xyOps of the result (success or fail), and any additional details you might want to add.  This is done by sending a JSON record out through your process STDOUT.  Similar to the document you received via STDIN, it needs to have a top-level `xy` property set to `1`, a `code` property indicating success or fail, and an optional `description` property:
 
@@ -590,11 +601,11 @@ Trigger Plugins run *on the primary conductor server*, as they execute before a 
 
 To create a Trigger Plugin, navigate to the **Plugins** page, and click the **New Plugin** button.  For the Plugin type, select "Trigger Plugin".
 
-#### Parameters
+#### Trigger Parameters
 
 As with most other Plugin types, you can define custom parameters for Trigger Plugins.  These can be text fields, text boxes, code editors, select menus or checkboxes.  The user can then fill these out when they are editing the event, and they are passed to the Plugin when deciding to run jobs for that event.
 
-#### Input
+#### Trigger Input
 
 When your trigger plugin is invoked, it will be passed an array of all the events awaiting a launch decision (i.e. all the events which have added your trigger plugin to them).  A single line of JSON will be passed to your plugin process via STDIN, which looks like this (pretty-printed for display purposes):
 
@@ -676,7 +687,7 @@ data.items.forEach( function(item) {
 } );
 ```
 
-#### Output
+#### Trigger Output
 
 Once your plugin decides which events should launch jobs (if any), you need to communicate that information back to xyOps.  This is done by sending a JSON record out through your process STDOUT.  Similar to the document you received via STDIN, it needs to have a top-level `xy` property set to `1`, and an `items` array:
 
@@ -729,7 +740,7 @@ process.stdout.write( JSON.stringify(data) + "\n" );
 
 Obviously your plugin will do something more useful than this, but you get the idea.  See the following sections to learn what else you can include in the `items` array elements.
 
-##### Data
+##### Trigger Data
 
 When your trigger plugin decides to launch a job, you can optionally include arbitrary data that will be passed to it.  This is done by including a `data` object inside the item element, alongside the `launch` boolean.  Example:
 
@@ -756,7 +767,7 @@ When your trigger plugin decides to launch a job, you can optionally include arb
 
 The format of the `data` property is user-defined, and it will be passed verbatim to the launched job, becoming the [input.data](data.md#job-input) property inside the [Job](data.md#job) object (same as if data is passed to it from a previous chained job, workflow, action, etc.).
 
-##### Files
+##### Trigger Files
 
 You can also send along files to your launched jobs.  These will be attached to the job as inputs, and automatically downloaded in each job's temp directory on the remote server.  To do this, include a `files` array alongside your `launch` property.  The files array should be populated like this:
 
@@ -784,7 +795,7 @@ Each object in the `files` array needs to have a `path` property that points to 
 
 This mechanism works the same as if the files were passed to your job from a previous chained job, workflow, action, etc.
 
-##### Delay
+##### Trigger Delay
 
 If you would like to delay a job launch, send back a `delay` property alongside the `launch` Boolean, set to the number of seconds you want the job to wait before running.  Example:
 
