@@ -483,8 +483,8 @@
 				"placeholder": "(Use event defaults)"
 			},
 			"d_wfde_expression": {
-				"label": "Expression:",
-				"caption": "Optionally override the expression to further target servers based on their data, e.g. `userData.foo == \"bar\"`.  [Learn More](#Docs/events/target-expressions)."
+				"label": "Target Expression:",
+				"caption": "Optionally override the expression to target servers based on their data, e.g. `userData.foo == \"bar\"`.  [Learn More](#Docs/events/target-expressions)."
 			},
 			"d_wfde_algo": {
 				"label": "Algorithm:",
@@ -535,8 +535,8 @@
 				"placeholder": "Select targets for jobs..."
 			},
 			"d_wfdj_expression": {
-				"label": "Expression:",
-				"caption": "Optionally enter an expression to further target servers based on their data, e.g. `userData.foo == \"bar\"`.  [Learn More](#Docs/events/target-expressions)."
+				"label": "Target Expression:",
+				"caption": "Optionally enter an expression to target servers based on their data, e.g. `userData.foo == \"bar\"`.  [Learn More](#Docs/events/target-expressions)."
 			},
 			"d_wfdj_algo": {
 				"label": "Algorithm:",
