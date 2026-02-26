@@ -623,6 +623,7 @@ Page.AlertSetup = class AlertSetup extends Page.PageUtils {
 			btn: btn,
 			show_condition: true,
 			conditions: config.ui.alert_action_condition_menu,
+			alert: true,
 			
 			action_type_filter: function(item) { 
 				// filter out unsupported actions for alerts

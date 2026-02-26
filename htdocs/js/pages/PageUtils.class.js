@@ -2173,6 +2173,31 @@ Page.PageUtils = class PageUtils extends Page.Base {
 			caption: 'Enter values for all the Event-defined parameters here.'
 		});
 		
+		// clear alert on success (alert-specific)
+		if (opts.alert) {
+			html += this.getFormRow({
+				id: 'd_eja_target_server',
+				label: 'Target Options:',
+				content: this.getFormCheckbox({
+					id: 'fe_eja_target_server',
+					label: 'Target Alert Server',
+					checked: action.target_server
+				}),
+				caption: 'Optionally override the event targets to run the job on the alert server.'
+			});
+			
+			html += this.getFormRow({
+				id: 'd_eja_clear_alert',
+				label: 'Alert Options:',
+				content: this.getFormCheckbox({
+					id: 'fe_eja_clear_alert',
+					label: 'Clear Alert on Job Completion',
+					checked: action.clear_alert
+				}),
+				caption: 'Optionally clear the alert when the job completes.'
+			});
+		}
+		
 		// notification channel
 		html += this.getFormRow({
 			id: 'd_eja_channel',
@@ -2335,6 +2360,10 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				case 'run_event':
 					action.event_id = $('#fe_eja_event').val();
 					if (!action.event_id) return app.badField('#fe_eja_event', "Please select an event to run for the action.");
+					if (opts.alert) {
+						action.target_server = $('#fe_eja_target_server').is(':checked');
+						action.clear_alert = $('#fe_eja_clear_alert').is(':checked');
+					}
 					var event = find_object( app.events, { id: action.event_id } );
 					if (!event) return app.badField('#fe_eja_event', "Event not found.");
 					action.params = self.getParamValues( event.fields || [] );
@@ -2386,7 +2415,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		} ); // Dialog.confirm
 		
 		var change_action_type = function(new_type) {
-			$('#d_eja_email, #d_eja_users, #d_eja_body, #d_eja_web_hook, #d_eja_web_hook_text, #d_eja_run_job, #d_eja_event_params, #d_eja_channel, #d_eja_bucket, #d_eja_bucket_sync, #d_eja_bucket_glob, #d_nt_type, #d_nt_assignees, #d_nt_tags, #d_eja_tags, #d_eja_plugin, #d_eja_plugin_params').hide();
+			$('#d_eja_email, #d_eja_users, #d_eja_body, #d_eja_web_hook, #d_eja_web_hook_text, #d_eja_run_job, #d_eja_target_server, #d_eja_clear_alert, #d_eja_event_params, #d_eja_channel, #d_eja_bucket, #d_eja_bucket_sync, #d_eja_bucket_glob, #d_nt_type, #d_nt_assignees, #d_nt_tags, #d_eja_tags, #d_eja_plugin, #d_eja_plugin_params').hide();
 			
 			switch (new_type) {
 				case 'email':
@@ -2402,6 +2431,10 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				
 				case 'run_event':
 					$('#d_eja_run_job').show();
+					if (opts.alert) {
+						$('#d_eja_target_server').show();
+						$('#d_eja_clear_alert').show();
+					}
 					$('#d_eja_event_params').show();
 					var event = find_object( app.events, { id: $('#fe_eja_event').val() } ) || {};
 					$('#d_eja_event_param_editor').html( self.getParamEditor(event.fields || [], action.params) ).buttonize();
