@@ -188,7 +188,6 @@ Page.Users = class Users extends Page.PageUtils {
 		// buttons at bottom
 		html += '<div class="box_buttons">';
 			html += '<div class="button phone_collapse" onClick="$P().cancel_user_edit()"><i class="mdi mdi-close-circle-outline">&nbsp;</i><span>Cancel</span></div>';
-			if (config.debug) html += '<div class="button phone_collapse" onClick="$P().populate_random_user()"><i class="mdi mdi-dice-5">&nbsp;</i><span>Randomize...</span></div>';
 			html += '<div class="button primary" id="btn_save" onClick="$P().do_new_user()"><i class="mdi mdi-floppy">&nbsp;</i><span>Create User</span></div>';
 		html += '</div>'; // box_buttons
 		
@@ -205,28 +204,6 @@ Page.Users = class Users extends Page.PageUtils {
 	cancel_user_edit() {
 		// cancel editing user and return to list
 		Nav.go( 'Users?sub=list' );
-	}
-	
-	populate_random_user() {
-		// grab random user data (for testing only)
-		var self = this;
-		
-		$.ajax({
-			url: 'https://api.randomuser.me/',
-			dataType: 'json',
-			success: function(data){
-				// console.log(data);
-				if (data.results && data.results[0] && data.results[0]) {
-					var user = data.results[0];
-					$('#fe_eu_username').val( user.login.username );
-					$('#fe_eu_email').val( user.email );
-					$('#fe_eu_fullname').val( ucfirst(user.name.first) + ' ' + ucfirst(user.name.last) );
-					$('#fe_eu_send_email').prop( 'checked', false );
-					self.generate_password();
-					self.checkUserExists( $('#fe_eu_username')[0] );
-				}
-			}
-		});
 	}
 	
 	do_new_user() {
