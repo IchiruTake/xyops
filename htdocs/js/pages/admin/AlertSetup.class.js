@@ -439,7 +439,7 @@ Page.AlertSetup = class AlertSetup extends Page.PageUtils {
 				label: 'Alert Enabled',
 				checked: alert.enabled
 			}),
-			caption: 'Check this box to enable all notifications for the alert.'
+			caption: 'Use this checkbox to enable or disable the alert.'
 		});
 		
 		// icon
