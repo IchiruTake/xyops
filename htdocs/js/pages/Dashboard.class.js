@@ -77,6 +77,16 @@ Page.Dashboard = class Dashboard extends Page.PageUtils {
 			html += '</div>'; // box_content
 		html += '</div>'; // box
 		
+		// favorite events
+		html += '<div class="box" id="d_dash_fav_events" style="display:none">';
+			html += '<div class="box_title">';
+				html += 'Favorite Events';
+			html += '</div>';
+			html += '<div class="box_content table">';
+				// html += '<div class="loading_container"><div class="loading"></div></div>';
+			html += '</div>'; // box_content
+		html += '</div>'; // box
+		
 		// upcoming jobs
 		html += '<div class="box" id="d_upcoming_jobs">';
 			html += '<div class="box_title">';
@@ -126,6 +136,7 @@ Page.Dashboard = class Dashboard extends Page.PageUtils {
 		this.updateDashGrid();
 		this.renderActiveJobs();
 		this.getQueueSummary();
+		this.renderFavoriteEvents();
 		this.getUpcomingJobs();
 		// this.setupQuickMonitors();
 		this.renderActiveAlerts();
@@ -448,6 +459,88 @@ Page.Dashboard = class Dashboard extends Page.PageUtils {
 		} ); // foreach job
 	}
 	
+	renderFavoriteEvents() {
+		// show user favorite events, or hide if none
+		var self = this;
+		var html = '';
+		var user = app.user;
+		if (!user.favorites || !user.favorites.events || !user.favorites.events.length) return;
+		
+		var events = [];
+		user.favorites.events.forEach( function(id) {
+			var event = find_object( app.events, { id } );
+			if (event) events.push(event);
+		} );
+		if (!events.length) return;
+		
+		// sort by title ascending (future: sortable table)
+		events.sort( function(a, b) {
+			return a.title.toLowerCase().localeCompare( b.title.toLowerCase() );
+		} );
+		
+		// save for live status updates
+		this.favoriteEvents = events;
+		
+		var opts = {
+			rows: events,
+			cols: ['Event Title', 'Category', 'Tags', 'Plugin', 'Targets', 'Triggers', 'Status', 'Actions'],
+			data_type: 'event'
+		};
+		
+		html += this.getBasicGrid( opts, function(item) {
+			var classes = [];
+			var cat = find_object( app.categories, { id: item.category } ) || {};
+			
+			var actions = [];
+			actions.push( `<button class="link" data-event="${item.id}" onClick="$P().do_run_event_from_list(this)"><b>Run</b></button>` );
+			actions.push( `<button class="link" data-event="${item.id}" onClick="$P().do_edit_event_from_list(this)"><b>Edit</b></button>` );
+			actions.push( `<button class="link" data-event="${item.id}" onClick="$P().go_hist_from_list(this)"><b>History</b></button>` );
+			
+			var tds = [
+				'<span style="font-weight:bold">' + self.getNiceEvent(item, true) + '</span>',
+				self.getNiceCategory(item.category, true),
+				self.getNiceTagList(item.tags || [], true, ', '),
+				(item.plugin == '_workflow') ? '(Workflow)' : self.getNicePlugin(item.plugin, true),
+				self.getNiceTargetList(item.targets, true),
+				summarize_event_timings(item),
+				
+				'<div id="d_el_jt_status_' + item.id + '">' + self.getNiceEventStatus(item) + '</div>',
+				
+				actions.join(' | ')
+			];
+			
+			if (!item.enabled) classes.push('disabled');
+			if (cat.color) classes.push( 'clr_' + cat.color );
+			if (classes.length) tds.className = classes.join(' ');
+			return tds;
+		}); // getBasicGrid
+		
+		this.div.find('#d_dash_fav_events').show();
+		this.div.find('#d_dash_fav_events > .box_content').removeClass('loading').html(html);
+	}
+	
+	do_edit_event_from_list(elem) {
+		// edit event from list
+		var id = $(elem).data('event');
+		var event = find_object( this.events, { id } );
+		
+		if (event.type == 'workflow') Nav.go( '#Workflows?sub=edit&id=' + event.id );
+		else Nav.go( '#Events?sub=edit&id=' + event.id );
+	}
+	
+	do_run_event_from_list(elem) {
+		// run event from list
+		var id = $(elem).data('event');
+		var event = find_object( this.events, { id } );
+		this.doRunEvent( event );
+	}
+	
+	go_hist_from_list(elem) {
+		// jump over to rev history for specific event
+		var id = $(elem).data('event');
+		Nav.go('Search?event=' + id);
+	}
+	
 	handleStatusUpdate(data) {
 		// received status update from server, see if major or minor
 		var self = this;
@@ -461,6 +554,11 @@ Page.Dashboard = class Dashboard extends Page.PageUtils {
 			// recompute upcoming: shift() entries off if they happened
 			this.autoExpireUpcomingJobs();
 			this.renderUpcomingJobs();
+			
+			// update live favorite event status
+			(this.favoriteEvents || []).forEach( function(item, idx) {
+				self.div.find('#d_el_jt_status_' + item.id).html( self.getNiceEventStatus(item) );
+			} );
 		}
 		else {
 			// fast update without redrawing entire table
@@ -744,6 +842,7 @@ Page.Dashboard = class Dashboard extends Page.PageUtils {
 	
 	onDeactivate() {
 		// called when page is deactivated
+		delete this.favoriteEvents;
 		
 		// destroy charts if applicable (view page)
 		if (this.charts) {

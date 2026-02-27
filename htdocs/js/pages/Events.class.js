@@ -312,7 +312,7 @@ Page.Events = class Events extends Page.PageUtils {
 			sort_dir: 1,
 			filter: this.isRowVisible.bind(this),
 			column_ids: ['title', 'cat_sort', 'tag_sort', 'plug_sort', 'target_sort', 'timing_sort', 'status_sort', '' ],
-			column_labels: ['Event Title', 'Category', 'Tags', 'Plugin', 'Target', 'Trigger', 'Status', 'Actions']
+			column_labels: ['Event Title', 'Category', 'Tags', 'Plugin', 'Targets', 'Triggers', 'Status', 'Actions']
 		};
 		
 		html += this.getSortableTable( this.events, table_opts, function(item) {
@@ -389,35 +389,6 @@ Page.Events = class Events extends Page.PageUtils {
 		this.events.forEach( function(item, idx) {
 			self.div.find('#d_el_jt_status_' + item.id).html( self.getNiceEventStatus(item) );
 		} );
-	}
-	
-	getNiceJobResultLink(job) {
-		// color label + icon for job result
-		var args = this.getJobResultArgs(job);
-		var url = '#Job?id=' + job.id;
-		return '<span class="color_label ' + args.color + ' nowrap linky" onClick="Nav.go(\'' + url + '\')"><i class="mdi mdi-' + args.icon + '"></i>' + args.text + '</span>';
-	}
-	
-	getNiceEventStatus(event) {
-		// get pretty event status (active jobs or last result)
-		var num_jobs = 0;
-		var last_job_id = '';
-		for (var job_id in app.activeJobs) {
-			var job = app.activeJobs[job_id];
-			if (job.event == event.id) { num_jobs++; last_job_id = job.id; }
-		}
-		var nice_status = 'Idle';
-		var event_state = get_path( app.state, 'events/' + event.id );
-		
-		if (num_jobs) {
-			var url = (num_jobs > 1) ? ('#Events?sub=view&id=' + event.id) : ('#Job?id=' + last_job_id);
-			nice_status = '<span class="color_label blue nowrap linky" onClick="Nav.go(\'' + url + '\')"><i class="mdi mdi-autorenew mdi-spin"></i>' + num_jobs + ' Active</span>';
-		}
-		else if (!num_jobs && event_state && event_state.last_job) {
-			nice_status = this.getNiceJobResultLink({ id: event_state.last_job, code: event_state.last_code, final: true });
-		}
-		
-		return nice_status;
 	}
 	
 	getNiceEventStatusText(event) {
@@ -666,8 +637,12 @@ Page.Events = class Events extends Page.PageUtils {
 				else html += `${thing} Summary`;
 				
 				// html += '<div class="button right danger" onClick="$P().show_delete_event_dialog()"><i class="mdi mdi-trash-can-outline">&nbsp;</i>Delete...</div>';
-				html += '<div class="button default right phone_collapse" onClick="$P().do_edit_from_view()"><i class="mdi mdi-file-edit-outline">&nbsp;</i><span>' + edit_btn_text + '</span></div>';
-				if (event.enabled) html += '<div class="button right phone_collapse" onClick="$P().do_run_current_event()"><i class="mdi mdi-run-fast">&nbsp;</i><span>Run Now</span></div>';
+				html += '<div class="button default right phone_collapse" onClick="$P().do_edit_from_view()" title="' + edit_btn_text + '"><i class="mdi mdi-file-edit-outline">&nbsp;</i><span>' + edit_btn_text + '</span></div>';
+				if (event.enabled) html += '<div class="button right mobile_collapse" onClick="$P().do_run_current_event()" title="Run Now..." ><i class="mdi mdi-run-fast">&nbsp;</i><span>Run Now...</span></div>';
+				
+				var is_fav = !!(app.user.favorites && app.user.favorites.events && app.user.favorites.events.includes(event.id));
+				html += '<div id="btn_ve_fav" class="button right mobile_collapse ' + (is_fav ? 'favorite' : '') + '" onClick="$P().do_toggle_favorite()" title="Toggle Favorite"><i class="mdi mdi-'+(is_fav ? 'heart' : 'heart-plus-outline')+'">&nbsp;</i><span>Favorite</span></div>';
+				
 				html += '<div class="clear"></div>';
 			html += '</div>'; // title
 			
@@ -911,6 +886,33 @@ Page.Events = class Events extends Page.PageUtils {
 		this.fetchRevisionHistory();
 		this.setupJobHistoryDayGraph();
 		if (is_workflow) this.setupWorkflow();
+	}
+	
+	do_toggle_favorite() {
+		// toggle the current event in user favorites
+		var self = this;
+		var event = this.event;
+		var user = app.user;
+		
+		if (!user.favorites) user.favorites = {};
+		if (!user.favorites.events) user.favorites.events = [];
+		
+		var is_fav_idx = user.favorites.events.indexOf(event.id);
+		if (is_fav_idx > -1) user.favorites.events.splice(is_fav_idx, 1);
+		else user.favorites.events.push(event.id);
+		
+		app.api.post( 'app/user_settings', { favorites: user.favorites }, function(resp) {
+			if (is_fav_idx == -1) {
+				// added fav
+				app.showMessage('info', "The event has been added to your favorites." + ((user.favorites.events.length == 1) ? ' You can view these on the Dashboard.' : ''), 8, 'Dashboard');
+				self.div.find('#btn_ve_fav').addClass('favorite').find('i.mdi').removeClass('mdi-heart-plus-outline').addClass('mdi-heart');
+			}
+			else {
+				// removed fav
+				app.showMessage('info', "The event has been removed from your favorites.");
+				self.div.find('#btn_ve_fav').removeClass('favorite').find('i.mdi').removeClass('mdi-heart').addClass('mdi-heart-plus-outline');
+			}
+		});
 	}
 	
 	goEditWorkflow() {

@@ -235,6 +235,15 @@ body.dark .button.delete {
 	border: 1px solid var(--theme-color);
 }
 
+.button.favorite {
+	color: var(--pink);
+	border: 1px solid var(--pink);
+}
+.button.favorite:hover {
+	color: var(--pink-highlight);
+	border: 1px solid var(--pink-highlight);
+}
+
 #d_logo_overlay {
 	position: absolute;
 	top: 0;

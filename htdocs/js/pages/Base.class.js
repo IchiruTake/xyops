@@ -1604,6 +1604,35 @@ Page.Base = class Base extends Page {
 		} ).join(', ');
 	}
 	
+	getNiceJobResultLink(job) {
+		// color label + icon for job result
+		var args = this.getJobResultArgs(job);
+		var url = '#Job?id=' + job.id;
+		return '<span class="color_label ' + args.color + ' nowrap linky" onClick="Nav.go(\'' + url + '\')"><i class="mdi mdi-' + args.icon + '"></i>' + args.text + '</span>';
+	}
+	
+	getNiceEventStatus(event) {
+		// get pretty event status (active jobs or last result)
+		var num_jobs = 0;
+		var last_job_id = '';
+		for (var job_id in app.activeJobs) {
+			var job = app.activeJobs[job_id];
+			if (job.event == event.id) { num_jobs++; last_job_id = job.id; }
+		}
+		var nice_status = 'Idle';
+		var event_state = get_path( app.state, 'events/' + event.id );
+		
+		if (num_jobs) {
+			var url = (num_jobs > 1) ? ('#Events?sub=view&id=' + event.id) : ('#Job?id=' + last_job_id);
+			nice_status = '<span class="color_label blue nowrap linky" onClick="Nav.go(\'' + url + '\')"><i class="mdi mdi-autorenew mdi-spin"></i>' + num_jobs + ' Active</span>';
+		}
+		else if (!num_jobs && event_state && event_state.last_job) {
+			nice_status = this.getNiceJobResultLink({ id: event_state.last_job, code: event_state.last_code, final: true });
+		}
+		
+		return nice_status;
+	}
+	
 	getNiceLimitSource(source) {
 		// get formatted limit source
 		var icon = '';
