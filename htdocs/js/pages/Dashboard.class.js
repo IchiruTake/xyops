@@ -522,7 +522,7 @@ Page.Dashboard = class Dashboard extends Page.PageUtils {
 	do_edit_event_from_list(elem) {
 		// edit event from list
 		var id = $(elem).data('event');
-		var event = find_object( this.events, { id } );
+		var event = find_object( this.favoriteEvents, { id } );
 		
 		if (event.type == 'workflow') Nav.go( '#Workflows?sub=edit&id=' + event.id );
 		else Nav.go( '#Events?sub=edit&id=' + event.id );
@@ -531,7 +531,7 @@ Page.Dashboard = class Dashboard extends Page.PageUtils {
 	do_run_event_from_list(elem) {
 		// run event from list
 		var id = $(elem).data('event');
-		var event = find_object( this.events, { id } );
+		var event = find_object( this.favoriteEvents, { id } );
 		this.doRunEvent( event );
 	}
 	
