@@ -76,6 +76,7 @@ Page.Search = class Search extends Page.PageUtils {
 								['', 'Any Result'], 
 								{ id: 'success', title: 'Success', icon: 'check-circle-outline' },
 								{ id: 'error', title: 'Any Error', icon: 'alert-decagram-outline' },
+								{ id: 'user', title: 'Custom Error', icon: 'account-alert' },
 								{ id: 'warning', title: 'Warning', icon: 'alert-outline' },
 								{ id: 'critical', title: 'Critical', icon: 'fire-alert' },
 								{ id: 'abort', title: 'Abort', icon: 'cancel' },
@@ -397,6 +398,8 @@ Page.Search = class Search extends Page.PageUtils {
 		switch (args.result) {
 			case 'success': query += ' tags:_success'; break;
 			case 'error': query += ' tags:_error'; break;
+			
+			case 'user': query += ' tags:_error code:-warning -critical -abort'; break;
 			
 			case 'warning':
 			case 'critical':
