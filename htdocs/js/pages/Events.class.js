@@ -2653,7 +2653,6 @@ Page.Events = class Events extends Page.PageUtils {
 				options: algo_items,
 				value: event.algo || '',
 				default_icon: 'arrow-decision',
-				'data-nudgeheight': 1
 				// 'data-shrinkwrap': 1
 			}),
 			caption: 'Select the desired algorithm for choosing a server from the target list.'
@@ -2956,8 +2955,7 @@ Page.Events = class Events extends Page.PageUtils {
 				title: "Select Trigger Type",
 				options: config.ui.event_trigger_type_menu,
 				value: tmode,
-				'data-shrinkwrap': 1,
-				// 'data-nudgeheight': 1
+				'data-shrinkwrap': 1
 			}),
 			caption: 'Select the desired type for the trigger.'
 		});

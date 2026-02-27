@@ -1384,9 +1384,8 @@ Page.Tickets = class Tickets extends Page.PageUtils {
 				options: [{ id: '', title: config.ui.menu_bits.wf_algo_default }].concat(config.ui.event_target_algo_menu).concat(
 					this.buildOptGroup( app.monitors, config.ui.menu_bits.wf_algo_least, 'chart-line', 'monitor:' )
 				),
-				value: event.algo || '',
+				value: event.algo || ''
 				// default_icon: 'arrow-decision',
-				'data-nudgeheight': 1
 				// 'data-shrinkwrap': 1
 			})
 		});

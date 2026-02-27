@@ -1620,8 +1620,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				id: 'fe_erl_day_condition',
 				title: 'Select Condition',
 				options: config.ui.action_condition_menu.filter( function(item) { return item.id != 'continue'; } ),
-				value: limit.condition || 'complete',
-				'data-nudgeheight': 1
+				value: limit.condition || 'complete'
 			}),
 			caption: 'Select the desired job condition to track daily.'
 		});
@@ -2059,8 +2058,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 					].concat(
 						this.buildOptGroup( app.tags, "On Custom Tag:", 'tag-outline', 'tag:' )
 					),
-					value: action.condition,
-					'data-nudgeheight': 1
+					value: action.condition
 				}),
 				caption: 'Select the desired condition for the action.'
 			});

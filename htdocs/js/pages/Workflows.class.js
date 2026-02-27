@@ -1522,7 +1522,6 @@ Page.Workflows = class Workflows extends Page.Events {
 				),
 				value: node.data.algo || '',
 				// default_icon: 'arrow-decision',
-				'data-nudgeheight': 1
 				// 'data-shrinkwrap': 1
 			})
 		});
@@ -1732,7 +1731,6 @@ Page.Workflows = class Workflows extends Page.Events {
 				),
 				value: node.data.algo || '',
 				default_icon: 'arrow-decision',
-				'data-nudgeheight': 1
 				// 'data-shrinkwrap': 1
 			})
 		});
@@ -2064,8 +2062,7 @@ Page.Workflows = class Workflows extends Page.Events {
 				id: 'fe_wfd_type',
 				options: config.ui.workflow_controller_type_menu,
 				value: node.data.controller,
-				'data-shrinkwrap': 1,
-				// 'data-nudgeheight': 1
+				'data-shrinkwrap': 1
 			})
 		});
 		
