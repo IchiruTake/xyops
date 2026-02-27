@@ -162,7 +162,6 @@
 			"params": [
 				{ "id":"script", "type":"code", "title":"Script Source", "value": "#!/bin/sh\n\n# Enter your shell script code here", "locked": true, "required": true },
 				{ "id":"annotate", "type":"checkbox", "title":"Add Date/Time Stamps to Log", "value": false },
-				{ "id":"json", "type":"checkbox", "title":"Interpret JSON in Output", "value": false },
 				{ "id":"pass", "type":"checkbox", "title":"Data Passthrough", "value": false }
 			]
 		} ],
