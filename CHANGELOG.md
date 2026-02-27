@@ -1,5 +1,33 @@
 # xyOps Changelog
 
+## Version v1.0.10
+
+> February 26, 2026
+
+- [`b00b2da`](https://github.com/pixlcore/xyops/commit/b00b2da7b6a758006be8ccd2818ffb6460129268): Version 1.0.10
+- [`9be5b9c`](https://github.com/pixlcore/xyops/commit/9be5b9c70b868e22527d438892c58bf4ed5f2e5f): Actions Doc: Add note about special workflow "continue" condition.  Also "user" (custom) error condition.
+- [`ceb139d`](https://github.com/pixlcore/xyops/commit/ceb139d86466d223777e173f80bd8aba9acd5f75): Triggers Doc: Add "quiet" modifier mention in manual run trigger.  Plus a few other misc corrections.
+- [`eafaa0c`](https://github.com/pixlcore/xyops/commit/eafaa0c8e017ebd51ca0c848338b0d9e61a70c56): Feature: Add new "Custom Error" action trigger and search filter, for job errors that aren't warning, critical or abort (i.e. user-generated errors).  Fixes #166.
+- [`01344c3`](https://github.com/pixlcore/xyops/commit/01344c369bef11766300c342e2b8e332c06c49e4): Shell Plugin: Remove legacy "Interpret JSON" checkbox (unused).
+- [`af349d8`](https://github.com/pixlcore/xyops/commit/af349d874f4129e7c985a653a0bc2d9f86d3c7d4): UI Tweak: For job search and action condition, change text "Error" to "Any Error", to make it more clear that errors are ANY non-zero job code value.  Ref #166 and #167.
+- [`e0d6779`](https://github.com/pixlcore/xyops/commit/e0d67792125f6e69a184c94ac7de38472e00de3a): Workflow Bug Fix: Correctly bubble up sub-job output files into parent workflow files.
+- [`b34fbb2`](https://github.com/pixlcore/xyops/commit/b34fbb276d0c6890b24717a1fa03887c705709e5): Job UI: Fix icon for invisible workflows and sub-jobs inside workflows.
+- [`b99f7db`](https://github.com/pixlcore/xyops/commit/b99f7db0e863414c9c6a2778170f8ea9f09fdbab): Workflow Action Fix: Pass along data/files to wired actions, for things like Run Event receiving input files from previous jobs.
+- [`6588351`](https://github.com/pixlcore/xyops/commit/6588351641a32b5ab67c85696444a62764695e12): Plugins Doc: Add note about deleting files after upload.
+- [`8e788e0`](https://github.com/pixlcore/xyops/commit/8e788e0f6cccbf4f1810a0bc7db55624ad7bc5b7): Actions Doc: Run Event: Add new target_server and clear_alert props.
+- [`5e1bafb`](https://github.com/pixlcore/xyops/commit/5e1bafbc90064a3e27df1038e3453f99f6e6f316): User Admin UI: Remove legacy "create random user" feature.
+- [`dbc8469`](https://github.com/pixlcore/xyops/commit/dbc846960e38ec4a98645b2752dd8f085bf5b7ee): UI: Tweak wording for target expression labels and captions.
+- [`af6338c`](https://github.com/pixlcore/xyops/commit/af6338c671afde67b2643428bf3bb7b2c538a774): New Alert Features: Exclusive alert actions (no inheritance), run event on server that alerted, and clear alert on job completion.
+- [`239494d`](https://github.com/pixlcore/xyops/commit/239494db44ac1262b880ed90f4bfc291eb85d26c): Bug Fix: Server group assignments were not correctly being passed to xySat when autoGroup was set.
+- [`4b481af`](https://github.com/pixlcore/xyops/commit/4b481af855f83e0734bf325a061c0cfff718d62b): JEXL Utils: Ensure "integer" and "float" helper utilities always return a numner (not NaN).
+- [`061ab58`](https://github.com/pixlcore/xyops/commit/061ab583f5ed33b203014a8d29c0dd9b8ba0e4c3): New Feature: Allow user to specify event field values (user params) with the "Run Event" action (job and alert).
+- [`246e658`](https://github.com/pixlcore/xyops/commit/246e658d9acdbe6acd0c4bf769310cb5d68b5eb4): UI Bug Fix: Job Details: "Additional Jobs" table was not auto-updating as jobs completed.
+- [`11f1f9f`](https://github.com/pixlcore/xyops/commit/11f1f9f7a24574bfcfd5be480fb443a948f75cd5): CSS: Fix hover style on summary grid icons (for copy-to-clipobard).   Underline was showing.
+- [`866b8fa`](https://github.com/pixlcore/xyops/commit/866b8fae0ec1d22c2f2de11b3de009d4426e7adc): New Feature: Alert "Exclusive Actions" mode, which only runs actions defined in the alert (i.e. does not inherit from groups or universal).
+- [`16ccf08`](https://github.com/pixlcore/xyops/commit/16ccf08c3122b43c46fa1566e195b79e4eeb18c2): New Feature: Quiet Trigger Modifier: Optionally run scheduled jobs invisible from the UI, and/or ephemeral so they auto-self-delete upon completion.
+- [`8d14b2f`](https://github.com/pixlcore/xyops/commit/8d14b2fcb60a23cc31be8a870d73e44f508b5922): UI Fix: Job Action Details Dialog: Properly join markdown lists so the formatting does not break.
+- [`1a51c08`](https://github.com/pixlcore/xyops/commit/1a51c087acafb5340adb48ea268696679b1c7ad6): DB Optimization API: Fix issue where SQLite WAL file was growing too large.
+
 ## Version v1.0.9
 
 > February 24, 2026
