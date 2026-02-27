@@ -1,5 +1,14 @@
 # xyOps Changelog
 
+## Version v1.0.13
+
+> February 27, 2026
+
+- [`372e435`](https://github.com/pixlcore/xyops/commit/372e43514705538e110127c14a3f71132735860c): Version 1.0.13
+- [`90c0dc9`](https://github.com/pixlcore/xyops/commit/90c0dc914435a3d1871b5b9bc5b9f337228559a6): Feature: Marketplace table is now sortable by column, and "Author" is now a drop-down menu filter option.
+- [`189adea`](https://github.com/pixlcore/xyops/commit/189adea7b913eb57418ced9852c5d00d26e07bae): UI Tweak: Show "n/a" in trigger tags column for trigger modifiers, as they cannot have tags.
+- [`80e11e9`](https://github.com/pixlcore/xyops/commit/80e11e9891826c97649542cb8d16189766b6e1e3): UI: Trigger Type Menu: Split into groups (Scheduling, On-Demand, and Modifiers).
+
 ## Version v1.0.12
 
 > February 27, 2026
