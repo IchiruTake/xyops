@@ -2874,7 +2874,7 @@ Page.Events = class Events extends Page.PageUtils {
 				}) + '</div>',
 				'<div class="td_big nowrap">' + '<button class="link" onClick="$P().editTrigger('+idx+')">' + nice_desc.replace(/\&nbsp\;/g, '') + '</button></div>',
 				'<div class="ellip nowrap">' + nice_icon + nice_type + '</div>',
-				self.getNiceTagList( item.tags || [] ),
+				item.type.match(/^(schedule|single|interval|startup|keyboard)$/) ? self.getNiceTagList( item.tags || [] ) : 'n/a',
 				'<span class="nowrap">' + actions.join(' | ') + '</span>'
 			];
 			
