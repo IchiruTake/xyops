@@ -2968,7 +2968,7 @@ Page.Events = class Events extends Page.PageUtils {
 				id: 'fe_et_years',
 				title: 'Select Years',
 				placeholder: '(Every Year)',
-				options: this.getYearOptions(),
+				options: this.getYearOptions(trigger.years || []),
 				values: trigger.years || [],
 				'data-hold': 1,
 				'data-shrinkwrap': 1,
@@ -3806,12 +3806,18 @@ Page.Events = class Events extends Page.PageUtils {
 		this.triggerEditChange();
 	}
 	
-	getYearOptions() {
+	getYearOptions(values) {
 		// get locale-formatted year numbers for menu
-		var cur_year = yyyy();
+		var start_year = yyyy();
+		var end_year = start_year + 10;
 		var options = [];
 		
-		for (var year = cur_year; year <= cur_year + 10; year++) {
+		(values || []).map( year => parseInt(year) ).forEach( function(year) {
+			if (year < start_year) start_year = year;
+			if (year > end_year) end_year = year;
+		} );
+		
+		for (var year = start_year; year <= end_year; year++) {
 			var date = new Date( year, 5, 15, 12, 30, 30, 0 );
 			var label = this.formatDate( date.getTime() / 1000, { year: 'numeric' } );
 			options.push([ ''+year, label ]);
