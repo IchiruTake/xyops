@@ -50,7 +50,7 @@ Some combinations are restricted to keep scheduling unambiguous. These rules are
   - `interval` and `precision` are mutually exclusive.
   - `interval` and `delay` are mutually exclusive.
   - `precision` and `delay` are mutually exclusive.
-- Launching triggers: Only `manual`, `schedule`, `interval`, `single`, and `plugin` produce launches. Others act as modifiers or constraints.
+- Launching triggers: Only `manual`, `schedule`, `interval`, and `single` produce launches. Others act as modifiers or constraints.
 - Range triggers are modifiers that only allow launches between a start and end date/time.
 - Blackout triggers are the inverse of ranges; they disallow launches between a start and end date/time.
 - You may add multiple ranges and blackouts.
@@ -61,7 +61,7 @@ The following trigger types are available.
 
 ### Manual Run
 
-Allow the event to be launched on demand by users (UI) and API keys (API). Does not produce automatic runs.  Skips over modifiers like [Catch-Up](#catch-up), [Range](#range), [Blackout](#blackout), [Delay](#delay), [Precision](#precision) and [Plugin](#plugin).
+Allow the event to be launched on demand by users (UI) and API keys (API). Does not produce automatic runs.  Skips over modifiers like [Catch-Up](#catch-up), [Range](#range), [Blackout](#blackout), [Delay](#delay), [Precision](#precision), [Quiet](#quiet), and [Plugin](#plugin).
 
 Parameters: None
 
@@ -374,9 +374,9 @@ The "Quiet" modifier allows you to configure jobs to run silently (i.e. complete
 
 A few notes about behaviors:
 
-- Invisible mode affects running jobs, queued jobs, as well as upcoming jobs.
+- Invisible mode affects running jobs, queued jobs, as well as upcoming jobs, in the UI.
 	- You can still access running invisible jobs via the API (i.e. [get_job](api.md#get_job), [get_jobs](api.md#get_job)).
-	- As soon as jobs complete, they will be visible in the UI (unless `ephemeral` is also set).
+	- As soon as jobs complete, they will become visible again (unless `ephemeral` is also set).
 - Ephemeral mode will automatically disable itself if the job produces output files.
 - Both invisible and ephemeral modes are passed down to child sub-jobs if set on a workflow.
 
