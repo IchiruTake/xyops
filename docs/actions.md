@@ -42,10 +42,13 @@ Each action has a `condition` selecting when it runs.
   - `complete`: When the job completes, regardless of outcome.
   - `success`: When the job completes successfully (i.e. with `code` equal to `0` or `false`).
   - `error`: When the job completes with any error (i.e. non-zero/non-false `code`).
+  - `user`: When the job completes with a custom error code (i.e. not `warning`, `critical` or `abort`).
   - `warning`: When the job completes with `code` set to `"warning"`.
   - `critical`: When the job completes with `code` set to `"critical"`.
   - `abort`: When the job is aborted (by user or failure condition).
   - `tag:TAGID`: On job completion, only if the tag is present on the job.
+- **Workflow conditions**:
+  - `continue`: A special condition that fires from a [Controller](workflows.md#controller-nodes) in a workflow, after all the connected jobs complete.
 - **Alert conditions**:
   - `alert_new`: When an alert fires on a server.
   - `alert_cleared`: When an active alert clears.
