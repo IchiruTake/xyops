@@ -1,5 +1,19 @@
 # xyOps Changelog
 
+## Version v1.0.11
+
+> February 27, 2026
+
+- [`fcbdd81`](https://github.com/pixlcore/xyops/commit/fcbdd811848304d2f1b892866159b6ba7db47f36): Version 1.0.11
+- [`946cb18`](https://github.com/pixlcore/xyops/commit/946cb185bcc47f212be69333087e5031ed533548): Favorite Events: UI Bug Fix: Run/Edit buttons did not work from dashboard.
+- [`7bbc290`](https://github.com/pixlcore/xyops/commit/7bbc290b70803c4141f7022bbafcecdde964b59c): New Feature: User Event Favorites, which are displayed on the dashboard page.
+- [`223d159`](https://github.com/pixlcore/xyops/commit/223d159e9f32a7d8c5b4e67264dbf2198b5743c0): Event UI Tweak: Year Selector: Show previous (past) years in menu if event still targets them.
+- [`8fe319d`](https://github.com/pixlcore/xyops/commit/8fe319dce2eb40080d9e00dacd63b172331b305a): Default Config: Remove default hourly trigger for new events.  Fixes #169.
+- [`eeac891`](https://github.com/pixlcore/xyops/commit/eeac891e11281e25c6b5d627a8cbf0953e28dc36): Scaling Doc: Add note about satellte's `disable_job_network_io` config prop, for large servers with tens of thousands of network connections.
+- [`f9ee9f6`](https://github.com/pixlcore/xyops/commit/f9ee9f650c501821a09113d81847e01070535fa5): Alert Behavior: Disabled alerts are now completely disabled in every way, and no longer evaulate.
+- [`bcdfa5b`](https://github.com/pixlcore/xyops/commit/bcdfa5bdc30417baebfa80e8940a11d5e788093f): Prep Job Log: Optimization: Skip fs check for workflows, which produce no log.
+- [`d5762ce`](https://github.com/pixlcore/xyops/commit/d5762ce7e3e67040001eeddf20b8bf49a68d0f80): Upload File API: Prevent logging of API Key (was debug level 7).
+
 ## Version v1.0.10
 
 > February 26, 2026
