@@ -120,6 +120,22 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 					});
 				html += '</div>';
 				
+				// author
+				html += '<div class="form_cell">';
+					html += this.getFormRow({
+						label: '<i class="icon mdi mdi-account">&nbsp;</i>Author:',
+						content: this.getFormMenuSingle({
+							id: 'fe_s_author',
+							title: 'Select Author',
+							options: [['', 'Any Author']].concat( this.fields.authors.map( function(author) {
+								return { id: crammify(author), title: author, icon: 'account' };
+							} ) ),
+							value: args.author || '',
+							'data-shrinkwrap': 1
+						})
+					});
+				html += '</div>';
+				
 				// license
 				html += '<div class="form_cell">';
 					html += this.getFormRow({
@@ -131,27 +147,6 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 								return { id: crammify(lic), title: lic, icon: 'license' };
 							} ) ),
 							value: args.license || '',
-							'data-shrinkwrap': 1
-						})
-					});
-				html += '</div>';
-				
-				// sort
-				html += '<div class="form_cell">';
-					var sort_items = [
-						{ id: 'title_asc', title: 'Ascending', icon: 'sort-ascending', group: 'Alphabetical' },
-						{ id: 'title_desc', title: 'Descending', icon: 'sort-descending' },
-						
-						{ id: 'date_desc', title: 'Newest on Top', icon: 'sort-descending', group: 'Create Date' },
-						{ id: 'date_asc', title: 'Oldest on Top', icon: 'sort-ascending' }
-					];
-					html += this.getFormRow({
-						label: '<i class="icon mdi mdi-sort">&nbsp;</i>Sort Results:',
-						content: this.getFormMenuSingle({
-							id: 'fe_s_sort',
-							title: 'Sort Results',
-							options: sort_items,
-							value: args.sort,
 							'data-shrinkwrap': 1
 						})
 					});
@@ -175,10 +170,10 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 		this.addPageDescription();
 		
 		MultiSelect.init( this.div.find('#fe_s_tags, #fe_s_reqs') );
-		SingleSelect.init( this.div.find('#fe_s_type, #fe_s_lic, #fe_s_sort') );
+		SingleSelect.init( this.div.find('#fe_s_type, #fe_s_lic, #fe_s_author') );
 		this.setupSearchOpts();
 		
-		this.div.find('#fe_s_tags, #fe_s_type, #fe_s_reqs, #fe_s_lic, #fe_s_sort').on('change', function() {
+		this.div.find('#fe_s_tags, #fe_s_type, #fe_s_reqs, #fe_s_lic, #fe_s_author').on('change', function() {
 			self.navSearch();
 		});
 		
@@ -218,6 +213,9 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 		var lic = this.div.find('#fe_s_lic').val();
 		if (lic) args.license = lic;
 		
+		var author = this.div.find('#fe_s_author').val();
+		if (author) args.author = author;
+		
 		var type = this.div.find('#fe_s_type').val();
 		if (type) {
 			if (type.match(/^p_(\w+)$/)) {
@@ -227,9 +225,6 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 			}
 			else args.type = type;
 		}
-		
-		var sort = this.div.find('#fe_s_sort').val();
-		if (sort != 'title_asc') args.sort = sort;
 		
 		if (!num_keys(args)) return null;
 		
@@ -265,27 +260,6 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 			limit: args.limit || config.items_per_page,
 			compact: 1
 		};
-		switch (args.sort) {
-			case 'title_asc':
-				sopts.sort_by = 'title'; 
-				sopts.sort_dir = 1;
-			break;
-			
-			case 'title_desc':
-				sopts.sort_by = 'title'; 
-				sopts.sort_dir = -1;
-			break;
-			
-			case 'date_asc':
-				sopts.sort_by = 'created'; 
-				sopts.sort_dir = 1;
-			break;
-			
-			case 'date_desc':
-				sopts.sort_by = 'created'; 
-				sopts.sort_dir = -1;
-			break;
-		} // sort
 		
 		app.api.get( 'app/marketplace', sopts, this.receiveResults.bind(this) );
 	}
@@ -299,17 +273,27 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 		if (!this.active) return; // sanity
 		
 		this.lastSearchResp = resp;
-		this.products = [];
-		if (resp.rows) this.products = resp.rows;
 		
-		var grid_args = {
-			resp: resp,
-			cols: ['Title / Description', 'Author', 'License', 'Type', 'Modified', 'Status'],
-			data_type: 'product',
-			offset: this.args.offset || 0,
-			limit: this.args.limit,
-			pagination_link: '$P().searchPaginate',
-			primary: true
+		this.products = (resp.rows || []).map( function(product) {
+			var installed = self.findInstalledProduct(product);
+			var nice_status = self.getNiceInstalledStatus(product, installed);
+			var modified = Math.floor( (new Date(product.modified + ' 00:00:00')).getTime() / 1000 );
+			return {
+				...product,
+				status_sort: self.getNiceInstalledStatusText(product, installed),
+				modified_sort: modified,
+				nice_status: nice_status
+			};
+		} );
+		
+		var table_opts = {
+			id: 't_marketplace',
+			item_name: 'product',
+			sort_by: 'title',
+			sort_dir: 1,
+			filter: '',
+			column_ids: ['title', 'author', 'license', 'type', 'modified_sort', 'status_sort' ],
+			column_labels: ['Title', 'Author', 'License', 'Type', 'Modified', 'Status']
 		};
 		
 		html += '<div class="box">';
@@ -321,27 +305,24 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 		
 		html += '<div class="box_content table">';
 		
-		html += this.getPaginatedGrid( grid_args, function(product, idx) {
+		html += this.getSortableTable( this.products, table_opts, function(product) {
 			var logo_url = app.base_api_url + '/app/marketplace?id=' + encodeURIComponent(product.id) + '&logo=1';
 			
-			var combo = `<div class="product_result" onClick="$P().doViewProduct(${idx})" style="background-image:url(${logo_url}">`;
+			var combo = `<div class="product_result" data-product="${product.id}" onClick="$P().doViewProduct(this)" style="background-image:url(${logo_url}">`;
 				combo += `<div class="product_title ellip">${product.title}</div>`;
 				combo += `<div class="product_desc ellip">${product.description}</div>`;
 			combo += `</div>`;
-			
-			var installed = self.findInstalledProduct(product);
-			var nice_status = self.getNiceInstalledStatus(product, installed);
 			
 			return [
 				combo,
 				self.getNiceProductAuthor( product.author ),
 				self.getNiceProductLicense( product.license ),
 				self.getNiceProductType( product ),
-				self.getNiceProductDate( product.created ),
-				nice_status
+				self.getNiceProductDate( product.modified ),
+				product.nice_status
 				// self.getNiceProductVersion( product.versions[0] )
 			];
-		} );
+		}); // getSortableTable
 		
 		html += '</div>'; // box_content
 		html += '</div>'; // box
@@ -385,21 +366,10 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 		return reqs.map( req => this.getNiceProductReq(req) ).join(', ');
 	}
 	
-	doViewProduct(idx) {
+	doViewProduct(elem) {
 		// jump to product view page by index
-		Nav.go( 'Marketplace?id=' + encodeURIComponent(this.products[idx].id) );
-	}
-	
-	searchPaginate(offset) {
-		// special hook for intercepting pagination clicks
-		this.args.offset = offset;
-		
-		var url = '#' + this.ID + (num_keys(this.args) ? compose_query_string(this.args) : '');
-		history.pushState( null, '', url );
-		Nav.loc = url.replace(/^\#/, '');
-		
-		this.div.find('#d_search_results .box_content').addClass('loading');
-		this.doSearch();
+		var id = $(elem).data('product');
+		Nav.go( 'Marketplace?id=' + encodeURIComponent(id) );
 	}
 	
 	// View Page
@@ -587,11 +557,21 @@ Page.Marketplace = class Marketplace extends Page.PageUtils {
 		} );
 	}
 	
+	getNiceInstalledStatusText(product, installed) {
+		// up to date, outdated, not installed
+		if (installed) {
+			// check version
+			if (installed.marketplace.version == product.versions[0]) return 'Up to Date';
+			else return 'Outdated';
+		}
+		else return 'Not Installed';
+	}
+	
 	getNiceInstalledStatus(product, installed) {
 		// up to date, outdated, not installed
 		if (installed) {
 			// check version
-			if (installed.marketplace.version == product.versions[0]) return '<span style="color:var(--green); font-weight:bold;"><i class="mdi mdi-check-circle-outline">&nbsp;</i>Up to Date</span>'
+			if (installed.marketplace.version == product.versions[0]) return '<span style="color:var(--green); font-weight:bold;"><i class="mdi mdi-check-circle-outline">&nbsp;</i>Up to Date</span>';
 			else return '<span style="color:var(--red); font-weight:bold;"><i class="mdi mdi-alert-rhombus">&nbsp;</i>Outdated</span>';
 		}
 		else return '<span style="color:var(--gray)"><i class="mdi mdi-cancel">&nbsp;</i>Not Installed</span>';

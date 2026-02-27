@@ -160,6 +160,7 @@ div.load_more {
 .product_desc {
 	height: 21px;
 	font-size: 12px;
+	font-weight: normal !important;
 	color: var(--label-color);
 }
 
