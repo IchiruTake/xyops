@@ -510,7 +510,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		var hasEnabledTriggers = function(event) {
 			return (event.triggers || []).find( function(trigger) {
 				if (!trigger.enabled) return false;
-				return !!trigger.type.match(/^(schedule|interval|single|startup)$/);
+				return !!trigger.type.match(/^(schedule|interval|single|startup|keyboard)$/);
 			} );
 		};
 		
@@ -3989,7 +3989,7 @@ Page.PageUtils = class PageUtils extends Page.Base {
 		
 		// massage titles
 		if (!trigger.enabled) short_desc = '(Disabled)';
-		if (trigger.type.match(/^(interval|single|startup)$/)) nice_title = alt_type;
+		if (trigger.type.match(/^(interval|single|startup|keyboard)$/)) nice_title = alt_type;
 		
 		if (trigger.type.match(/^(catchup|range|blackout|delay|precision|quiet|plugin)$/)) {
 			// option triggers are rendered as pure circles with no pole
@@ -5173,6 +5173,14 @@ Page.PageUtils = class PageUtils extends Page.Base {
 				nice_type = 'On-Demand';
 				nice_desc = '<i class="mdi mdi-link-variant">&nbsp;</i>Magic Link';
 				short_desc = "Magic Link";
+			break;
+			
+			case 'keyboard':
+				nice_icon = '<i class="mdi mdi-gesture-tap-button"></i>';
+				nice_type = 'On-Demand';
+				alt_type = 'Keyboard';
+				nice_desc = '<i class="mdi mdi-keyboard-outline">&nbsp;</i><b>Keyboard:</b> ' + this.getNiceHotKeyListText(item.keys || []);
+				short_desc = this.getNiceHotKeyListText(item.keys || []);
 			break;
 			
 			case 'catchup':

@@ -581,19 +581,6 @@ Page.MySettings = class MySettings extends Page.Base {
 		return html;
 	}
 	
-	getNiceHotKeyList(keys, glue = ', ') {
-		// get nice list of hot keys
-		var self = this;
-		if (!keys || !keys.length) return '';
-		return keys.map( function(key) { return self.getNiceHotKey(key); } ).join(glue);
-	}
-	
-	getNiceHotKey(key) {
-		// get nice hot key for display
-		var label = KeySelect.getkeyLabel(key);
-		return `<span class="hot_key">${label}</span>`;
-	}
-	
 	doEditHotKey(elem) {
 		// pop dialog to edit keybind
 		var self = this;

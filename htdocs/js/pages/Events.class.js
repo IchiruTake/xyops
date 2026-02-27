@@ -165,6 +165,7 @@ Page.Events = class Events extends Page.PageUtils {
 								{ id: 'schedule', title: 'Schedule', icon: 'update' },
 								{ id: 'single', title: "Single Shot", icon: 'alarm-check' },
 								{ id: 'interval', title: "Interval", icon: 'timer-sand' },
+								{ id: 'keyboard', title: "Keyboard", icon: 'keyboard-outline' },
 								{ id: 'startup', title: "Startup", icon: 'desktop-classic' },
 								{ id: 'catchup', title: "Catch-Up", icon: 'calendar-refresh-outline', group: "Modifiers" },
 								{ id: 'range', title: "Range", icon: 'calendar-range-outline' },
@@ -2829,9 +2830,10 @@ Page.Events = class Events extends Page.PageUtils {
 			this.event.triggers.filter( function(row) { return row.type == 'schedule'; } ),
 			this.event.triggers.filter( function(row) { return row.type == 'single'; } ),
 			this.event.triggers.filter( function(row) { return row.type == 'interval'; } ),
+			this.event.triggers.filter( function(row) { return row.type == 'keyboard'; } ),
 			this.event.triggers.filter( function(row) { return row.type == 'startup'; } ),
 			this.event.triggers.filter( function(row) { return row.type == 'plugin'; } ),
-			this.event.triggers.filter( function(row) { return !(row.type || '').match(/^(schedule|startup|interval|single|manual|magic|plugin)$/); } )
+			this.event.triggers.filter( function(row) { return !(row.type || '').match(/^(schedule|startup|interval|single|manual|magic|keyboard|plugin)$/); } )
 		);
 	}
 	
@@ -3168,6 +3170,38 @@ Page.Events = class Events extends Page.PageUtils {
 			caption: 'Optionally provide custom content for the landing page, using [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).'
 		});
 		
+		// keyboard
+		html += this.getFormRow({
+			id: 'd_et_keyboard_desc',
+			label: 'Description:',
+			content: 'Use this trigger to bind one or more keyboard shortcuts to the event.  Typing a shortcut will immediately run the event with the specified setings.'
+		});
+		html += this.getFormRow({
+			id: 'd_et_keyboard_keys',
+			label: 'Bound Keys:',
+			content: this.getFormMenuMulti({
+				id: 'fe_et_keyboard_keys',
+				title: 'Type new key combo:',
+				placeholder: '(None)',
+				options: (trigger.keys || []).map( function(key) { return { id: key, title: KeySelect.getkeyLabel(key) }; } ),
+				values: trigger.keys || [],
+				icon: 'keyboard-outline',
+				default_icon: 'keyboard-outline',
+				// 'data-shrinkwrap': 1
+			}),
+			caption: 'Click above to add a key combo, or click the "X" icons to remove.'
+		});
+		html += this.getFormRow({
+			id: 'd_et_keyboard_watch',
+			label: 'Redirect User:',
+			content: this.getFormCheckbox({
+				id: 'fe_et_keyboard_watch',
+				label: 'Watch Job Live',
+				checked: trigger.watch
+			}),
+			caption: 'This will redirect the user to the live job details page as soon as the job starts.'
+		});
+		
 		// catch-up
 		html += this.getFormRow({
 			id: 'd_et_catchup_desc',
@@ -3492,6 +3526,13 @@ Page.Events = class Events extends Page.PageUtils {
 					trigger.body = $('#fe_et_magic_body').val();
 				break;
 				
+				case 'keyboard':
+					// keyboard shortcut
+					trigger.keys = $('#fe_et_keyboard_keys').val();
+					if (!trigger.keys.length) return app.badField('#fe_et_keyboard_keys', "Please add one or more keyboard shortcuts for the trigger.");
+					trigger.watch = $('#fe_et_keyboard_watch').is(':checked');
+				break;
+				
 				case 'catchup':
 					// time machine
 					if ($('#fe_et_time_machine').val()) {
@@ -3572,7 +3613,8 @@ Page.Events = class Events extends Page.PageUtils {
 				break;
 			} // switch trigger.type
 			
-			if (trigger.type.match(/^(schedule|single|interval|startup)$/)) {
+			// grab tags and params for specific trigger types
+			if (trigger.type.match(/^(schedule|single|interval|startup|keyboard)$/)) {
 				trigger.tags = $('#fe_et_tags').val();
 				trigger.params = self.getParamValues(self.event.fields || []);
 				if (!trigger.params) return; // invalid
@@ -3689,6 +3731,14 @@ Page.Events = class Events extends Page.PageUtils {
 					$('#d_et_magic_body').show();
 				break;
 				
+				case 'keyboard':
+					$('#d_et_keyboard_desc').show();
+					$('#d_et_keyboard_keys').show();
+					$('#d_et_keyboard_watch').show();
+					$('#d_et_tags').show();
+					$('#d_et_params').show();
+				break;
+				
 				case 'catchup':
 					$('#d_et_catchup_desc').show();
 					$('#d_et_time_machine').show();
@@ -3756,6 +3806,7 @@ Page.Events = class Events extends Page.PageUtils {
 		SingleSelect.init( $('#fe_et_type, #fe_et_tz, #fe_et_plugin') );
 		MultiSelect.init( $('#fe_et_years, #fe_et_months, #fe_et_weekdays, #fe_et_days, #fe_et_hours, #fe_et_minutes, #fe_et_seconds, #fe_et_tags') );
 		RelativeTime.init( $('#fe_et_interval') );
+		KeySelect.init( '#fe_et_keyboard_keys' );
 		// this.updateAddRemoveMe('#fe_eja_email');
 		
 		change_trigger_type( tmode );

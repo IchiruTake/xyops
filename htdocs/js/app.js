@@ -1410,6 +1410,48 @@ app.extend({
 				return;
 			}
 		}
+		
+		// check event keyboard triggers
+		if (!event.repeat) {
+			var events = find_objects( app.events || [], { enabled: true } );
+			
+			for (var idx = 0, len = events.length; idx < len; idx++) {
+				var triggers = find_objects( events[idx].triggers || [], { type: 'keyboard', enabled: true } );
+				
+				for (var idy = 0, ley = triggers.length; idy < ley; idy++) {
+					var trigger = triggers[idy];
+					
+					if (trigger.keys.includes(key_id)) {
+						event.stopPropagation();
+						event.preventDefault();
+						Debug.trace('events', `Event Hot Key Pressed: [${key_id}] → ${events[idx].title} (${events[idx].id})`);
+						this.runEventFromKeyboard(events[idx], trigger);
+						return;
+					}
+				} // idy loop
+			} // idx loop
+		} // no repeat
+	},
+	
+	runEventFromKeyboard(event, trigger) {
+		// run event from keyboard shortcut
+		var self = this;
+		var job = deep_copy_object(event);
+		
+		// add params from trigger
+		if (!job.params) job.params = {};
+		merge_hash_into( job.params, trigger.params || {} );
+		
+		// add tags from trigger
+		if (trigger.tags && trigger.tags.length) {
+			job.tags = deep_copy_object( trigger.tags );
+		}
+		
+		app.api.post( 'app/run_event', job, function(resp) {
+			// jump immediately to live job details page
+			app.showMessage('success', "Job started via keyboard shortcut.");
+			if (trigger.watch) Nav.go('Job?id=' + resp.id);
+		} ); // api.post
 	},
 	
 	clickSearchNavPrev(page, event) {

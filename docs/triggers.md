@@ -188,7 +188,7 @@ For the direct link, you can include any query string and/or POST parameters wit
 
 For the landing page presentation, when the job is started, progress is streamed back to the page for live updates.  When the job completes, the user is presented with the job results, including any output files, data, and other user-provided content in the job.
 
-This is an "on-demand" trigger, and thus it skips over modifiers like [Catch-Up](#catch-up), [Range](#range), [Blackout](#blackout), [Delay](#delay), [Precision](#precision) and [Plugin](#plugin).
+This is an "on-demand" trigger, and thus it skips over modifiers like [Catch-Up](#catch-up), [Range](#range), [Blackout](#blackout), [Delay](#delay), [Precision](#precision), [Quiet](#quiet), and [Plugin](#plugin).
 
 Trigger Parameters:
 
@@ -209,6 +209,23 @@ Example:
 }
 ```
 
+### Keyboard
+
+This trigger type binds the event to one or more keyboard shortcuts, so any user (with appropriate privileges) can run the job by hitting a key combo will logged into the xyOps UI.
+
+Parameters:
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `keys` | Array | Required | Array of keyboard shortcuts to assign to the event.  See below. |
+| `watch` | Boolean | Optional | Set this to `true` to redirect the user to the Job Details page as soon as the job starts. |
+| `params` | Object | Optional | Optionally include parameter overrides for the event / plugin. |
+| `tags` | Array | Optional | Optionally include a set of [Tag.id](data.md#tag-id)s to add to the job as it starts. |
+
+The `keys` array elements should be strings, containing one or more [KeyboardEvent.code](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code) values separated by a `+`.  Examples: `ControlLeft+KeyA`, `ControlLeft+AltLeft+Space`, `MetaLeft+Digit1`.
+
+This is a special-case trigger, and thus it skips over modifiers like [Catch-Up](#catch-up), [Range](#range), [Blackout](#blackout), [Delay](#delay), [Precision](#precision), [Quiet](#quiet), and [Plugin](#plugin).
+
 ### Startup
 
 This trigger will automatically run a job for the event on xyOps startup.  Specifically, this happens when the xyOps service first starts up and becomes the primary conductor, the scheduler master switch is enabled, and the process uptime is less than 5 minutes (avoids running upon failover to a backup conductor).
@@ -222,7 +239,7 @@ Parameters:
 | `params` | Object | Optional | Optionally include parameter overrides for the event / plugin. |
 | `tags` | Array | Optional | Optionally include a set of [Tag.id](data.md#tag-id)s to add to the job as it starts. |
 
-This is a special-case trigger, and thus it skips over modifiers like [Catch-Up](#catch-up), [Range](#range), [Blackout](#blackout), [Delay](#delay), [Precision](#precision) and [Plugin](#plugin).
+This is a special-case trigger, and thus it skips over modifiers like [Catch-Up](#catch-up), [Range](#range), [Blackout](#blackout), [Delay](#delay), [Precision](#precision), [Quiet](#quiet), and [Plugin](#plugin).
 
 Note that the startup trigger will not activate if the xyOps service was manually restarted due to a user-requested upgrade, restart or shutdown action from the UI.
 
