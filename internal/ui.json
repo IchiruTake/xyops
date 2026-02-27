@@ -1164,7 +1164,7 @@
 		{ "id": "complete", "title": "On Complete", "icon": "stop-circle-outline" },
 		{ "id": "continue", "title": "On Continue", "icon": "step-forward-2" },
 		{ "id": "success", "title": "On Success", "icon": "check-circle-outline", "group": "On Result:" },
-		{ "id": "error", "title": "On Error", "icon": "alert-decagram-outline" },
+		{ "id": "error", "title": "On Any Error", "icon": "alert-decagram-outline" },
 		{ "id": "warning", "title": "On Warning", "icon": "alert-outline" },
 		{ "id": "critical", "title": "On Critical", "icon": "fire-alert" },
 		{ "id": "abort", "title": "On Abort", "icon": "cancel" }
