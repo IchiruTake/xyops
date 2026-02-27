@@ -39,6 +39,18 @@ QuickMon sends lightweight metrics every second from all satellites. At large sc
 - Set `satellite.config.quickmon_enabled` to `false` in your config. The setting is distributed to all servers automatically when they connect.
 - Minute-level monitoring remains enabled via `satellite.config.monitoring_enabled`.
 
+## Disable Job Network Monitoring
+
+For Linux servers with a large amount of open network connections, you may want to disable real-time network monitoring while jobs are running.  By default, xyOps Satellite will continuously monitor server resources including processes and network connections, while active jobs are running on the server.  This may add extra load on servers with tens of thousands of network connections.
+
+To disable network monitoring while jobs are running, set the `disable_job_network_io` property to `true` in the `/opt/xyops/satellite/config.json` file on your large servers:
+
+```json
+"disable_job_network_io": true
+```
+
+Or, you can set it globally in the main [satellite.config](config.md#satellite-config) object on your xyOps primary conductor server, which will automatically propagate out to all servers the next time they connect.
+
 ## Multi-Conductor Setups
 
 Multi-conductor requires external shared storage so all conductors see the same state. See [Multi-Conductor with Nginx](hosting.md#multi-conductor-with-nginx).
