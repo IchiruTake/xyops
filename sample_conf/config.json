@@ -280,11 +280,6 @@
 				{
 					"enabled": true,
 					"type": "manual"
-				},
-				{
-					"enabled": true,
-					"type": "schedule",
-					"minutes": [0]
 				}
 			],
 			"limits": [
