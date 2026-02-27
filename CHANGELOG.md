@@ -1,5 +1,14 @@
 # xyOps Changelog
 
+## Version v1.0.12
+
+> February 27, 2026
+
+- [`af6eac1`](https://github.com/pixlcore/xyops/commit/af6eac15d9578c7a4486fe4a0e2a5e4db806eed2): Version 1.0.12
+- [`5cf8f64`](https://github.com/pixlcore/xyops/commit/5cf8f64152293c526129ed5b5b5f692af3b26d78): New Feature: Keyboard Shortcut Trigger for launching events.
+- [`6345f21`](https://github.com/pixlcore/xyops/commit/6345f2145512bfe9702de2720694ebf3146c302a): CSS Tweak: Adjust max menu height slightly.
+- [`3f20cfd`](https://github.com/pixlcore/xyops/commit/3f20cfd21fea9f23ff142008b64635079f70d23b): CSS Tweak: Extend max single/multi select menu height to 40vh.
+
 ## Version v1.0.11
 
 > February 27, 2026
